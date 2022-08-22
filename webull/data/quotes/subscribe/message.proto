@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+message Basic {
+  string symbol = 1;
+  string instrument_id = 2;
+  string timestamp = 3;
+  string trading_session = 4;
+}
+
+message Snapshot {
+  Basic basic = 1;
+  string trade_time = 2;
+  string price = 3;
+  string open = 4;
+  string high = 5;
+  string low = 6;
+  string pre_close = 7;
+  string volume = 8;
+  string change = 9;
+  string change_ratio = 10;
+}
+
+message Quote {
+  Basic basic = 1;
+  repeated AskBid asks = 2;
+  repeated AskBid bids = 3;
+}
+
+message Tick {
+  Basic basic = 1;
+  string time = 2;
+  string price = 3;
+  string volume = 4;
+  string side = 5;
+}
+
+message AskBid {
+  string price = 1;
+  string size = 2;
+  repeated Order order = 3;
+  repeated Broker broker = 4;
+}
+
+message Order {
+  string mpid = 1;
+  string size = 2;
+}
+
+message Broker {
+  string bid = 1;
+  string name = 2;
+}

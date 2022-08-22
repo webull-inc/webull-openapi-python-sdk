@@ -1,0 +1,43 @@
+name: PyPI-CI
+
+# 点击star即可构建
+
+# on:
+#   watch:
+#     types: started
+
+# push 到main分支才会构建，忽略docs/**和LICENSE等目录
+on:
+ push:
+   branches:
+   - main
+   paths-ignore:
+     - 'docs/**'
+     - 'samples/**'
+     - 'tests/**'
+     - 'LICENSE'
+     - 'NOTICE'
+     - 'README.md'
+
+permissions:
+  contents: read
+
+jobs:
+  push-webull-openapi-python-sdk:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run:
+        python -m pip install --upgrade pip && pip install build && pip install wheel setuptools
+    - name: Build package
+      run: python setup.py sdist bdist_wheel
+    - name: Publish package
+      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
