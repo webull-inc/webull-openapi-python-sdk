@@ -17,6 +17,7 @@ from webull.trade.request.v2.cancel_option_request import CancelOptionRequest
 from webull.trade.request.v2.cancel_order_request import CancelOrderRequest
 from webull.trade.request.v2.get_order_detail_request import OrderDetailRequest
 from webull.trade.request.v2.get_order_history_request import OrderHistoryRequest
+from webull.trade.request.v2.get_order_open_request import OrderOpenRequest
 from webull.trade.request.v2.palce_order_request import PlaceOrderRequest
 from webull.trade.request.v2.place_option_request import PlaceOptionRequest
 from webull.trade.request.v2.preview_option_request import PreviewOptionRequest
@@ -118,6 +119,26 @@ class OrderOperationV2:
             order_history_request.set_last_client_order_id(last_client_order_id=last_client_order_id)
         response = self.client.get_response(order_history_request)
         return response
+
+    def get_order_open(self, account_id, page_size=None, last_order_id=None):
+        """
+        Paging query pending orders.
+
+        :param account_id: Account ID
+        :param page_size: Limit the number of records per query to 10 by default.
+        :param start_date: Start date (if empty, the default is the last 7 days), in the format of yyyy-MM-dd.
+        :param last_client_order_id: The last order ID from the previous response. For the first page query,
+        this parameter is not required.
+        """
+        order_open_request = OrderOpenRequest()
+        order_open_request.set_account_id(account_id=account_id)
+        if page_size:
+            order_open_request.set_page_size(page_size=page_size)
+        if last_order_id:
+            order_open_request.set_last_order_id(last_order_id=last_order_id)
+        response = self.client.get_response(order_open_request)
+        return response
+
     def query_order_detail(self, account_id, client_order_id):
         """
         This interface is currently available only to individual and institutional clients
