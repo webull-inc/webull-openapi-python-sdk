@@ -61,7 +61,7 @@ class TokenManager:
         server_access_token = self.fetch_token_from_server(api_client, local_token)
         self.save_token_to_local(server_access_token)
 
-        if server_access_token.get("status") != 1:
+        if server_access_token.get("status") != "NORMAL":
             msg = ("init_token status not verified error. token:%s expires:%s status:%s" %
                    (desensitize.desensitize_token(server_access_token.get("token")), server_access_token.get("expires"), server_access_token.get("status")))
             logger.error(msg)
@@ -88,11 +88,7 @@ class TokenManager:
                 else:
                     expires = 0
 
-                str_status = f.readline().strip()
-                if str_status and str_status.isdigit():
-                    status = int(str_status)
-                else:
-                    status = 0
+                status = f.readline().strip()
 
             logger.info("load_token_from_local read local token result. token:%s expires:%s status:%s",
                         desensitize.desensitize_token(token), expires, status)
@@ -119,7 +115,7 @@ class TokenManager:
         token_operation = TokenOperation(api_client)
 
         create_access_token = self.create_token(token_operation, local_token)
-        if create_access_token.get("status") == 1:
+        if create_access_token.get("status") == "NORMAL":
             logger.info("fetch_token_from_server create_token status is verified, no further check required, returning directly. token:%s expires:%s status:%s",
                         desensitize.desensitize_token(create_access_token.get("token")), create_access_token.get("expires"), create_access_token.get("status"))
             return create_access_token
@@ -185,8 +181,16 @@ class TokenManager:
                         check_access_token.get("expires"), check_access_token.get("status")))
                 logger.error(msg)
                 raise ClientException("ERROR_CHECK_TOKEN", msg)
+            # PENDING -> 0
+            # NORMAL -> 1
+            # INVALID -> 2
+            # EXPIRED -> 3
+            if check_access_token.get("status") == "INVALID" or check_access_token.get("status") == "EXPIRED" :
+                msg = "fetch_token_from_server check_token status invalidate. status:%s" % check_access_token.get("status")
+                logger.error(msg)
+                raise ClientException("ERROR_CHECK_TOKEN", msg)
 
-            if check_access_token.get("status") == 1:
+            if check_access_token.get("status") == "NORMAL":
                 logger.info(
                     "fetch_token_from_server check_token status is verified, no further check required, returning directly. token:%s expires:%s status:%s",
                     desensitize.desensitize_token(create_access_token.get("token")), create_access_token.get("expires"),
