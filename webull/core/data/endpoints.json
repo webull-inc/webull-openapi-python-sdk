@@ -9,7 +9,7 @@
         },
         "hk": {
             "api": "api.webull.hk",
-            "quotes-api": "quotes-api.webull.hk",
+            "quotes-api": "data-api.webull.hk",
             "events-api": "events-api.webull.hk"
         },
         "jp": {
