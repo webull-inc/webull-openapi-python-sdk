@@ -16,9 +16,9 @@ Subscription to real-time information: Subscribe to order status changes, market
 
 - Please first generate the app key and app secret on the Webull official website.
 
-| Market | Link                               |
-|--------|------------------------------------|
-| HK     | https://corporate.webull.hk/center |
+| Broker    | Link                  |
+|-----------|-----------------------|
+| Webull HK | https://www.webull.hk |
 
 - Requires Python 3.7 through 3.11.
 
@@ -34,6 +34,6 @@ The bottom layer of Webull OpenAPI provides three protocols, HTTP / GRPC / MQTT,
 
 ## Developer documentation
 
-| Market | Link                                      |
-|--------|-------------------------------------------|
-| HK     | https://developer.webull.com/open-api-doc |
+| Broker    | Link                                  |
+|-----------|---------------------------------------|
+| Webull HK | https://developer.webull.hk/apis/docs |
