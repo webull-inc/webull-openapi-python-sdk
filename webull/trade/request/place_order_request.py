@@ -13,14 +13,14 @@
 # limitations under the License.
 
 # coding=utf-8
+import inspect
+import json
 
 from webull.core.context.request_context_holder import RequestContextHolder
 from webull.core.request import ApiRequest
 
 class PlaceOrderRequest(ApiRequest):
-    """
-    Deprecated. Use :func:`place_order_request` instead.
-    """
+
     def __init__(self):
         ApiRequest.__init__(self, "/trade/order/place", version='v2', method="POST", body_params={})
         self._stock_order = {}

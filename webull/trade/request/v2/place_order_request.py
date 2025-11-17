@@ -12,14 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # coding=utf-8
+
 from webull.core.request import ApiRequest
 
-class ReplaceOrderRequest(ApiRequest):
-    def __init__(self):
-        ApiRequest.__init__(self, "/openapi/trade/stock/order/replace", version='v2', method="POST", body_params={})
 
-    def set_modify_orders(self, modify_orders):
-        self.add_body_params("modify_orders", modify_orders)
+class PlaceOrderRequest(ApiRequest):
+    def __init__(self):
+        super().__init__("/openapi/trade/stock/order/place", version='v2', method="POST", body_params={})
+        self._new_orders = []
+        self._current_order = {}
+        self.add_body_params("new_orders", self._new_orders)
+
+    def set_new_orders(self, new_orders):
+        self.add_body_params("new_orders", new_orders)
 
     def set_account_id(self, account_id):
         self.add_body_params("account_id", account_id)
@@ -27,3 +32,13 @@ class ReplaceOrderRequest(ApiRequest):
     def set_client_combo_order_id(self, client_combo_order_id):
         if client_combo_order_id:
             self.add_body_params("client_combo_order_id", client_combo_order_id)
+
+    def add_custom_headers_from_order(self, new_orders):
+        if not new_orders:
+            return
+
+        if not isinstance(new_orders, (list, tuple)):
+            market = new_orders.get("market")
+            category = market + "_" + "STOCK"
+            if category is not None:
+                self.add_header("category", category)

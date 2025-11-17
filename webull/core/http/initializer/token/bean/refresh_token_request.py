@@ -38,7 +38,7 @@ from webull.core.request import ApiRequest
 
 class RefreshTokenRequest(ApiRequest):
     def __init__(self):
-        super().__init__("/auth/token/refresh", version='v2', method="POST", body_params={})
+        super().__init__("/openapi/auth/token/refresh", version='v2', method="POST", body_params={})
 
     def set_token(self, token):
         self.add_body_params("token", token)

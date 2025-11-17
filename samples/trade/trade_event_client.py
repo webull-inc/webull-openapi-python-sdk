@@ -12,35 +12,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import unittest
+import logging
 
-from webull.trade.trade_events_client import TradeEventsClient
 from webull.trade.events.types import ORDER_STATUS_CHANGED, EVENT_TYPE_ORDER
+from webull.trade.trade_events_client import TradeEventsClient
 
 your_app_key = "<your_app_key>"
 your_app_secret = "<your_app_secret>"
 account_id = "<your_account_id>"
-region_id = "hk"
+region_id = "<region_id>"
 
 optional_api_endpoint = "<event_api_endpoint>"
 
 
+def _on_log(level, log_content):
+    print(logging.getLevelName(level), log_content)
+
+def my_on_events_message(event_type, subscribe_type, payload, raw_message):
+    if EVENT_TYPE_ORDER == event_type and ORDER_STATUS_CHANGED == subscribe_type:
+        print('----request_id:%s----' % payload['request_id'])
+        print(payload)
+
 if __name__ == '__main__':
+
     # Create EventsClient instance
     trade_events_client = TradeEventsClient(your_app_key, your_app_secret, region_id)
-    trade_events_client.enable_logger()
     # For non production environment, you need to set the domain name of the subscription service through eventsclient. For example, the domain name of the UAT environment is set here
     # trade_events_client = TradeEventsClient(your_app_key, your_app_secret, region_id, host=optional_api_endpoint)
+    trade_events_client.on_log = _on_log
 
     # Set the callback function when the event data is received.
     # The data of order status change is printed here
-
-    def my_on_events_message(event_type, subscribe_type, payload, raw_message):
-        if EVENT_TYPE_ORDER == event_type and ORDER_STATUS_CHANGED == subscribe_type:
-            print('----request_id:%s----' % payload['request_id'])
-            print(payload['account_id'])
-            print(payload['client_order_id'])
-            print(payload['order_status'])
 
     trade_events_client.on_events_message = my_on_events_message
     # Set the account ID to be subscribed and initiate the subscription. This method is synchronous

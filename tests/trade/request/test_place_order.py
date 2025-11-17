@@ -18,7 +18,7 @@ from webull.core.client import ApiClient
 from webull.core.exception.exceptions import ServerException
 from webull.core.http.initializer.client_initializer import ClientInitializer
 from webull.data.common.category import Category
-from webull.trade.request.palce_order_request import PlaceOrderRequest
+from webull.trade.request.place_order_request import PlaceOrderRequest
 
 
 optional_api_endpoint = "<api_endpoint>"

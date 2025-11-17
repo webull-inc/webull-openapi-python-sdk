@@ -11,9 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import json
 
-from webull.core.context.request_context_holder import RequestContextHolder
 # coding=utf-8
 
 from webull.core.request import ApiRequest
@@ -21,16 +19,19 @@ from webull.core.request import ApiRequest
 
 class PlaceOptionRequest(ApiRequest):
     def __init__(self):
-        super().__init__("/openapi/account/orders/option/place", version='v2', method="POST", body_params={})
+        super().__init__("/openapi/trade/option/order/place", version='v2', method="POST", body_params={})
 
     def set_new_orders(self, new_orders):
         self.add_body_params("new_orders", new_orders)
 
     def set_account_id(self, account_id):
-        self.add_query_param("account_id", account_id)
+        self.add_body_params("account_id", account_id)
+
+    def set_client_combo_order_id(self, client_combo_order_id):
+        if client_combo_order_id:
+            self.add_body_params("client_combo_order_id", client_combo_order_id)
 
     def add_custom_headers_from_order(self, new_orders):
-
         if not new_orders:
             return
 
@@ -46,19 +47,3 @@ class PlaceOptionRequest(ApiRequest):
                         category = market + "_" + instrument_type
                         if category is not None:
                             self.add_header("category", category)
-
-    def add_custom_headers_from_context(self):
-        try:
-            headers_map = RequestContextHolder.get()
-            if not headers_map:
-                return
-            for key, value in headers_map.items():
-                self.add_header(key, value)
-        finally:
-            RequestContextHolder.clear()
-
-    def add_custom_headers(self, headers_map):
-        if not headers_map:
-            return
-        for key, value in headers_map.items():
-            self.add_header(key, value)

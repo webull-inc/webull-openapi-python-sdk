@@ -18,7 +18,7 @@ from webull.core.request import ApiRequest
 
 class GetQuotesRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/market-data/quotes", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/stock/quotes", version='v2', method="GET", query_params={})
 
     def set_symbol(self, symbol):
         self.add_query_param("symbol", symbol)
