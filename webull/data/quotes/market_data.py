@@ -18,8 +18,6 @@ from webull.data.request.get_historical_bars_request import GetHistoricalBarsReq
 from webull.data.request.get_quotes_request import GetQuotesRequest
 from webull.data.request.get_snapshot_request import GetSnapshotRequest
 from webull.data.request.get_tick_request import GetTickRequest
-from webull.data.request.subscribe_request import SubscribeRequest
-from webull.data.request.unsubscribe_request import UnsubcribeRequest
 
 
 class MarketData:

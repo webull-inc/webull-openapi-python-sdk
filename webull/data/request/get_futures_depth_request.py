@@ -14,14 +14,19 @@
 
 # coding=utf-8
 
-from webull.core.common.easy_enum import EasyEnum
+from webull.core.request import ApiRequest
 
-class Category(EasyEnum):
-    US_STOCK = (1, 'US STOCK')
-    US_OPTION = (2, 'US OPTION')
-    HK_STOCK = (3, 'HK STOCK')
-    US_ETF = (5, 'US ETF')
-    HK_ETF = (6, 'HK ETF')
-    CN_STOCK = (7, "CN STOCK")
-    US_CRYPTO = (8, "US CRYPTO")
-    US_FUTURES = (12, "US FUTURES")
+
+class GetFuturesDepthRequest(ApiRequest):
+    def __init__(self):
+        ApiRequest.__init__(self, "/openapi/market-data/futures/depth", version='v2', method="GET", query_params={})
+
+    def set_symbol(self, symbol):
+        self.add_query_param("symbol", symbol)
+
+    def set_category(self, category):
+        self.add_query_param("category", category)
+
+    def set_depth(self, depth):
+        if depth:
+            self.add_query_param("depth", depth)

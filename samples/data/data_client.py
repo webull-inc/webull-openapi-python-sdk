@@ -15,6 +15,7 @@
 # coding=utf-8
 
 from webull.data.common.category import Category
+from webull.data.common.contract_type import ContractType
 from webull.data.common.timespan import Timespan
 from webull.core.client import ApiClient
 from webull.data.data_client import DataClient
@@ -54,4 +55,30 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get_quotes:', res.json())
 
+    res = data_client.futures_market_data.get_futures_depth("SILZ5", Category.US_FUTURES.name, depth=1)
+    if res.status_code == 200:
+        print('get_futures_depth:', res.json())
 
+    res = data_client.futures_market_data.get_futures_history_bars('SILZ5,6BM6', Category.US_FUTURES.name, Timespan.M1.name)
+    if res.status_code == 200:
+        print('get_futures_history_bars:', res.json())
+
+    res = data_client.futures_market_data.get_futures_tick("SILZ5", Category.US_FUTURES.name, count=10)
+    if res.status_code == 200:
+        print('get_futures_tick:', res.json())
+
+    res = data_client.futures_market_data.get_futures_snapshot("SILZ5,6BM6", Category.US_FUTURES.name)
+    if res.status_code == 200:
+        print('get_futures_snapshot:', res.json())
+
+    res = data_client.instrument.get_futures_products(Category.US_FUTURES.name)
+    if res.status_code == 200:
+        print('get_futures_products:', res.json())
+
+    res = data_client.instrument.get_futures_instrument("ESZ5", Category.US_FUTURES.name)
+    if res.status_code == 200:
+        print('get_futures_instrument:', res.json())
+
+    res = data_client.instrument.get_futures_instrument_by_code("ES", Category.US_FUTURES.name, ContractType.MONTHLY.name)
+    if res.status_code == 200:
+        print('get_futures_instrument_by_code:', res.json())

@@ -37,7 +37,9 @@ if __name__ == '__main__':
 
     # Create EventsClient instance
     trade_events_client = TradeEventsClient(your_app_key, your_app_secret, region_id)
-    # For non production environment, you need to set the domain name of the subscription service through eventsclient. For example, the domain name of the UAT environment is set here
+    # [Important] For non production environment, you need to set the domain name of the subscription service through events client. For example, the domain name of the UAT environment is set here
+    # [Important] For non production environment, you need to set the domain name of the subscription service through events client. For example, the domain name of the UAT environment is set here
+    # [Important] For non production environment, you need to set the domain name of the subscription service through events client. For example, the domain name of the UAT environment is set here
     # trade_events_client = TradeEventsClient(your_app_key, your_app_secret, region_id, host=optional_api_endpoint)
     trade_events_client.on_log = _on_log
 

@@ -13,30 +13,28 @@
 # limitations under the License.
 
 # coding=utf-8
-
 from webull.core.request import ApiRequest
 
-class GetInstrumentsRequest(ApiRequest):
+
+class GetCryptoHistoricalBarsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/stock/list", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/crypto/bars", version='v2', method="GET", query_params={})
 
     def set_symbols(self, symbols):
         if isinstance(symbols, str):
             self.add_query_param("symbols", symbols)
         elif isinstance(symbols, list):
             self.add_query_param("symbols", ",".join(symbols))
-    
+
     def set_category(self, category):
         self.add_query_param("category", category)
 
-    def set_status(self, status):
-        if status:
-            self.add_query_param("status", status)
+    def set_timespan(self, timespan):
+        self.add_query_param("timespan", timespan)
 
-    def set_last_instrument_id(self, last_instrument_id):
-        if last_instrument_id:
-            self.add_query_param("last_instrument_id", last_instrument_id)
+    def set_count(self, count='200'):
+        self.add_query_param("count", count)
 
-    def set_count(self, count):
-        if count:
-            self.add_query_param("count", count)
+    def set_real_time_required(self, real_time_required):
+        if real_time_required:
+            self.add_query_param("real_time_required", real_time_required)

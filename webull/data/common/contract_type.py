@@ -15,13 +15,6 @@
 # coding=utf-8
 
 from webull.core.common.easy_enum import EasyEnum
-
-class Category(EasyEnum):
-    US_STOCK = (1, 'US STOCK')
-    US_OPTION = (2, 'US OPTION')
-    HK_STOCK = (3, 'HK STOCK')
-    US_ETF = (5, 'US ETF')
-    HK_ETF = (6, 'HK ETF')
-    CN_STOCK = (7, "CN STOCK")
-    US_CRYPTO = (8, "US CRYPTO")
-    US_FUTURES = (12, "US FUTURES")
+class ContractType(EasyEnum):
+    MONTHLY = (1, "MONTHLY")
+    MAIN = (2, "MAIN")

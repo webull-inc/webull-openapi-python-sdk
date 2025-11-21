@@ -4,7 +4,7 @@
     "region_mapping": {
         "us": {
             "api": "api.webull.com",
-            "quotes-api": "usquotes-api.webullfintech.com",
+            "quotes-api": "data-api.webull.com",
             "events-api": "events-api.webull.com"
         },
         "hk": {

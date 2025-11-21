@@ -16,18 +16,20 @@
 
 from webull.core.request import ApiRequest
 
-class GetInstrumentsRequest(ApiRequest):
+
+class GetCryptoInstrumentsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/stock/list", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/instrument/crypto/list", version='v2', method="GET", query_params={})
 
     def set_symbols(self, symbols):
         if isinstance(symbols, str):
             self.add_query_param("symbols", symbols)
         elif isinstance(symbols, list):
             self.add_query_param("symbols", ",".join(symbols))
-    
+
     def set_category(self, category):
-        self.add_query_param("category", category)
+        if category:
+            self.add_query_param("category", category)
 
     def set_status(self, status):
         if status:

@@ -21,6 +21,7 @@ from webull.trade.trade.trade_calendar import TradeCalendar
 from webull.trade.trade.trade_instrument import TradeInstrument
 from webull.trade.trade.v2.account_info_v2 import AccountV2
 from webull.trade.trade.v2.order_operation_v2 import OrderOperationV2
+from webull.trade.trade.v3.order_opration_v3 import OrderOperationV3
 
 
 class TradeClient:
@@ -31,6 +32,7 @@ class TradeClient:
         self.account_v2 = AccountV2(api_client)
         self.order = OrderOperation(api_client)
         self.order_v2 = OrderOperationV2(api_client)
+        self.order_v3 = OrderOperationV3(api_client)
         self.trade_instrument = TradeInstrument(api_client)
         self.trade_calendar = TradeCalendar(api_client)
 

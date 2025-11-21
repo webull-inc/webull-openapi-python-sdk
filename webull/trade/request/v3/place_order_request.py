@@ -11,15 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import json
 # coding=utf-8
 
 from webull.core.request import ApiRequest
 
 
-class PlaceOptionRequest(ApiRequest):
+class PlaceOrderRequest(ApiRequest):
     def __init__(self):
-        super().__init__("/openapi/trade/option/order/place", version='v2', method="POST", body_params={})
+        super().__init__("/openapi/trade/order/place", version='v2', method="POST", body_params={})
 
     def set_new_orders(self, new_orders):
         self.add_body_params("new_orders", new_orders)
@@ -37,8 +37,8 @@ class PlaceOptionRequest(ApiRequest):
 
         if isinstance(new_orders, list) and new_orders[0]:
             first_order = new_orders[0]
-            leg_list = first_order.get("legs", [])
-            if isinstance(leg_list, list):
+            leg_list = first_order.get("legs")
+            if leg_list is not None and isinstance(leg_list, list):
                 for sub_leg in leg_list:
                     if (sub_leg and isinstance(sub_leg, dict)
                             and sub_leg.get("instrument_type") == "OPTION"):
@@ -47,3 +47,10 @@ class PlaceOptionRequest(ApiRequest):
                         category = market + "_" + instrument_type
                         if category is not None:
                             self.add_header("category", category)
+                return
+
+            market = first_order.get("market")
+            instrument_type = first_order.get("instrument_type")
+            category = market + "_" + instrument_type
+            if category is not None:
+                self.add_header("category", category)
