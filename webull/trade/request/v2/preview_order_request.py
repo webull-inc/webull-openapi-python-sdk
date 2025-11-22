@@ -11,49 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import List
 
 from webull.core.request import ApiRequest
 
-
-class CloseContract:
-    def __init__(self, contract_id: str, quantity: str):
-        self.contract_id = contract_id
-        self.quantity = quantity
-
-    def to_dict(self):
-        return {
-            "contract_id": self.contract_id,
-            "quantity": self.quantity
-        }
-
-
 class PreviewOrderRequest(ApiRequest):
     def __init__(self):
-        super().__init__("/openapi/account/orders/preview", version='v2', method="POST", body_params={})
-        self._new_orders = []
-        self._current_order = {}
-        self.add_body_params("new_orders", self._new_orders)
+        super().__init__("/openapi/trade/stock/order/preview", version='v2', method="POST", body_params={})
 
-    def add_new_order_params(self, k, v):
-        self._current_order[k] = v
+    def set_new_orders(self, new_orders):
+        self.add_body_params("new_orders", new_orders)
 
     def set_account_id(self, account_id):
-        self.add_query_param("account_id", account_id)
+        self.add_body_params("account_id", account_id)
 
-    def set_close_contracts(self, close_contracts: List[CloseContract]):
-        if not isinstance(close_contracts, list):
-            raise TypeError("close_contracts must be a list of CloseContract objects.")
-        self.add_new_order_params("close_contracts", [contract.to_dict() for contract in close_contracts])
-
-    def set_new_orders(self, current_order):
-        self._current_order.update({k: v for k, v in current_order.items() if v is not None and k != 'self'})
-        if 'close_contracts' in current_order and current_order['close_contracts'] is not None:
-            self.set_close_contracts(current_order['close_contracts'])
-
-    def finalize_order(self):
-        if self._current_order:
-            self._new_orders.append(self._current_order)
-            self._current_order = {}
-        else:
-            raise ValueError("No order fields have been set.")
+    def set_client_combo_order_id(self, client_combo_order_id):
+        if client_combo_order_id:
+            self.add_body_params("client_combo_order_id", client_combo_order_id)

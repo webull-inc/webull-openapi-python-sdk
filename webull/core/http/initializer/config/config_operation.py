@@ -33,38 +33,17 @@
 
 # coding=utf-8
 
-from webull.core.http.initializer.token.bean.check_token_request import CheckTokenRequest
-from webull.core.http.initializer.token.bean.create_token_request import CreateTokenRequest
-from webull.core.http.initializer.token.bean.refresh_token_request import RefreshTokenRequest
+from webull.core.http.initializer.config.bean.query_config_request import GetConfigRequest
 
 
-class TokenOperation:
+class ConfigOperation:
     def __init__(self, api_client):
         self.client = api_client
 
-    def create_token(self, token):
+    def get_config(self):
         """
-        Create a token
+        Get Config
         """
-        create_token_request = CreateTokenRequest()
-        create_token_request.set_token(token)
-        response = self.client.get_response(create_token_request)
-        return response
-
-    def check_token(self, token):
-        """
-        Check whether the token is verified
-        """
-        check_token_request = CheckTokenRequest()
-        check_token_request.set_token(token)
-        response = self.client.get_response(check_token_request)
-        return response
-
-    def refresh_token(self, token):
-        """
-        Refresh token
-        """
-        refresh_token_request = RefreshTokenRequest()
-        refresh_token_request.set_token(token)
-        response = self.client.get_response(refresh_token_request)
+        get_config_request = GetConfigRequest()
+        response = self.client.get_response(get_config_request)
         return response

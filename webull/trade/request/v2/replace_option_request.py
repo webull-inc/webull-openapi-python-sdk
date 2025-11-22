@@ -19,10 +19,14 @@ from webull.core.request import ApiRequest
 
 class ReplaceOptionRequest(ApiRequest):
     def __init__(self):
-        super().__init__("/openapi/account/orders/option/replace", version='v2', method="POST", body_params={})
+        super().__init__("/openapi/trade/option/order/replace", version='v2', method="POST", body_params={})
 
     def set_modify_orders(self, modify_orders):
         self.add_body_params("modify_orders", modify_orders)
 
     def set_account_id(self, account_id):
-        self.add_query_param("account_id", account_id)
+        self.add_body_params("account_id", account_id)
+
+    def set_client_combo_order_id(self, client_combo_order_id):
+        if client_combo_order_id:
+            self.add_body_params("client_combo_order_id", client_combo_order_id)

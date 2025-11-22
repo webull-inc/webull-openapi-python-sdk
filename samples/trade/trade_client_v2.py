@@ -11,13 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 import json
-import unittest
 import uuid
 from time import sleep
 
 from webull.core.client import ApiClient
-from webull.data.common.category import Category
 from webull.trade.trade_client import TradeClient
 
 optional_api_endpoint = "<api_endpoint>"
@@ -34,87 +33,171 @@ if __name__ == '__main__':
 
     res = trade_client.account_v2.get_account_list()
     if res.status_code == 200:
-        print("account_list=" + json.dumps(res.json(), indent=4))
+        print('get account list:', res.json())
 
     res = trade_client.account_v2.get_account_balance(account_id)
     if res.status_code == 200:
-        print("account_balance=" + json.dumps(res.json(), indent=4))
+        print('get account balance res:', res.json())
 
     res = trade_client.account_v2.get_account_position(account_id)
     if res.status_code == 200:
-        print("account_position=" + json.dumps(res.json(), indent=4))
+        print('get account position res:', res.json())
 
-    preview_orders = {
-        "symbol": "AAPL",
-        "instrument_type": "EQUITY",
-        "market": "US",
-        "order_type": "MARKET",
-        "quantity": "1",
-        "support_trading_session": "N",
-        "side": "BUY",
-        "time_in_force": "DAY",
-        "entrust_type": "QTY"
-    }
-    res = trade_client.order_v2.preview_order(account_id=account_id, preview_orders=preview_orders)
-    if res.status_code == 200:
-        print("preview_res=" + json.dumps(res.json(), indent=4))
-
+    # simple order
     client_order_id = uuid.uuid4().hex
-    new_orders = {
-        "client_order_id": client_order_id,
-        "symbol": "AAPL",
-        "instrument_type": "EQUITY",
-        "market": "US",
-        "order_type": "LIMIT",
-        "limit_price": "188",
-        "quantity": "1",
-        "support_trading_session": "N",
-        "side": "BUY",
-        "time_in_force": "DAY",
-        "entrust_type": "QTY",
-        # "account_tax_type": "GENERAL"
-        # "total_cash_amount": "100.20"
-        # "sender_sub_id": "123321-lzg",
-        # "no_party_ids":[
-        #     {"party_id":"BNG144.666555","party_id_source":"D","party_role":"3"}
-        # ]
-    }
+    print('client order id:', client_order_id)
+    new_simple_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": client_order_id,
+            "symbol": "AAPL",
+            "instrument_type": "EQUITY",
+            "market": "US",
+            "order_type": "LIMIT",
+            "limit_price": "188",
+            "quantity": "1",
+            "support_trading_session": "N",
+            "side": "BUY",
+            "time_in_force": "DAY",
+            "entrust_type": "QTY"
+        }
+    ]
 
-    # This is an optional feature; you can still make a request without setting it.
-    custom_headers_map = {"category": Category.US_STOCK.name}
-    trade_client.order_v2.add_custom_headers(custom_headers_map)
-    res = trade_client.order_v2.place_order(account_id=account_id, new_orders=new_orders)
-    trade_client.order_v2.remove_custom_headers()
+    res = trade_client.order_v2.preview_order(account_id, new_simple_orders)
     if res.status_code == 200:
-        print("place_order_res=" + json.dumps(res.json(), indent=4))
-    sleep(5)
+        print('preview order res:', res.json())
 
-    modify_orders = {
-        "client_order_id": client_order_id,
-        "quantity": "100",
-        "limit_price": "200"
-    }
-    res = trade_client.order_v2.replace_order(account_id=account_id, modify_orders=modify_orders)
+    res = trade_client.order_v2.place_order(account_id, new_simple_orders)
     if res.status_code == 200:
-        print("replace_order_res=" + json.dumps(res.json(), indent=4))
-    sleep(5)
+        print('place order res:', res.json())
+    sleep(3)
 
-    res = trade_client.order_v2.cancel_order_v2(account_id=account_id, client_order_id=client_order_id)
+    modify_simple_orders = [
+        {
+            "client_order_id": client_order_id,
+            "quantity": "100",
+            "limit_price": "200"
+        }
+    ]
+    res = trade_client.order_v2.replace_order(account_id, modify_simple_orders)
     if res.status_code == 200:
-        print("cancel_order_res=" + json.dumps(res.json(), indent=4))
+        print('replace order res:', res.json())
+    sleep(3)
 
-    res = trade_client.order_v2.get_order_history_request(account_id=account_id)
+    res = trade_client.order_v2.cancel_order(account_id, client_order_id)
     if res.status_code == 200:
-        print("order_history_res=" + json.dumps(res.json(), indent=4))
+        print('cancel order res:', res.json())
 
     res = trade_client.order_v2.get_order_open(account_id=account_id)
     if res.status_code == 200:
         print("order_open_res=" + json.dumps(res.json(), indent=4))
 
-    # order detail
-    res = trade_client.order_v2.get_order_detail(account_id=account_id, client_order_id=client_order_id)
+    res = trade_client.order_v2.get_order_history(account_id)
     if res.status_code == 200:
-        print("order detail=" + json.dumps(res.json(), indent=4))
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v2.get_order_detail(account_id, client_order_id)
+    if res.status_code == 200:
+        print('get order detail res:', res.json())
+
+
+
+    # Combo Order
+    master_client_order_id = uuid.uuid4().hex
+    stop_profit_client_order_id = uuid.uuid4().hex
+    stop_loss_client_order_id = uuid.uuid4().hex
+    print('master_client_order_id:', master_client_order_id)
+    print('stop_profit_client_order_id:', stop_profit_client_order_id)
+    print('stop_loss_client_order_id:', stop_loss_client_order_id)
+    new_combo_orders = [
+        {
+            "client_order_id": master_client_order_id,
+            "combo_type": "MASTER",
+            "symbol": "F",
+            "instrument_type": "EQUITY",
+            "market": "US",
+            "order_type": "LIMIT",
+            "quantity": "1",
+            "support_trading_session": "N",
+            "limit_price": "10.5",
+            "side": "BUY",
+            "entrust_type": "QTY",
+            "time_in_force": "DAY"
+        },
+        {
+            "client_order_id": stop_profit_client_order_id,
+            "combo_type": "STOP_PROFIT",
+            "symbol": "F",
+            "instrument_type": "EQUITY",
+            "market": "US",
+            "order_type": "LIMIT",
+            "quantity": "1",
+            "support_trading_session": "N",
+            "limit_price": "11.5",
+            "side": "SELL",
+            "entrust_type": "QTY",
+            "time_in_force": "DAY"
+        },
+        {
+            "client_order_id": stop_loss_client_order_id,
+            "combo_type": "STOP_LOSS",
+            "symbol": "F",
+            "instrument_type": "EQUITY",
+            "market": "US",
+            "order_type": "STOP_LOSS",
+            "quantity": "1",
+            "support_trading_session": "N",
+            "stop_price": "10",
+            "side": "SELL",
+            "entrust_type": "QTY",
+            "time_in_force": "DAY"
+        }
+    ]
+
+    res = trade_client.order_v2.preview_order(account_id, new_combo_orders)
+    if res.status_code == 200:
+        print('preview combo order res:', res.json())
+
+    res = trade_client.order_v2.place_order(account_id, new_combo_orders)
+    if res.status_code == 200:
+        print('place combo order res:', res.json())
+    sleep(3)
+
+    modify_combo_orders = [
+        {
+            "client_order_id": master_client_order_id,
+            "quantity": "2"
+        },
+        {
+            "client_order_id": stop_profit_client_order_id,
+            "quantity": "2"
+        },
+        {
+            "client_order_id": stop_loss_client_order_id,
+            "quantity": "2"
+        }
+    ]
+    res = trade_client.order_v2.replace_order(account_id, modify_combo_orders)
+    if res.status_code == 200:
+        print('replace combo order res:', res.json())
+    sleep(3)
+
+    res = trade_client.order_v2.cancel_order(account_id, master_client_order_id)
+    if res.status_code == 200:
+        print('cancel master order res:', res.json())
+
+    res = trade_client.order_v2.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v2.get_order_open(account_id=account_id)
+    if res.status_code == 200:
+        print("order_open_res=" + json.dumps(res.json(), indent=4))
+
+    res = trade_client.order_v2.get_order_detail(account_id, master_client_order_id)
+    if res.status_code == 200:
+        print('get master order detail res:', res.json())
+
 
     # Options
     # For option order inquiries, please use the V2 query interface: api.order_v2.get_order_detail(account_id, client_order_id).
@@ -125,18 +208,18 @@ if __name__ == '__main__':
             "combo_type": "NORMAL",
             "order_type": "LIMIT",
             "quantity": "1",
-            "limit_price": "11.25",
+            "limit_price": "21.25",
             "option_strategy": "SINGLE",
             "side": "BUY",
             "time_in_force": "GTC",
             "entrust_type": "QTY",
-            "orders": [
+            "legs": [
                 {
                     "side": "BUY",
                     "quantity": "1",
-                    "symbol": "AAPL",
-                    "strike_price": "250.0",
-                    "init_exp_date": "2025-08-15",
+                    "symbol": "TSLA",
+                    "strike_price": "400",
+                    "option_expire_date": "2025-12-26",
                     "instrument_type": "OPTION",
                     "option_type": "CALL",
                     "market": "US"
@@ -144,42 +227,76 @@ if __name__ == '__main__':
             ]
         }
     ]
+
     # preview
     res = trade_client.order_v2.preview_option(account_id, option_new_orders)
     if res.status_code == 200:
-        print("preview option=" + json.dumps(res.json(), indent=4))
-    sleep(5)
+        print("preview option res:" + json.dumps(res.json(), indent=4))
+
     # place
-
-    # This is an optional feature; you can still make a request without setting it.
-    custom_headers_map = {"category": Category.US_OPTION.name}
-    trade_client.order_v2.add_custom_headers(custom_headers_map)
     res = trade_client.order_v2.place_option(account_id, option_new_orders)
-    trade_client.order_v2.remove_custom_headers()
     if res.status_code == 200:
-        print("place option=" + json.dumps(res.json(), indent=4))
-    sleep(5)
+        print("place option res:" + json.dumps(res.json(), indent=4))
+    sleep(3)
 
-    # replace
-    option_modify_orders = [
-        {
-            "client_order_id": client_order_id,
-            "quantity": "2",
-            "limit_price": "11.3",
-            "orders": [
-                {
-                    "client_order_id": client_order_id,
-                    "quantity": "2"
-                }
-            ]
-        }
-    ]
-    res = trade_client.order_v2.replace_option(account_id, option_modify_orders)
+    # replace for Webull HK
+    # option_modify_orders = [
+    #     {
+    #         "client_order_id": client_order_id,
+    #         "quantity": "2",
+    #         "limit_price": "11.3"
+    #     }
+    # ]
+    # res = trade_client.order_v2.replace_option(account_id, option_modify_orders)
+    # if res.status_code == 200:
+    #     print("replace option res:" + json.dumps(res.json(), indent=4))
+    # sleep(5)
+
+    # replace for Webull US
+    res = trade_client.order_v2.get_order_detail(account_id, client_order_id)
     if res.status_code == 200:
-        print("replace option=" + json.dumps(res.json(), indent=4))
-    sleep(5)
+        print('get option order detail res:', res.json())
+    data = res.json() or {}
+    leg_id = (
+        data.get("orders", [{}])[0]
+        .get("legs", [{}])[0]
+        .get("id")
+    )
+    print('get option order detail id :', leg_id)
+
+    # If it is a multi-leg option, you need to manually match it to the corresponding sub-leg orderId.
+    if leg_id:
+        option_modify_orders = [
+            {
+                "client_order_id": client_order_id,
+                "quantity": "2",
+                "limit_price": "21.3",
+                "legs": [
+                    {
+                        "id": leg_id,
+                        "quantity": "2"
+                    }
+                ]
+            }
+        ]
+        res = trade_client.order_v2.replace_option(account_id, option_modify_orders)
+        if res.status_code == 200:
+            print("replace option res:" + json.dumps(res.json(), indent=4))
+        sleep(3)
 
     # cancel
     res = trade_client.order_v2.cancel_option(account_id, client_order_id)
     if res.status_code == 200:
-        print("cancel option=" + json.dumps(res.json(), indent=4))
+        print("cancel option res:" + json.dumps(res.json(), indent=4))
+
+    res = trade_client.order_v2.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v2.get_order_open(account_id=account_id)
+    if res.status_code == 200:
+        print("order_open_res=" + json.dumps(res.json(), indent=4))
+
+    res = trade_client.order_v2.get_order_detail(account_id, client_order_id)
+    if res.status_code == 200:
+        print('get option order detail res:', res.json())

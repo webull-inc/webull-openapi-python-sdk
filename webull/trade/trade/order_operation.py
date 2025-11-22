@@ -11,13 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from webull.core.context.request_context_holder import RequestContextHolder
+
 # coding=utf-8
+
+from webull.core.context.request_context_holder import RequestContextHolder
+
 from webull.trade.request.cancel_order_request import CancelOrderRequest
 from webull.trade.request.get_open_orders_request import OpenOrdersListRequest
 from webull.trade.request.get_order_detail_request import OrderDetailRequest
 from webull.trade.request.get_today_orders_request import TodayOrdersListRequest
-from webull.trade.request.palce_order_request import PlaceOrderRequest
+from webull.trade.request.place_order_request import PlaceOrderRequest
 from webull.trade.request.place_order_request_v2 import PlaceOrderRequestV2
 from webull.trade.request.replace_order_request import ReplaceOrderRequest
 from webull.trade.request.replace_order_request_v2 import ReplaceOrderRequestV2

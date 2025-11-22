@@ -17,7 +17,7 @@ from webull.core.request import ApiRequest
 
 class BatchHistoricalBarsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/market-data/batch-bars", version='v2', method="POST", body_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/stock/batch-bars", version='v2', method="POST", body_params={})
 
     def set_symbols(self, symbol):
         self.add_body_params("symbols", symbol)

@@ -14,7 +14,7 @@
 # coding=utf-8
 
 from webull.trade.request.v2.get_account_balance_request import AccountBalanceRequest
-from webull.trade.request.v2.get_account_list import GetAccountList
+from webull.trade.request.v2.get_account_list_request import GetAccountListRequest
 from webull.trade.request.v2.get_account_positions_request import AccountPositionsRequest
 
 
@@ -24,19 +24,17 @@ class AccountV2:
 
     def get_account_list(self):
         """
-        This interface is currently available only to individual brokerage customers in Webull Japan
-        and institutional brokerage clients in Webull Hong Kong. It is not yet available to
-        Webull US brokerage customers, but support will be introduced progressively in the future.
+        This interface is currently supported only for Webull HK and Webull US.
+        Support for other regions will be available in future updates.
         """
-        account_list = GetAccountList()
+        account_list = GetAccountListRequest()
         response = self.client.get_response(account_list)
         return response
 
     def get_account_balance(self, account_id):
         """
-        This interface is currently available only to individual brokerage customers in Webull Japan
-        and institutional brokerage clients in Webull Hong Kong. It is not yet available to
-        Webull US brokerage customers, but support will be introduced progressively in the future.
+        This interface is currently supported only for Webull HK and Webull US.
+        Support for other regions will be available in future updates.
         """
         account_balance_request = AccountBalanceRequest()
         account_balance_request.set_account_id(account_id)
@@ -45,9 +43,8 @@ class AccountV2:
 
     def get_account_position(self, account_id):
         """
-        This interface is currently available only to individual brokerage customers in Webull Japan
-        and institutional brokerage clients in Webull Hong Kong. It is not yet available to
-        Webull US brokerage customers, but support will be introduced progressively in the future.
+        This interface is currently supported only for Webull HK and Webull US.
+        Support for other regions will be available in future updates.
         """
         account_positions_request = AccountPositionsRequest()
         account_positions_request.set_account_id(account_id)

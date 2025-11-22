@@ -97,10 +97,10 @@ class TestApi(unittest.TestCase):
         if res.status_code == 200:
             print("replace_order_res=" + json.dumps(res.json(), indent=4))
         sleep(5)
-        res = trade_client.order_v2.cancel_order_v2(account_id=account_id, client_order_id=client_order_id)
+        res = trade_client.order_v2.cancel_order(account_id=account_id, client_order_id=client_order_id)
         if res.status_code == 200:
             print("cancel_order_res=" + json.dumps(res.json(), indent=4))
-        res = trade_client.order_v2.get_order_history_request(account_id=account_id)
+        res = trade_client.order_v2.get_order_history(account_id=account_id)
         if res.status_code == 200:
             print("order_history_res=" + json.dumps(res.json(), indent=4))
 
