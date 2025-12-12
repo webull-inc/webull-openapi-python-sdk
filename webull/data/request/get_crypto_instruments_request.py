@@ -39,6 +39,6 @@ class GetCryptoInstrumentsRequest(ApiRequest):
         if last_instrument_id:
             self.add_query_param("last_instrument_id", last_instrument_id)
 
-    def set_count(self, count):
-        if count:
-            self.add_query_param("count", count)
+    def set_page_size(self, page_size):
+        if page_size:
+            self.add_query_param("page_size", page_size)
