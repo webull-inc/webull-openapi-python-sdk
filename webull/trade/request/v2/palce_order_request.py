@@ -37,8 +37,10 @@ class PlaceOrderRequest(ApiRequest):
         if not new_orders:
             return
 
-        if not isinstance(new_orders, (list, tuple)):
-            market = new_orders.get("market")
-            category = market + "_" + "STOCK"
+        if isinstance(new_orders, list) and new_orders[0]:
+            first_order = new_orders[0]
+            instrument_type = first_order.get("instrument_type")
+            market = first_order.get("market")
+            category = market + "_" + instrument_type
             if category is not None:
                 self.add_header("category", category)

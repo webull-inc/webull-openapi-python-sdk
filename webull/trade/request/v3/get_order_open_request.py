@@ -12,16 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# coding=utf-8
+from webull.core.request import ApiRequest
 
-from webull.core.common.easy_enum import EasyEnum
 
-class Category(EasyEnum):
-    US_STOCK = (1, 'US STOCK')
-    US_OPTION = (2, 'US OPTION')
-    HK_STOCK = (3, 'HK STOCK')
-    US_ETF = (5, 'US ETF')
-    HK_ETF = (6, 'HK ETF')
-    CN_STOCK = (7, "CN STOCK")
-    US_CRYPTO = (8, "US CRYPTO")
-    US_FUTURES = (12, "US FUTURES")
+class OrderOpenRequest(ApiRequest):
+    def __init__(self):
+        ApiRequest.__init__(self, "/openapi/trade/order/open", version='v2', method="GET", query_params={})
+
+    def set_account_id(self, account_id):
+        self.add_query_param("account_id", account_id)
+
+    def set_page_size(self, page_size):
+        self.add_query_param("page_size", page_size)
+
+    def set_last_client_order_id(self, last_client_order_id):
+        self.add_query_param("last_client_order_id", last_client_order_id)

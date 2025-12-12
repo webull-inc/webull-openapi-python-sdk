@@ -11,23 +11,100 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+from webull.data.common.category import Category
 from webull.data.request.get_instruments_request import GetInstrumentsRequest
+from webull.data.request.get_crypto_instruments_request import GetCryptoInstrumentsRequest
+from webull.data.request.get_futures_instruments_request import GetFuturesInstrumentsRequest
+from webull.data.request.get_futures_products_request import GetFuturesProductsRequest
+from webull.data.request.get_futures_instruments_by_code_request import GetFuturesInstrumentsByCodeRequest
 
 
 class Instrument:
     def __init__(self, api_client):
         self.client = api_client
 
-    def get_instrument(self, symbols, category):
+    def get_instrument(self, symbols, category=Category.US_STOCK.name, status=None, last_instrument_id=None,
+                       count=1000):
         """
          Query the underlying information according to the security symbol list and security type.
 
         :param symbols: Securities symbol, such as: 00700,00981.
         :param category: Security type, enumeration.
+        :param status: Tradable status.
+        :param last_instrument_id: Last instrument id for pagination.
+        :param count: Page size, default 1000.
         """
         instruments_request = GetInstrumentsRequest()
         instruments_request.set_symbols(symbols)
         instruments_request.set_category(category)
+        instruments_request.set_status(status)
+        instruments_request.set_last_instrument_id(last_instrument_id)
+        instruments_request.set_count(count)
         response = self.client.get_response(instruments_request)
+        return response
+
+    def get_crypto_instrument(self, symbols=None, status=None, last_instrument_id=None,
+                              category=Category.US_CRYPTO.name, count=1000):
+        """
+         Query the crypto underlying information according to the security symbol.
+        :param symbols: Securities symbol, such as: BTCUSD,ETHUSD.
+        :param status: Tradable status.
+        :param last_instrument_id: Last instrument id for pagination.
+        :param category: (str, required) Instrument type.
+                     Possible values: ["US_CRYPTO"]
+                     Example: "US_CRYPTO"
+        :param count: Page size, default 1000.
+        """
+        crypto_instruments_request = GetCryptoInstrumentsRequest()
+        crypto_instruments_request.set_symbols(symbols)
+        crypto_instruments_request.set_category(category)
+        crypto_instruments_request.set_status(status)
+        crypto_instruments_request.set_last_instrument_id(last_instrument_id)
+        crypto_instruments_request.set_count(count)
+        response = self.client.get_response(crypto_instruments_request)
+        return response
+
+    def get_futures_instrument(self, symbols, category):
+        """
+         Query the futures instrument information based on the futures contract symbol.
+
+        :param symbols: Futures contract symbol, such as: ESmain,ESM5.
+        :param category: Security type, enumeration.
+        """
+
+        futures_instrument_request = GetFuturesInstrumentsRequest()
+        futures_instrument_request.set_symbols(symbols)
+        futures_instrument_request.set_category(category)
+        response = self.client.get_response(futures_instrument_request)
+        return response
+
+    def get_futures_products(self, category):
+        """
+        Query futures contract codes in batches based on security types.
+
+        :param category: Security type, enumeration.
+        """
+
+        batch_futures_products_request = GetFuturesProductsRequest()
+        batch_futures_products_request.set_category(category)
+        response = self.client.get_response(batch_futures_products_request)
+        return response
+
+    def get_futures_instrument_by_code(self, code, category, contract_type=None):
+        """
+        Query futures instrument information based on futures contract code.
+
+        :param code: Futures contract code, such as: ES.
+        :param category: Security type, enumeration.
+        :param contract_type: Contract type, values include
+            - MONTHLY: Regular monthly contract
+            - MAIN: Main continuous contract
+        """
+
+        futures_instrument_request = GetFuturesInstrumentsByCodeRequest()
+        futures_instrument_request.set_codes(code)
+        futures_instrument_request.set_category(category)
+        if contract_type:
+            futures_instrument_request.set_contract_type(contract_type)
+        response = self.client.get_response(futures_instrument_request)
         return response

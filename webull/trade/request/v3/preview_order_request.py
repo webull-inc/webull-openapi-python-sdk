@@ -14,14 +14,18 @@
 
 # coding=utf-8
 
-from webull.core.common.easy_enum import EasyEnum
+from webull.core.request import ApiRequest
 
-class Category(EasyEnum):
-    US_STOCK = (1, 'US STOCK')
-    US_OPTION = (2, 'US OPTION')
-    HK_STOCK = (3, 'HK STOCK')
-    US_ETF = (5, 'US ETF')
-    HK_ETF = (6, 'HK ETF')
-    CN_STOCK = (7, "CN STOCK")
-    US_CRYPTO = (8, "US CRYPTO")
-    US_FUTURES = (12, "US FUTURES")
+
+class PreviewOrderRequest(ApiRequest):
+    def __init__(self):
+        super().__init__("/openapi/trade/order/preview", version='v2', method="POST", body_params={})
+
+    def set_new_orders(self, new_orders):
+        self.add_body_params("new_orders", new_orders)
+
+    def set_account_id(self, account_id):
+        self.add_body_params("account_id", account_id)
+
+    def set_client_combo_order_id(self, client_combo_order_id):
+        self.add_body_params("client_combo_order_id", client_combo_order_id)
