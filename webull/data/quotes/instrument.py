@@ -23,8 +23,8 @@ class Instrument:
     def __init__(self, api_client):
         self.client = api_client
 
-    def get_instrument(self, symbols, category=Category.US_STOCK.name, status=None, last_instrument_id=None,
-                       count=1000):
+    def get_instrument(self, symbols=None, category=Category.US_STOCK.name, status=None, last_instrument_id=None,
+                       page_size=1000):
         """
          Query the underlying information according to the security symbol list and security type.
 
@@ -32,19 +32,19 @@ class Instrument:
         :param category: Security type, enumeration.
         :param status: Tradable status.
         :param last_instrument_id: Last instrument id for pagination.
-        :param count: Page size, default 1000.
+        :param page_size: Page size, default 1000.
         """
         instruments_request = GetInstrumentsRequest()
         instruments_request.set_symbols(symbols)
         instruments_request.set_category(category)
         instruments_request.set_status(status)
         instruments_request.set_last_instrument_id(last_instrument_id)
-        instruments_request.set_count(count)
+        instruments_request.set_page_size(page_size)
         response = self.client.get_response(instruments_request)
         return response
 
     def get_crypto_instrument(self, symbols=None, status=None, last_instrument_id=None,
-                              category=Category.US_CRYPTO.name, count=1000):
+                              category=Category.US_CRYPTO.name, page_size=1000):
         """
          Query the crypto underlying information according to the security symbol.
         :param symbols: Securities symbol, such as: BTCUSD,ETHUSD.
@@ -53,14 +53,14 @@ class Instrument:
         :param category: (str, required) Instrument type.
                      Possible values: ["US_CRYPTO"]
                      Example: "US_CRYPTO"
-        :param count: Page size, default 1000.
+        :param page_size: Page size, default 1000.
         """
         crypto_instruments_request = GetCryptoInstrumentsRequest()
         crypto_instruments_request.set_symbols(symbols)
         crypto_instruments_request.set_category(category)
         crypto_instruments_request.set_status(status)
         crypto_instruments_request.set_last_instrument_id(last_instrument_id)
-        crypto_instruments_request.set_count(count)
+        crypto_instruments_request.set_page_size(page_size)
         response = self.client.get_response(crypto_instruments_request)
         return response
 
