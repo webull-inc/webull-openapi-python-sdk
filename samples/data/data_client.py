@@ -35,6 +35,22 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get_instrument:', res.json())
 
+    res = data_client.instrument.get_crypto_instrument()
+    if res.status_code == 200:
+        print('get_crypto_instrument(all):', res.json())
+
+    res = data_client.instrument.get_crypto_instrument("BTCUSD")
+    if res.status_code == 200:
+        print('get_crypto_instrument:', res.json())
+
+    res = data_client.crypto_market_data.get_crypto_snapshot("BTCUSD")
+    if res.status_code == 200:
+        print('get_crypto_snapshot:', res.json())
+
+    res = data_client.crypto_market_data.get_crypto_history_bar("BTCUSD", Category.US_CRYPTO.name, Timespan.M1.name)
+    if res.status_code == 200:
+        print('get_crypto_history_bar:', res.json())
+
     res = data_client.market_data.get_snapshot('AAPL', Category.US_STOCK.name, extend_hour_required=True, overnight_required=True)
     if res.status_code == 200:
         print('get_snapshot:', res.json())
