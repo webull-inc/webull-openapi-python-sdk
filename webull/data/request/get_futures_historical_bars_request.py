@@ -17,7 +17,7 @@ from webull.core.request import ApiRequest
 
 class GetFuturesHistoricalBarsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/futures/bars", version='v2', method="GET", body_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/futures/bars", version='v2', method="GET", query_params={})
 
     def set_symbols(self, symbol):
         self.add_query_param("symbols", symbol)
