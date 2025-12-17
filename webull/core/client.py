@@ -122,6 +122,7 @@ class ApiClient:
         self._token_check_duration_seconds = token_check_duration_seconds
         validation.assert_integer_positive(token_check_interval_seconds, "token_check_interval_seconds")
         self._token_check_interval_seconds = token_check_interval_seconds
+        self._token_dir = None
 
     def get_region_id(self):
         return self._region_id
@@ -163,6 +164,12 @@ class ApiClient:
 
     def get_token_check_interval_seconds(self):
         return self._token_check_interval_seconds
+
+    def set_token_dir(self, token_dir):
+        self._token_dir = token_dir
+
+    def get_token_dir(self):
+        return self._token_dir
 
     @staticmethod
     def user_agent_header():

@@ -21,6 +21,12 @@ your_app_key = "<your_app_key>"
 your_app_secret = "<your_app_secret>"
 region_id = "<region_id>" # hk or us
 account_id = "<your_account_id>"
+# The token_dir parameter can be used to specify the directory for storing the 2FA token. Both absolute and relative paths are supported and this option has the highest priority.
+# Alternatively, the storage directory can be configured via an environment variable with the key WEBULL_OPENAPI_TOKEN_DIR, which also supports both absolute and relative paths.
+# If neither is specified, the default configuration will be used, and the token will be stored at conf/token.txt under the current working directory.
+# token_dir = "<your_token_dir>"
+# api_client.set_token_dir(token_dir)
+
 api_client = ApiClient(your_app_key, your_app_secret, region_id)
 api_client.add_endpoint(region_id, optional_api_endpoint)
 

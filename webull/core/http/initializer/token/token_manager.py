@@ -34,11 +34,10 @@
 # coding=utf-8
 
 import logging
-import os
 import time
-from pathlib import Path
 
 from webull.core import compat
+from webull.core.http.initializer.token.token_storage import TokenStorage
 from webull.core.utils import desensitize
 from webull.core.exception.exceptions import ClientException
 from webull.core.http.initializer.token.bean.access_token import AccessToken
@@ -47,13 +46,10 @@ from webull.core.http.initializer.token.token_operation import TokenOperation
 logger = logging.getLogger(__name__)
 
 class TokenManager:
-    TOKEN_FILE_NAME = "conf/token.txt"
-    CONF_ENV_TOKEN_DIR = os.getenv("WEBULL_OPENAPI_TOKEN_DIR")
-    DEFAULT_ENV_TOKEN_DIR = os.getcwd()
 
-    def __init__(self):
-        dir_path = Path(self.CONF_ENV_TOKEN_DIR) if self.CONF_ENV_TOKEN_DIR else Path(self.DEFAULT_ENV_TOKEN_DIR)
-        self.token_file_path = dir_path / self.TOKEN_FILE_NAME
+    def __init__(self, custom_token_dir=None):
+        token_storage = TokenStorage(custom_token_dir=custom_token_dir)
+        self.token_file_path = token_storage.get_token_file_path()
 
     def init_token(self, api_client):
         local_access_token = self.load_token_from_local()
@@ -100,7 +96,7 @@ class TokenManager:
     def save_token_to_local(self, server_access_token):
         try:
             logger.info("save_token_to_local writing token to local file. token:%s expires:%s status:%s",
-                        server_access_token.get("token"), server_access_token.get("expires"), server_access_token.get("status"))
+                        desensitize.desensitize_token(server_access_token.get("token")), server_access_token.get("expires"), server_access_token.get("status"))
             self.token_file_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.token_file_path, "w", encoding="utf-8") as f:
                 f.write(server_access_token.get("token") + "\n")
