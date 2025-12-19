@@ -69,6 +69,7 @@ class QuotesClient(mqttc.Client):
         self._http_host = http_host
         self._mqtt_host = mqtt_host
         self._mqtt_port = mqtt_port
+        self._token_dir = None
         self._quotes_decoder = QuotesDecoder()
 
         api_client = ApiClient(app_key, app_secret, region_id)
@@ -158,6 +159,11 @@ class QuotesClient(mqttc.Client):
     def on_quotes_message(self, func):
         with self._callback_mutex:
             self._on_quotes_message = func
+    
+    def set_token_dir(self, token_dir):
+        self._token_dir = token_dir
+        if token_dir:
+            self.api_client.set_token_dir(token_dir)
 
     def register_payload_decoder(self, type, decoder):
         with self._callback_mutex:

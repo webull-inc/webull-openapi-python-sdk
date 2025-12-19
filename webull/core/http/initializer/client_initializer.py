@@ -62,7 +62,7 @@ class ClientInitializer:
             if not ClientInitializer._check_token_enable(api_client):
                 return
 
-        token_manager = TokenManager()
+        token_manager = TokenManager(api_client.get_token_dir())
         token_manager.init_token(api_client)
 
     @staticmethod
