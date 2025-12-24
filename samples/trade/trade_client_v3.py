@@ -208,7 +208,38 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get master order detail res:', res.json())
 
-
+    # batch place order
+    batch_place_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": uuid.uuid4().hex,
+            "instrument_type": "EQUITY",
+            "market": "US",
+            "symbol": "AAPL",
+            "order_type": "MARKET",
+            "entrust_type": "QTY",
+            "support_trading_session": "CORE",
+            "time_in_force": "DAY",
+            "side": "BUY",
+            "quantity": "1"
+        },
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": uuid.uuid4().hex,
+            "instrument_type": "EQUITY",
+            "market": "US",
+            "symbol": "TESL",
+            "order_type": "MARKET",
+            "entrust_type": "QTY",
+            "support_trading_session": "CORE",
+            "time_in_force": "DAY",
+            "side": "BUY",
+            "quantity": "1"
+        }
+    ]
+    res = trade_client.order_v3.batch_place_order(account_id, batch_place_orders)
+    if res.status_code == 200:
+        print('batch place normal equity order res:', res.json())
 
 
     # ============================================================
