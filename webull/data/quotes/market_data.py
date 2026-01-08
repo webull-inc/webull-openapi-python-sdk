@@ -11,9 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from webull.data.common.category import Category
 from webull.data.request.get_batch_historical_bars_request import BatchHistoricalBarsRequest
 from webull.data.request.get_corp_action_request import GetCorpActionRequest
 from webull.data.request.get_eod_bars_request import GetEodBarsRequest
+from webull.data.request.get_footprint_request import GetFootprintRequest
 from webull.data.request.get_historical_bars_request import GetHistoricalBarsRequest
 from webull.data.request.get_quotes_request import GetQuotesRequest
 from webull.data.request.get_snapshot_request import GetSnapshotRequest
@@ -182,4 +184,26 @@ class MarketData:
         if last_update_time is not None:
             eod_corp_action_request.set_last_update_time(last_update_time)
         response = self.client.get_response(eod_corp_action_request)
+        return response
+
+    def get_footprint(self, symbols, category, timespan, count=None,
+                      real_time_required=None, trading_sessions=None):
+        """
+         Search the footprint based on the list of security codes and security types.
+
+        :param symbols: Securities symbol, such as: 00700,00981.
+        :param category: Security type, enumeration.
+        :param timespan: Time granularity.
+        :param count: Number of entries: 200 by default, maximum 1200.
+        :param real_time_required: Whether to include the latest data or candlestick charts that are not yet finalized. The default is false, meaning they are not included. This option is only used for minute candlestick charts.
+        :param trading_sessions: RTH: During trading hours, PRE: Before trading hours, ATH: After trading hours. Default: RTH.
+        """
+        footprint_request = GetFootprintRequest()
+        footprint_request.set_symbols(symbols)
+        footprint_request.set_category(category)
+        footprint_request.set_timespan(timespan)
+        footprint_request.set_count(count)
+        footprint_request.set_real_time_required(real_time_required)
+        footprint_request.set_trading_sessions(trading_sessions)
+        response = self.client.get_response(footprint_request)
         return response

@@ -11,8 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-
+from webull.data.common.category import Category
+from webull.data.request.get_futures_footprint_request import GetFuturesFootprintRequest
 from webull.data.request.get_futures_historical_bars_request import GetFuturesHistoricalBarsRequest
 from webull.data.request.get_futures_snapshot_request import GetFuturesSnapshotRequest
 from webull.data.request.get_futures_depth_request import GetFuturesDepthRequest
@@ -86,4 +86,26 @@ class FuturesMarketData:
         tick_request.set_category(category)
         tick_request.set_count(count)
         response = self.client.get_response(tick_request)
+        return response
+
+    def get_futures_footprint(self, symbols, category, timespan, count=None,
+                      real_time_required=None, trading_sessions=None):
+        """
+         Search the futures footprint based on the list of futures codes and futures types.
+
+        :param symbols: Futures Securities symbol, such as: BITH6,BITF26.
+        :param category: Security type, enumeration.
+        :param timespan: Time granularity.
+        :param count: Number of entries: 200 by default, maximum 1200.
+        :param real_time_required: Whether to include the latest data or candlestick charts that are not yet finalized. The default is false, meaning they are not included. This option is only used for minute candlestick charts.
+        :param trading_sessions: RTH: During trading hours, PRE: Before trading hours, ATH: After trading hours. Default: RTH.
+        """
+        footprint_request = GetFuturesFootprintRequest()
+        footprint_request.set_symbols(symbols)
+        footprint_request.set_category(category)
+        footprint_request.set_timespan(timespan)
+        footprint_request.set_count(count)
+        footprint_request.set_real_time_required(real_time_required)
+        footprint_request.set_trading_sessions(trading_sessions)
+        response = self.client.get_response(footprint_request)
         return response
