@@ -18,6 +18,22 @@ message Snapshot {
   string volume = 8;
   string change = 9;
   string change_ratio = 10;
+
+  string ext_trade_time = 11;
+  string ext_price = 12;
+  string ext_high = 13;
+  string ext_low = 14;
+  string ext_volume = 15;
+  string ext_change = 16;
+  string ext_change_ratio = 17;
+
+  string ovn_trade_time = 18;
+  string ovn_price = 19;
+  string ovn_high = 20;
+  string ovn_low = 21;
+  string ovn_volume = 22;
+  string ovn_change = 23;
+  string ovn_change_ratio = 24;
 }
 
 message Quote {

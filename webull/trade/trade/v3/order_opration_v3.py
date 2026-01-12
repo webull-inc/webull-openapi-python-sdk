@@ -14,6 +14,7 @@
 # coding=utf-8
 from webull.trade.request.v3.preview_order_request import PreviewOrderRequest
 from webull.trade.request.v3.place_order_request import PlaceOrderRequest
+from webull.trade.request.v3.batch_place_order_request import BatchPlaceOrderRequest
 from webull.trade.request.v3.replace_order_request import ReplaceOrderRequest
 from webull.trade.request.v3.cancel_order_request import CancelOrderRequest
 from webull.trade.request.v3.get_order_detail_request import OrderDetailRequest
@@ -48,6 +49,18 @@ class OrderOperationV3:
         place_order_request.set_client_combo_order_id(client_combo_order_id=client_combo_order_id)
         place_order_request.add_custom_headers_from_order(new_orders)
         response = self.client.get_response(place_order_request)
+        return response
+
+    def batch_place_order(self, account_id, batch_orders):
+        """
+        This interface is currently supported only for Webull US.
+        Support for other regions will be available in future updates.
+        """
+        batch_place_order_request = BatchPlaceOrderRequest()
+        batch_place_order_request.set_account_id(account_id=account_id)
+        batch_place_order_request.set_batch_orders(batch_orders=batch_orders)
+        batch_place_order_request.add_custom_headers_from_order(batch_orders)
+        response = self.client.get_response(batch_place_order_request)
         return response
 
     def replace_order(self, account_id, modify_orders, client_combo_order_id=None):
