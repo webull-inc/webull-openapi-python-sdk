@@ -61,9 +61,9 @@ from webull.core.request import BaseRequest
 from webull.core.retry.retry_condition import RetryCondition
 from webull.core.retry.retry_policy_context import RetryPolicyContext
 from webull.core.utils import common, validation
-from webull.core.vendored.requests import codes
-from webull.core.vendored.requests.structures import CaseInsensitiveDict
-from webull.core.vendored.requests.structures import OrderedDict
+from requests import codes
+from requests.structures import CaseInsensitiveDict
+from requests.structures import OrderedDict
 
 DEFAULT_READ_TIMEOUT = 10
 DEFAULT_CONNECTION_TIMEOUT = 5
@@ -187,7 +187,7 @@ class ApiClient:
         default_agent['Python'] = platform.python_version()
         default_agent['Core'] = __import__('webull.core').__version__
         default_agent['python-requests'] = __import__(
-            'webull.core.vendored.requests.__version__', globals(), locals(),
+            'requests.__version__', globals(), locals(),
             ['vendored', 'requests', '__version__'], 0).__version__
 
         return CaseInsensitiveDict(default_agent)

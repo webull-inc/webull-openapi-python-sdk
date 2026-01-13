@@ -40,7 +40,7 @@ which was part of Alibaba Group.
 """
 
 import sys
-from webull.core.vendored import six
+import six
 
 if six.PY2:
     from base64 import encodestring as b64_encode_bytes

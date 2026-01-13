@@ -42,8 +42,8 @@ from webull.core.exception import error_code
 from webull.core.exception.exceptions import ClientException
 from webull.core.utils import common
 import webull.core.headers as hd
-from webull.core.vendored.six import iteritems
-from webull.core.vendored.six.moves.urllib.parse import quote
+from six import iteritems
+from six.moves.urllib.parse import quote
 import logging
 logger = logging.getLogger(__name__) 
 
