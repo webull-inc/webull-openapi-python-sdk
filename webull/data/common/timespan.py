@@ -16,6 +16,8 @@
 
 from webull.core.common.easy_enum import EasyEnum
 class Timespan(EasyEnum):
+    S5 = (12, "5 Second")
+    S15= (13, "15 Second")
     M1 = (1, "1 minute")
     M5 = (2, "5 minute")
     M15 = (3, "15 minute")
