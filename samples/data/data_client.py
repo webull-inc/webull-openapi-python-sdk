@@ -70,6 +70,10 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get_batch_history_bar:', res.json())
 
+    res = data_client.market_data.get_tick("AAPL", Category.US_STOCK.name, trading_sessions=trading_sessions)
+    if res.status_code == 200:
+        print('get_tick:', res.json())
+
     res = data_client.market_data.get_footprint("AAPL", Category.US_STOCK.name, Timespan.S5.name)
     if res.status_code == 200:
         print('get_footprint:', res.json())
@@ -89,6 +93,10 @@ if __name__ == '__main__':
     res = data_client.futures_market_data.get_futures_tick("SILZ5", Category.US_FUTURES.name, count=10)
     if res.status_code == 200:
         print('get_futures_tick:', res.json())
+
+    res = data_client.futures_market_data.get_futures_snapshot("SILZ5,6BM6", Category.US_FUTURES.name)
+    if res.status_code == 200:
+        print('get_futures_snapshot:', res.json())
 
     res = data_client.futures_market_data.get_futures_footprint("SILZ5,6BM6", Category.US_FUTURES.name, Timespan.S5.name)
     if res.status_code == 200:
