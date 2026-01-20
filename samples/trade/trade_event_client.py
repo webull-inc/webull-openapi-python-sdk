@@ -14,7 +14,8 @@
 
 import logging
 
-from webull.trade.events.types import ORDER_STATUS_CHANGED, EVENT_TYPE_ORDER
+from webull.trade.events.types import ORDER_STATUS_CHANGED, EVENT_TYPE_ORDER, EVENT_TYPE_POSITION, \
+    POSITION_STATUS_CHANGED
 from webull.trade.trade_events_client import TradeEventsClient
 
 your_app_key = "<your_app_key>"
@@ -32,6 +33,8 @@ def my_on_events_message(event_type, subscribe_type, payload, raw_message):
     if EVENT_TYPE_ORDER == event_type and ORDER_STATUS_CHANGED == subscribe_type:
         print('----request_id:%s----' % payload['request_id'])
         print(payload)
+    if EVENT_TYPE_POSITION == event_type and POSITION_STATUS_CHANGED == subscribe_type:
+        print('event payload:%s' % payload)
 
 if __name__ == '__main__':
 

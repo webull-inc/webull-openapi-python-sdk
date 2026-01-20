@@ -69,7 +69,7 @@ class TradeEventsClient():
 
     def _build_request(self, app_key, app_secret, accounts):
         request = pb.SubscribeRequest(
-            subscribeType=1,  # only 1 allowed now
+            subscribeType= 3,  # only 1、2 allowed now
             timestamp=int(time.time() * 1000),  # millis
             accounts=accounts,
         )

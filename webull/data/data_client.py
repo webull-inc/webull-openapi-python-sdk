@@ -19,6 +19,7 @@ import sys
 
 from webull.core.http.initializer.client_initializer import ClientInitializer
 from webull.data.quotes.crypto_market_data import CryptoMarketData
+from webull.data.quotes.event_market_data import EventMarketData
 from webull.data.quotes.futures_market_data import FuturesMarketData
 from webull.data.quotes.instrument import Instrument
 from webull.data.quotes.market_data import MarketData
@@ -32,6 +33,7 @@ class DataClient:
         self.market_data = MarketData(api_client)
         self.crypto_market_data = CryptoMarketData(api_client)
         self.futures_market_data = FuturesMarketData(api_client)
+        self.event_market_data = EventMarketData(api_client)
 
     def _init_logger(self, api_client):
         # No logger configured, using default console and local file logging.
