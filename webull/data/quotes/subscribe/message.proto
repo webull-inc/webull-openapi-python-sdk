@@ -66,3 +66,30 @@ message Broker {
   string bid = 1;
   string name = 2;
 }
+
+message EventSnapshot {
+    Basic basic = 1;
+    string price = 2;
+    string volume = 3;
+    string last_trade_time = 4;
+    string open_interest = 5;
+    string yes_ask = 6;
+    string yes_bid = 7;
+    string yes_ask_size = 8;
+    string yes_bid_size = 9;
+    string no_ask = 10;
+    string no_bid = 11;
+    string no_ask_size = 12;
+    string no_bid_size = 13;
+}
+
+message EventQuote {
+    Basic basic = 1;
+    repeated EventAskBid yes_bids = 2;
+    repeated EventAskBid no_bids = 3;
+}
+
+message EventAskBid {
+    string price = 1;
+    string size = 2;
+}

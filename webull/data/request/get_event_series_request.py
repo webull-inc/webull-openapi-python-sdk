@@ -14,15 +14,17 @@
 
 # coding=utf-8
 
-from webull.core.common.easy_enum import EasyEnum
+from webull.core.request import ApiRequest
 
-class Category(EasyEnum):
-    US_STOCK = (1, 'US STOCK')
-    US_OPTION = (2, 'US OPTION')
-    HK_STOCK = (3, 'HK STOCK')
-    US_ETF = (5, 'US ETF')
-    HK_ETF = (6, 'HK ETF')
-    CN_STOCK = (7, "CN STOCK")
-    US_CRYPTO = (8, "US CRYPTO")
-    US_FUTURES = (12, "US FUTURES")
-    US_EVENT = (13, "US EVENT")
+class GetEventSeriesRequest(ApiRequest):
+    def __init__(self):
+        ApiRequest.__init__(self, "/openapi/instrument/event/series/list", version='v2', method="GET", query_params={})
+
+    def set_category(self, category):
+        self.add_query_param("category", category)
+
+    def set_last_instrument_id(self, last_instrument_id):
+        self.add_query_param("last_instrument_id", last_instrument_id)
+
+    def set_page_size(self, page_size):
+        self.add_query_param("page_size", page_size)

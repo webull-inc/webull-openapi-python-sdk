@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from webull.data.common.category import Category
+from webull.data.request.get_event_instrument_request import GetEventInstrumentRequest
+from webull.data.request.get_event_series_request import GetEventSeriesRequest
 from webull.data.request.get_instruments_request import GetInstrumentsRequest
 from webull.data.request.get_crypto_instruments_request import GetCryptoInstrumentsRequest
 from webull.data.request.get_futures_instruments_request import GetFuturesInstrumentsRequest
@@ -107,4 +109,45 @@ class Instrument:
         if contract_type:
             futures_instrument_request.set_contract_type(contract_type)
         response = self.client.get_response(futures_instrument_request)
+        return response
+
+    def get_event_series(self, category, last_instrument_id=None, page_size=500):
+        """
+        Retrieve multiple series with specified filters.
+        A series represents a template for recurring events that follow the same format and rules (e.g., “Monthly Jobs Report” ).
+        This endpoint allows you to browse and discover available series templates by category.
+
+        :param category: The category which this series belongs to.Allowed values:
+                        ECONOMICS, FINANCIALS, POLITICS, ENTERTAINMENT, SCIENCE_TECHNOLOGY,
+                        CLIMATE_WEATHER, TRANSPORTATION, CRYPTO, SPORTS
+        :param last_instrument_id: Last series id for pagination.
+        :param page_size: Page size, default 500.
+        """
+
+        event_series_request = GetEventSeriesRequest()
+        event_series_request.set_category(category)
+        if last_instrument_id:
+            event_series_request.set_last_instrument_id(last_instrument_id)
+        event_series_request.set_page_size(page_size)
+        response = self.client.get_response(event_series_request)
+        return response
+
+    def get_event_instrument(self, series_symbol, expiration_date_after=None, last_instrument_id=None, page_size=500):
+        """
+        Retrieve profile information for event contract markets based on the series symbol.
+
+        :param series_symbol: Symbol that identifies this series.
+        :param expiration_date_after: Used to filter items whose expiration date is later than a specified date; the default selection is the current day (inclusive).
+        :param last_instrument_id: Last series id for pagination.
+        :param page_size: Page size, default 500.
+        """
+
+        event_instrument_request = GetEventInstrumentRequest()
+        event_instrument_request.set_series_symbol(series_symbol)
+        if expiration_date_after:
+            event_instrument_request.set_expiration_date_after(expiration_date_after)
+        if last_instrument_id:
+            event_instrument_request.set_last_instrument_id(last_instrument_id)
+        event_instrument_request.set_page_size(page_size)
+        response = self.client.get_response(event_instrument_request)
         return response

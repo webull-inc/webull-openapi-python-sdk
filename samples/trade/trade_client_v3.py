@@ -455,3 +455,66 @@ if __name__ == '__main__':
     res = trade_client.order_v3.get_order_history(account_id, page_size=10)
     if res.status_code == 200:
         print('get order history res:', res.json())
+
+    # ============================================================
+    # Algo Order Example
+    # ============================================================
+    alog_client_order_id = uuid.uuid4().hex
+    print('client order id:', alog_client_order_id)
+    new_normal_equity_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": alog_client_order_id,
+            "symbol": "AAPL",
+            "instrument_type": "EQUITY",
+            "market": "US",
+            "order_type": "LIMIT",
+            "limit_price": "188",
+            "quantity": "1",
+            "support_trading_session": "N",
+            "side": "BUY",
+            "time_in_force": "DAY",
+            "entrust_type": "QTY",
+            "algo_start_time": "16:00:00",
+            "algo_end_time": "23:00:00",
+            "target_vol_percent": "10",
+            "algo_type": "POV"
+        }
+    ]
+
+    res = trade_client.order_v3.preview_order(account_id, new_normal_equity_orders)
+    if res.status_code == 200:
+        print('preview algo order res:', res.json())
+
+    res = trade_client.order_v3.place_order(account_id, new_normal_equity_orders)
+    if res.status_code == 200:
+        print('place algo order res:', res.json())
+    sleep(3)
+
+    replace_normal_equity_orders = [
+        {
+            "client_order_id": alog_client_order_id,
+            "quantity": "100",
+            "limit_price": "200"
+        }
+    ]
+    res = trade_client.order_v3.replace_order(account_id, replace_normal_equity_orders)
+    if res.status_code == 200:
+        print('replace algo order res:', res.json())
+    sleep(3)
+
+    res = trade_client.order_v3.cancel_order(account_id, alog_client_order_id)
+    if res.status_code == 200:
+        print('cancel algo order res:', res.json())
+
+    res = trade_client.order_v3.get_order_open(account_id=account_id)
+    if res.status_code == 200:
+        print("order_open_res=" + json.dumps(res.json(), indent=4))
+
+    res = trade_client.order_v3.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v3.get_order_detail(account_id, alog_client_order_id)
+    if res.status_code == 200:
+        print('get order detail res:', res.json())

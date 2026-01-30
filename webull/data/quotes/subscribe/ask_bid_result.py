@@ -22,11 +22,11 @@ class AskBidResult:
         self.price = Decimal(ask_bid.price) if ask_bid.price else None
         self.size = ask_bid.size
         self.order = []
-        if ask_bid.order:
+        if hasattr(ask_bid, 'order') and ask_bid.order:
             for order in ask_bid.order:
                 self.order.append(Order(order))
         self.broker = []
-        if ask_bid.broker:
+        if hasattr(ask_bid, 'broker') and ask_bid.broker:
             for broker in ask_bid.broker:
                 self.broker.append(Broker(broker))
 
@@ -43,7 +43,13 @@ class AskBidResult:
         return self.broker
 
     def __repr__(self):
-        return "price:%s,size:%s,order:%s,broker:%s" % (self.price, self.size, self.order, self.broker)
+        result = f"price:{self.price},size:{self.size}"
+        # 可选字段
+        if self.order:
+            result += f",order:{str(self.order)}"
+        if self.broker:
+            result += f",broker:{str(self.broker)}"
+        return result
 
     def __str__(self):
         return self.__repr__()

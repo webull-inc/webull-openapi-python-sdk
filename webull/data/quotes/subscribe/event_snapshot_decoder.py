@@ -11,18 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 # coding=utf-8
 
-from webull.core.common.easy_enum import EasyEnum
+from webull.data.quotes.subscribe.message_pb2 import EventSnapshot
+from webull.data.quotes.subscribe.event_snapshot_result import EventSnapshotResult
+from webull.data.internal.quotes_payload_decoder import BaseQuotesPayloadDecoder
 
-class Category(EasyEnum):
-    US_STOCK = (1, 'US STOCK')
-    US_OPTION = (2, 'US OPTION')
-    HK_STOCK = (3, 'HK STOCK')
-    US_ETF = (5, 'US ETF')
-    HK_ETF = (6, 'HK ETF')
-    CN_STOCK = (7, "CN STOCK")
-    US_CRYPTO = (8, "US CRYPTO")
-    US_FUTURES = (12, "US FUTURES")
-    US_EVENT = (13, "US EVENT")
+
+
+class EventSnapshotDecoder(BaseQuotesPayloadDecoder):
+    def __init__(self):
+        super().__init__()
+
+    def parse(self, payload):
+        eventSnapshot = EventSnapshot()
+        eventSnapshot.ParseFromString(payload)
+        return EventSnapshotResult(eventSnapshot)

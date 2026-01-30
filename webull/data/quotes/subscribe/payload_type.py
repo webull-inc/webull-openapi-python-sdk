@@ -17,3 +17,5 @@
 PAYLOAD_TYPE_QUOTE = 'quote'
 PAYLOAD_TYPE_SHAPSHOT = 'snapshot'
 PAYLOAD_TYPE_TICK = 'tick'
+PAYLOAD_TYPE_EVENT_DEPTH = 'event-quote'
+PAYLOAD_TYPE_EVENT_SHAPSHOT = 'event-snapshot'
