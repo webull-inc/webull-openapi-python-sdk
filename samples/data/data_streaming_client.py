@@ -87,5 +87,3 @@ if __name__ == '__main__':
 
     # the sync mode, blocking in current thread
     data_streaming_client.connect_and_loop_forever()
-
-

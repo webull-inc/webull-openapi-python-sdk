@@ -41,13 +41,11 @@ which was part of Alibaba Group.
 
 import abc
 from webull.core.auth.algorithm import sha_hmac1
-from webull.core.vendored.six import iterkeys
-from webull.core.vendored.six import iteritems
-from webull.core.vendored.six import add_metaclass
+from six import add_metaclass
 from webull.core.http import protocol_type
 from webull.core.exception import exceptions, error_code
-from webull.core.vendored.requests.structures import CaseInsensitiveDict
-from webull.core.vendored.six.moves.urllib.parse import urlencode
+from requests.structures import CaseInsensitiveDict
+from six.moves.urllib.parse import urlencode
 from webull.core.auth.composer import default_signature_composer as sc
 import webull.core.headers as hd
 

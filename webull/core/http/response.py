@@ -41,10 +41,10 @@ which was part of Alibaba Group.
 
 import os
 import logging
-from webull.core.vendored.requests import Request, Session
+from requests import Request, Session
 from webull.core.http.request import Request as HttpRequest
 from webull.core.http import protocol_type as PT
-from webull.core.vendored.requests import status_codes
+from requests import status_codes
 
 
 logger = logging.getLogger(__name__)

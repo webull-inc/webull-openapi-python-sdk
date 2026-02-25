@@ -40,7 +40,7 @@ which was part of Alibaba Group.
 """
 
 from abc import ABCMeta, abstractmethod
-from webull.core.vendored.six import with_metaclass
+from six import with_metaclass
 
 class Signer(with_metaclass(ABCMeta, object)):
     @abstractmethod

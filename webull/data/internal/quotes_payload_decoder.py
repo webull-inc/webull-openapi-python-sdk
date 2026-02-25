@@ -14,7 +14,7 @@
 
 # coding=utf-8
 import abc
-from webull.core.vendored.six import add_metaclass
+from six import add_metaclass
 
 
 @add_metaclass(abc.ABCMeta)

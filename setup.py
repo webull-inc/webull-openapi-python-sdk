@@ -16,16 +16,33 @@ with open("README.rst") as fp:
 
 requires = [
     "jmespath>=0.9.3,<1.0.0",
-    "cryptography>=2.6.0",
-    "cachetools==5.2.0",
-    "paho-mqtt==1.6.1",
-    "protobuf==4.21.12",
-    "grpcio==1.51.1",
-    "grpcio-tools==1.51.1"
+    "cachetools>=5.2.0,<6",
+    "paho-mqtt>=1.6.1,<2",
+    "urllib3>=2.0",
+    "requests>=2.31.0",
+    "six>=1.16.0",
+
+    # cryptography
+    "cryptography>=3.4,<42; python_version<'3.12'",
+    "cryptography>=41.0,<43; python_version>='3.12'",
+
+    # protobuf
+    "protobuf>=4.21.12,<5; python_version<'3.12'",
+    "protobuf>=4.25.0,<6; python_version>='3.12'",
+
+    # grpc
+    "grpcio>=1.51.1,<1.60; python_version<'3.12'",
+    "grpcio>=1.60.0,<1.70; python_version>='3.12'"
 ]
 
+extras_require = {
+    "dev": [
+        "grpcio-tools>=1.60,<1.70",
+    ]
+}
+
 setup_args = {
-    'python_requires':'>=3.8,<3.12',
+    'python_requires':'>=3.8,<3.14',
     'version': VERSION,
     'author': AUTHOR,
     'author_email': AUTHOR_EMAIL,
