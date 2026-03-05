@@ -38,6 +38,7 @@ which was part of Alibaba Group.
 """
 
 from webull.core.auth.algorithm import sha_hmac1
+from webull.core.auth.algorithm import sha_hmac256_new
 from webull.core.exception import error_code
 from webull.core.exception.exceptions import ClientException
 from webull.core.utils import common
@@ -51,27 +52,36 @@ PARAM_KV_JOIN = "="
 PARAMS_JOIN = "&"
 SECRET_TAILER = "&"
 
-def _refresh_sign_headers(host, headers, app_key_id, signer_spec=sha_hmac1):
+def _refresh_sign_headers(host, headers, app_key_id, signer_spec):
     if not host:
         raise ClientException(error_code.SDK_INVALID_PARAMETER)
     sign_headers = {}
     sign_headers[hd.APP_KEY] = app_key_id
     sign_headers[hd.TIMESTAMP] = common.get_iso_8601_date()
+
+    if common.is_not_upgrade_api_host(host):
+        signer_spec = sha_hmac256_new
+    else:
+        signer_spec = sha_hmac1
+
     sign_headers[hd.SIGN_VERSION] = signer_spec.get_signer_version()
     sign_headers[hd.SIGN_ALGORITHM] = signer_spec.get_signer_name()
     sign_headers[hd.NONCE] = common.get_uuid()
     headers.update(sign_headers)
     # DO NOT PUT Host Header in headers object, just put into sign_headers
     sign_headers[hd.NATIVE_HOST] = host
-    return sign_headers
+    return sign_headers,signer_spec
 
-def _gen_signature(string_to_sign, secret, signer_spec=sha_hmac1):
+def _gen_signature(string_to_sign, secret, signer_spec):
     return signer_spec.get_sign_string(string_to_sign, secret + SECRET_TAILER)
 
-def _get_body_string(body_params):
+def _get_body_string(body_params, signer_spec):
     if body_params is not None:
         raw_str = common.json_dumps_compact(body_params)
-        hex_digest = common.md5_hex(raw_str)
+        if signer_spec == sha_hmac256_new:
+            hex_digest = common.sha256_hex(raw_str)
+        else:
+            hex_digest = common.md5_hex(raw_str)
         return hex_digest.upper()
     else:
         return None
@@ -100,8 +110,8 @@ def _lower_key_dict(od):
         lower_key_dict[k.lower()] = v
     return lower_key_dict
 
-def calc_signature(headers, host, uri, queries, body_params, app_key_id, app_key_secret, signer_spec=sha_hmac1):
-    sign_headers = _refresh_sign_headers(host, headers, app_key_id, signer_spec)
+def calc_signature(headers, host, uri, queries, body_params, app_key_id, app_key_secret, signer_spec):
+    sign_headers,signer_spec = _refresh_sign_headers(host, headers, app_key_id, signer_spec)
     logger.debug("sign_headers:%s", sign_headers)
     sign_params = _lower_key_dict(sign_headers)
     logger.debug("sign_queries:%s", queries)
@@ -114,7 +124,7 @@ def calc_signature(headers, host, uri, queries, body_params, app_key_id, app_key
                 cv = str(v)
             sign_params[k] = cv
     logger.debug("body:%s", body_params)
-    body_string = _get_body_string(body_params)
+    body_string = _get_body_string(body_params, signer_spec)
     logger.debug("body_string:%s" % body_string)
     string_to_sign = _build_sign_string(sign_params, uri, body_string)
     logger.debug("string_to_sign:%s" % string_to_sign)
@@ -122,4 +132,3 @@ def calc_signature(headers, host, uri, queries, body_params, app_key_id, app_key
     headers[hd.SIGNATURE] = signature
     logger.debug("signature:%s", signature)
     return signature
-

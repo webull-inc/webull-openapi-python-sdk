@@ -19,7 +19,10 @@ import threading
 import time
 
 import grpc
+
+from webull.core.auth.algorithm import sha_hmac256_new, sha_hmac1
 from webull.core.common import api_type
+from webull.core.utils import common
 from webull.core.endpoint.default_endpoint_resolver import \
     DefaultEndpointResolver
 from webull.core.endpoint.resolver_endpoint_request import \
@@ -77,7 +80,21 @@ class TradeEventsClient():
             timestamp=int(time.time() * 1000),  # millis
             accounts=accounts,
         )
-        signature, metadata = calc_signature(app_key, app_secret, request)
+        if common.is_not_upgrade_api_host(self._host):
+            signer_spec = sha_hmac256_new
+        else:
+            signer_spec = sha_hmac1
+
+        signature, metadata = calc_signature(app_key, app_secret, request, signer_spec)
+        
+        # Print detailed request parameters
+        print("\n=== gRPC Request Details ===")
+        print(f"Request: {request}")
+        print(f"Signature: {signature}")
+        print(f"Metadata: {metadata}")
+        print(f"Signer Spec: {signer_spec.__name__ if hasattr(signer_spec, '__name__') else signer_spec}")
+        print("=============================\n")
+        
         return request, metadata
 
     def _stream_processing(self, stub, accounts):
@@ -226,6 +243,14 @@ class TradeEventsClient():
 
     def do_subscribe(self, accounts):
         target = self._host + ":" + str(self._port)
+        # Print gRPC connection parameters
+        print("\n=== gRPC Connection Parameters ===")
+        print(f"Host: {self._host}")
+        print(f"Port: {self._port}")
+        print(f"Target: {target}")
+        print(f"TLS Enabled: {self._tls_enable}")
+        print("==================================\n")
+        
         if self._tls_enable:
             ssl_channel_credentials = grpc.ssl_channel_credentials()
             with grpc.secure_channel(target, ssl_channel_credentials) as channel:
