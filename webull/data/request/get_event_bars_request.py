@@ -16,15 +16,10 @@
 
 from webull.core.request import ApiRequest
 
-class GetEventInstrumentRequest(ApiRequest):
+
+class GetEventBarsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/event/market/list", version='v2', method="GET", query_params={})
-
-    def set_series_symbol(self, series_symbol):
-        self.add_query_param("series_symbol", series_symbol)
-
-    def set_event_symbol(self, event_symbol):
-        self.add_query_param("event_symbol", event_symbol)
+        ApiRequest.__init__(self, "/openapi/market-data/event/bars", version='v2', method="GET", query_params={})
 
     def set_symbols(self, symbols):
         if isinstance(symbols, str):
@@ -32,11 +27,17 @@ class GetEventInstrumentRequest(ApiRequest):
         elif isinstance(symbols, list):
             self.add_query_param("symbols", ",".join(symbols))
 
-    def set_expiration_date_after(self, expiration_date_after):
-        self.add_query_param("expiration_date_after", expiration_date_after)
+    def set_category(self, category):
+        self.add_query_param("category", category)
 
-    def set_last_instrument_id(self, last_instrument_id):
-        self.add_query_param("last_instrument_id", last_instrument_id)
+    def set_timespan(self, timespan):
+        if timespan:
+            self.add_query_param("timespan", timespan)
 
-    def set_page_size(self, page_size):
-        self.add_query_param("page_size", page_size)
+    def set_count(self, count):
+        if count:
+            self.add_query_param("count", count)
+
+    def set_real_time_required(self, real_time_required):
+        if real_time_required:
+            self.add_query_param("real_time_required", real_time_required)

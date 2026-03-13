@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from webull.data.common.timespan import Timespan
 
 # coding=utf-8
 
@@ -35,11 +36,19 @@ api_client.add_endpoint(region_id, optional_api_endpoint)
 if __name__ == '__main__':
     data_client = DataClient(api_client)
 
+    res = data_client.instrument.get_event_categories()
+    if res.status_code == 200:
+        print('get_event_categories:', res.json())
+
     res = data_client.instrument.get_event_series("ECONOMICS")
     if res.status_code == 200:
         print('get_event_series:', res.json())
 
-    res = data_client.instrument.get_event_instrument("KXGDP")
+    res = data_client.instrument.get_event_events("KXRATECUTCOUNT")
+    if res.status_code == 200:
+        print('get_event_events:', res.json())
+
+    res = data_client.instrument.get_event_instrument("KXRATECUTCOUNT")
     if res.status_code == 200:
         print('get_event_instrument:', res.json())
 
@@ -50,3 +59,11 @@ if __name__ == '__main__':
     res = data_client.event_market_data.get_event_depth("KXRATECUTCOUNT-25DEC31-T10", Category.US_EVENT.name)
     if res.status_code == 200:
         print('get_event_depth:', res.json())
+
+    res = data_client.event_market_data.get_event_bars("KXRATECUTCOUNT-25DEC31-T10", Timespan.M1, Category.US_EVENT.name, 200, False)
+    if res.status_code == 200:
+        print('get_event_bars:', res.json())
+
+    res = data_client.event_market_data.get_event_tick("KXRATECUTCOUNT-25DEC31-T10", Category.US_EVENT.name, 30)
+    if res.status_code == 200:
+        print('get_event_tick:', res.json())

@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from webull.data.common.category import Category
+from webull.data.request.get_event_events_request import GetEventEventsRequest
 from webull.data.request.get_event_instrument_request import GetEventInstrumentRequest
+from webull.data.request.get_event_series_categories import GetEventCategoriesRequest
 from webull.data.request.get_event_series_request import GetEventSeriesRequest
 from webull.data.request.get_instruments_request import GetInstrumentsRequest
 from webull.data.request.get_crypto_instruments_request import GetCryptoInstrumentsRequest
@@ -111,7 +113,15 @@ class Instrument:
         response = self.client.get_response(futures_instrument_request)
         return response
 
-    def get_event_series(self, category, last_instrument_id=None, page_size=500):
+    def get_event_categories(self):
+        """
+        Query event contract categories
+        """
+        event_categories_request = GetEventCategoriesRequest()
+        response = self.client.get_response(event_categories_request)
+        return response
+
+    def get_event_series(self, category=None, symbols=None, last_series_id=None, page_size=500):
         """
         Retrieve multiple series with specified filters.
         A series represents a template for recurring events that follow the same format and rules (e.g., “Monthly Jobs Report” ).
@@ -120,30 +130,57 @@ class Instrument:
         :param category: The category which this series belongs to.Allowed values:
                         ECONOMICS, FINANCIALS, POLITICS, ENTERTAINMENT, SCIENCE_TECHNOLOGY,
                         CLIMATE_WEATHER, TRANSPORTATION, CRYPTO, SPORTS
-        :param last_instrument_id: Last series id for pagination.
+        :param symbols: Symbol of the event series, supports JSON array format, multiple symbols separated by commas; maximum 100 symbols per query.
+        :param last_series_id: Last series id for pagination.
         :param page_size: Page size, default 500.
         """
 
         event_series_request = GetEventSeriesRequest()
-        event_series_request.set_category(category)
-        if last_instrument_id:
-            event_series_request.set_last_instrument_id(last_instrument_id)
+        if category:
+            event_series_request.set_category(category)
+        if symbols:
+            event_series_request.set_symbols(symbols)
+        if last_series_id:
+            event_series_request.set_last_series_id(last_series_id)
         event_series_request.set_page_size(page_size)
         response = self.client.get_response(event_series_request)
         return response
 
-    def get_event_instrument(self, series_symbol, expiration_date_after=None, last_instrument_id=None, page_size=500):
+    def get_event_events(self, series_symbol, symbols=None, status=None):
+        """
+        Query event contract events
+
+        :param series_symbol: Series Symbol that identifies this series.
+        :param symbols: Symbol of the event events, supports JSON array format, multiple symbols separated by commas; maximum 100 symbols per query.
+        :param status: Event status (optional, defaults to querying tradable/valid events).
+        """
+        event_events_request = GetEventEventsRequest()
+        event_events_request.set_series_symbol(series_symbol)
+        if symbols:
+            event_events_request.set_symbols(symbols)
+        if status:
+            event_events_request.set_status(status)
+        response = self.client.get_response(event_events_request)
+        return response
+
+    def get_event_instrument(self, series_symbol, event_symbol=None, symbols=None, expiration_date_after=None, last_instrument_id=None, page_size=500):
         """
         Retrieve profile information for event contract markets based on the series symbol.
 
         :param series_symbol: Symbol that identifies this series.
+        :param event_symbol: Symbol of the event events.
+        :param symbols: Symbol of the event market, supports JSON array format, multiple symbols separated by commas; maximum 100 symbols per query.
         :param expiration_date_after: Used to filter items whose expiration date is later than a specified date; the default selection is the current day (inclusive).
-        :param last_instrument_id: Last series id for pagination.
+        :param last_instrument_id: Last instrument id for pagination.
         :param page_size: Page size, default 500.
         """
 
         event_instrument_request = GetEventInstrumentRequest()
         event_instrument_request.set_series_symbol(series_symbol)
+        if event_symbol:
+            event_instrument_request.set_event_symbol(event_symbol)
+        if symbols:
+            event_instrument_request.set_symbols(symbols)
         if expiration_date_after:
             event_instrument_request.set_expiration_date_after(expiration_date_after)
         if last_instrument_id:

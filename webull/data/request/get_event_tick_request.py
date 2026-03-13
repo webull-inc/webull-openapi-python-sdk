@@ -16,21 +16,17 @@
 
 from webull.core.request import ApiRequest
 
-class GetEventSeriesRequest(ApiRequest):
+
+class GetEventTickRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/event/series/list", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/event/tick", version='v2', method="GET", query_params={})
+
+    def set_symbol(self, symbol):
+        self.add_query_param("symbol", symbol)
 
     def set_category(self, category):
         self.add_query_param("category", category)
 
-    def set_symbols(self, symbols):
-        if isinstance(symbols, str):
-            self.add_query_param("symbols", symbols)
-        elif isinstance(symbols, list):
-            self.add_query_param("symbols", ",".join(symbols))
-
-    def set_last_series_id(self, last_series_id):
-            self.add_query_param("last_series_id", last_series_id)
-
-    def set_page_size(self, page_size):
-        self.add_query_param("page_size", page_size)
+    def set_count(self, count):
+        if count:
+            self.add_query_param("count", count)
