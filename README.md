@@ -1,4 +1,5 @@
 # Webull OpenAPI Python SDK
+Note: This is the new version of the Webull SDK, currently applicable only to Webull Hong Kong or Webull US customers.
 
 Webull OpenAPI aims to provide quantitative trading investors with convenient, fast and secure services. Webull aims to help every quant traders achieve flexible and changeable trading or market strategies.
 
