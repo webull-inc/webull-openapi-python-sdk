@@ -14,9 +14,11 @@
 
 # coding=utf-8
 
-PAYLOAD_TYPE_QUOTE = 'quote'
-PAYLOAD_TYPE_SHAPSHOT = 'snapshot'
-PAYLOAD_TYPE_TICK = 'tick'
-PAYLOAD_TYPE_EVENT_DEPTH = 'event-quote'
-PAYLOAD_TYPE_EVENT_SHAPSHOT = 'event-snapshot'
-PAYLOAD_TYPE_EVENT_TICK = 'event-tick'
+from webull.core.common.easy_enum import EasyEnum
+
+
+class OrderStatus(EasyEnum):
+    BUY_TO_OPEN = (1, "BUY_TO_OPEN")
+    BUY_TO_CLOSE = (2, "BUY_TO_CLOSE")
+    SELL_TO_OPEN = (3, "SELL_TO_OPEN")
+    SELL_TO_CLOSE = (4, "SELL_TO_CLOSE")

@@ -43,7 +43,7 @@ if __name__ == '__main__':
         print("connect success with session_id:%s" % quotes_session_id)
         # subscribe
         symbols = ['KXNHLGAME-26JAN21ANACOL-ANA', 'KXNBAGAME-26JAN20LACCHI-LAC']
-        sub_types = [SubscribeType.QUOTE.name, SubscribeType.SNAPSHOT.name]
+        sub_types = [SubscribeType.QUOTE.name, SubscribeType.SNAPSHOT.name, SubscribeType.TICK.name]
         client.subscribe(symbols, Category.US_EVENT.name, sub_types)
 
     def my_quotes_message_func(client, topic, quotes):
