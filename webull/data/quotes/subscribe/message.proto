@@ -93,3 +93,13 @@ message EventAskBid {
     string price = 1;
     string size = 2;
 }
+
+message EventTick {
+    Basic basic = 1;
+    string yes_price = 2;
+    string no_price = 3;
+    string volume = 4;
+    string side = 5;
+    string trade_id = 6;
+    string time = 7;
+}

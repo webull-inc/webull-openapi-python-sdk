@@ -11,12 +11,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 # coding=utf-8
 
-PAYLOAD_TYPE_QUOTE = 'quote'
-PAYLOAD_TYPE_SHAPSHOT = 'snapshot'
-PAYLOAD_TYPE_TICK = 'tick'
-PAYLOAD_TYPE_EVENT_DEPTH = 'event-quote'
-PAYLOAD_TYPE_EVENT_SHAPSHOT = 'event-snapshot'
-PAYLOAD_TYPE_EVENT_TICK = 'event-tick'
+from webull.data.quotes.subscribe.message_pb2 import EventTick
+from webull.data.quotes.subscribe.event_tick_result import EventTickResult
+
+from webull.data.internal.quotes_payload_decoder import BaseQuotesPayloadDecoder
+
+
+
+class EventTickDecoder(BaseQuotesPayloadDecoder):
+    def __init__(self):
+        super().__init__()
+
+    def parse(self, payload):
+        eventTick = EventTick()
+        eventTick.ParseFromString(payload)
+        return EventTickResult(eventTick)

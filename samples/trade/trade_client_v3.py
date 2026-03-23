@@ -247,6 +247,7 @@ if __name__ == '__main__':
     # ============================================================
 
     # normal option order
+    # position_intent: Currently, only the US market is supported, and only options orders are allowed.
     normal_option_client_order_id = uuid.uuid4().hex
     new_normal_option_orders = [
         {
@@ -259,6 +260,7 @@ if __name__ == '__main__':
             "side": "BUY",
             "time_in_force": "GTC",
             "entrust_type": "QTY",
+            "position_intent": "BUY_TO_OPEN",
             "legs": [
                 {
                     "side": "BUY",
