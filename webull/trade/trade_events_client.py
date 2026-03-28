@@ -68,8 +68,12 @@ class TradeEventsClient():
         self._on_log = None
 
     def _build_request(self, app_key, app_secret, accounts):
+        if self._region_id == 'us':
+            subscribeType = 3
+        else:
+            subscribeType = 1
         request = pb.SubscribeRequest(
-            subscribeType= 3,  # only 1、2 allowed now
+            subscribeType= subscribeType, # 1、2、3 allowed now
             timestamp=int(time.time() * 1000),  # millis
             accounts=accounts,
         )
