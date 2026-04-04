@@ -87,7 +87,7 @@ def _build_sign_string(sign_params, uri, body_string):
     if string_to_sign:
         string_to_sign = string_to_sign + PARAMS_JOIN + PARAMS_JOIN.join(sorted_array)
     else:
-        string_to_sign = PARAM_KV_JOIN.join(sorted_array)
+        string_to_sign = PARAMS_JOIN.join(sorted_array)
     if body_string:
         string_to_sign = string_to_sign + PARAMS_JOIN + body_string
     # All characters except alphabetic characters, digits, -, ., _, ~ will be encoded as %XX.
