@@ -41,6 +41,7 @@ which was part of Alibaba Group.
 
 import json
 import logging
+import os
 import platform
 import time
 from logging.handlers import TimedRotatingFileHandler
@@ -69,6 +70,8 @@ DEFAULT_READ_TIMEOUT = 10
 DEFAULT_CONNECTION_TIMEOUT = 5
 DEFAULT_PORT = 443
 DEFAULT_REGION_ID = "us"
+DEFAULT_CLIENT_SOURCE = "sdk"
+CLIENT_SOURCE_ENV = "WEBULL_CLIENT_SOURCE"
 
 logger = logging.getLogger(__name__)
 
@@ -254,6 +257,7 @@ class ApiClient:
         headers['User-Agent'] = self._compose_ua(request)
         if self.get_token():
             headers['x-access-token'] = self.get_token()
+        headers[hd.CLIENT_SOURCE] = self._get_client_source()
 
         protocol = request.get_protocol_type()
         url = request.get_url()
@@ -270,6 +274,15 @@ class ApiClient:
             verify=self.get_verify())
         response.set_content(body, "utf-8")
         return response
+
+    @staticmethod
+    def _get_client_source():
+        client_source = os.environ.get(CLIENT_SOURCE_ENV)
+        if client_source is not None:
+            client_source = client_source.strip()
+            if client_source:
+                return client_source
+        return DEFAULT_CLIENT_SOURCE
     
     def _implementation_of_do_action(self, request, signer=None):
         if not isinstance(request, BaseRequest):
