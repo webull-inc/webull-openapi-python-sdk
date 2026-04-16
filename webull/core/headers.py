@@ -40,6 +40,7 @@ which was part of Alibaba Group.
 """
 
 REQUEST_ID = "X-Request-Id"
+CLIENT_SOURCE = "x-webull-client-source"
 APP_KEY = "x-app-key"
 SIGNATURE = "x-signature"
 SIGN_ALGORITHM = "x-signature-algorithm"
