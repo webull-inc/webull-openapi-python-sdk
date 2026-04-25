@@ -22,7 +22,7 @@ Subscription to real-time information: Subscribe to order status changes, market
 |-----------|-------------------------------------------------|
 | Webull HK | https://www.webull.hk/open-api                  |
 | Webull US | https://www.webull.com/center#openApiManagement |
-| Webull JP | https://www.webull.co.jp/center/openapi/manage |
+| Webull JP | https://www.webull.co.jp/center/openapi/manage  |
 
 - Requires Python 3.7 through 3.11.
 
