@@ -14,14 +14,14 @@
 
 # coding=utf-8
 from asyncio.log import logger
-from webull.core.auth.algorithm import sha_hmac1
+from webull.core.auth.algorithm import sha_hmac1, sha_hmac256_new
 from webull.core.auth.composer import default_signature_composer
 import webull.core.headers as hd
 import webull.core.utils.common as core_common
 import logging
 logger = logging.getLogger(__name__)
 
-def _build_sign_metadata(app_key_id, signer_spec=sha_hmac1):
+def _build_sign_metadata(app_key_id, signer_spec):
     sign_params = {}
     sign_algorithm = signer_spec.get_signer_name()
     sign_version = signer_spec.get_signer_version()
@@ -41,17 +41,21 @@ def _build_sign_metadata(app_key_id, signer_spec=sha_hmac1):
     sign_params[hd.TIMESTAMP] = ts
     return metadata, sign_params
 
-def _get_body_string(pb_object):
+def _get_body_string(pb_object, signer_spec):
     if pb_object:
         pb_object_bytes = pb_object.SerializeToString()
-        return core_common.md5_hex(pb_object_bytes)
+
+        if signer_spec == sha_hmac256_new:
+            return core_common.sha256_hex(pb_object_bytes)
+        else:
+            return core_common.md5_hex(pb_object_bytes)
     return None
     
-def calc_signature(app_key_id, app_key_secret, pb_object, signer_spec=sha_hmac1):
+def calc_signature(app_key_id, app_key_secret, pb_object, signer_spec):
     metadata, sign_params = _build_sign_metadata(app_key_id, signer_spec)
     sign_params = default_signature_composer._lower_key_dict(sign_params)
     logger.debug("sign_params:%s", sign_params)
-    body_string = _get_body_string(pb_object)
+    body_string = _get_body_string(pb_object,signer_spec)
     logger.debug("body_string:%s" % body_string) 
     string_to_sign = default_signature_composer._build_sign_string(sign_params, None, body_string)
     logger.debug("string_to_sign:%s" % string_to_sign)

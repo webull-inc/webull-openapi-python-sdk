@@ -26,3 +26,4 @@ class Category(EasyEnum):
     CN_STOCK = (7, "CN STOCK")
     US_CRYPTO = (8, "US CRYPTO")
     US_FUTURES = (12, "US FUTURES")
+    HK_FUTURES = (13, "HK FUTURES")

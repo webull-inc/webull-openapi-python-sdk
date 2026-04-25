@@ -58,5 +58,20 @@ def md5_hex(content):
     content_bytes = ensure_bytes(content)
     return hashlib.md5(content_bytes).hexdigest()
 
+def sha256_hex(content):
+    content_bytes = ensure_bytes(content)
+    return hashlib.sha256(content_bytes).hexdigest()
+
 def json_dumps_compact(content):
     return json.dumps(content, ensure_ascii=False, separators=(',', ':'))
+
+def is_not_upgrade_api_host(host):
+    upgrade_hosts = {
+        "api.webull.com","events-api.webull.com",
+        "api.webull.hk","events-api.webull.hk",
+        "pre-openapi-us-alb.webullbroker.com","pre-openapi-us-events.webullbroker.com",
+        "pre-openapi-alb.webullbroker.com","pre-openapi-events.webullbroker.com",
+        "us-openapi-alb.uat.webullbroker.com","us-openapi-events.uat.webullbroker.com",
+        "hk-openapi.uat.webullbroker.com", "hk-openapi-events-api.uat.webullbroker.com"
+    }
+    return host not in upgrade_hosts

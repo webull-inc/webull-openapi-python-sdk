@@ -49,6 +49,12 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get account position res:', res.json())
 
+    # Currently, only Webull JP is supported.
+    # instrument_id = None # Get the instrument_id from the position list.
+    # res = trade_client.account_v2.get_account_position_details(account_id, instrument_id)
+    # if res.status_code == 200:
+    #     print('get account position details res:', res.json())
+
     # ============================================================
     # Equity Order Example
     # ============================================================
@@ -66,10 +72,13 @@ if __name__ == '__main__':
             "order_type": "LIMIT",
             "limit_price": "188",
             "quantity": "1",
-            "support_trading_session": "N",
+            "support_trading_session": "CORE",
             "side": "BUY",
             "time_in_force": "DAY",
-            "entrust_type": "QTY"
+            "entrust_type": "QTY",
+            # Currently, only Webull JP is supported.
+            # "account_tax_type":"GENERAL",
+            # "margin_type": "ONE_DAY"
         }
     ]
 

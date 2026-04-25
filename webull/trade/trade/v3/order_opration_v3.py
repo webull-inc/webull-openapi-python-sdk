@@ -28,7 +28,7 @@ class OrderOperationV3:
 
     def preview_order(self, account_id, preview_orders, client_combo_order_id=None):
         """
-        This interface is currently supported only for Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
         """
         preview_order_request = PreviewOrderRequest()
@@ -40,7 +40,7 @@ class OrderOperationV3:
 
     def place_order(self, account_id, new_orders, client_combo_order_id=None):
         """
-        This interface is currently supported only for Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
         """
         place_order_request = PlaceOrderRequest()
@@ -65,7 +65,7 @@ class OrderOperationV3:
 
     def replace_order(self, account_id, modify_orders, client_combo_order_id=None):
         """
-        This interface is currently supported only for Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
         """
         replace_order_request = ReplaceOrderRequest()
@@ -77,7 +77,7 @@ class OrderOperationV3:
 
     def cancel_order(self, account_id, client_order_id):
         """
-        This interface is currently supported only for Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
         """
         cancel_order_request = CancelOrderRequest()
@@ -88,7 +88,7 @@ class OrderOperationV3:
 
     def get_order_detail(self, account_id, client_order_id):
         """
-        This interface is currently supported only for Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
         """
         order_detail_request = OrderDetailRequest()
@@ -99,7 +99,7 @@ class OrderOperationV3:
 
     def get_order_history(self, account_id, page_size=None, start_date=None, end_date=None, last_client_order_id=None):
         """
-        This interface is currently supported only for Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
 
         Historical orders. If they are group orders, will be returned together,
@@ -127,7 +127,7 @@ class OrderOperationV3:
 
     def get_order_open(self, account_id, page_size=None, last_client_order_id=None):
         """
-        This interface is currently supported only for Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
 
         Paging query pending orders.

@@ -15,6 +15,7 @@
 
 from webull.trade.request.v2.get_account_balance_request import AccountBalanceRequest
 from webull.trade.request.v2.get_account_list_request import GetAccountListRequest
+from webull.trade.request.v2.get_account_position_details_request import AccountPositionDetailsRequest
 from webull.trade.request.v2.get_account_positions_request import AccountPositionsRequest
 
 
@@ -24,7 +25,7 @@ class AccountV2:
 
     def get_account_list(self):
         """
-        This interface is currently supported only for Webull HK and Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
         """
         account_list = GetAccountListRequest()
@@ -33,7 +34,7 @@ class AccountV2:
 
     def get_account_balance(self, account_id):
         """
-        This interface is currently supported only for Webull HK and Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
         """
         account_balance_request = AccountBalanceRequest()
@@ -43,10 +44,23 @@ class AccountV2:
 
     def get_account_position(self, account_id):
         """
-        This interface is currently supported only for Webull HK and Webull US.
+        This interface is currently supported only for Webull HK, Webull US, and Webull JP.
         Support for other regions will be available in future updates.
         """
         account_positions_request = AccountPositionsRequest()
         account_positions_request.set_account_id(account_id)
         response = self.client.get_response(account_positions_request)
+        return response
+
+    def get_account_position_details(self, account_id, instrument_id, page_size=None, last_id=None):
+        """
+        This interface is currently supported only for Webull JP.
+        Support for other regions will be available in future updates.
+        """
+        account_position_details_request = AccountPositionDetailsRequest()
+        account_position_details_request.set_account_id(account_id)
+        account_position_details_request.set_instrument_id(instrument_id)
+        account_position_details_request.set_page_size(page_size)
+        account_position_details_request.set_last_id(last_id)
+        response = self.client.get_response(account_position_details_request)
         return response
