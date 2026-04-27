@@ -72,6 +72,8 @@ def is_not_upgrade_api_host(host):
         "pre-openapi-us-alb.webullbroker.com","pre-openapi-us-events.webullbroker.com",
         "pre-openapi-alb.webullbroker.com","pre-openapi-events.webullbroker.com",
         "us-openapi-alb.uat.webullbroker.com","us-openapi-events.uat.webullbroker.com",
-        "hk-openapi.uat.webullbroker.com", "hk-openapi-events-api.uat.webullbroker.com"
+        "hk-openapi.uat.webullbroker.com", "hk-openapi-events-api.uat.webullbroker.com",
+        "api.sandbox.webull.hk", "events-api.sandbox.webull.hk"
+
     }
     return host not in upgrade_hosts
