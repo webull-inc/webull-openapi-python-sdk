@@ -17,12 +17,23 @@
 from webull.core.request import ApiRequest
 
 
-class GetFuturesProductsRequest(ApiRequest):
+class CreateWatchlistRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/futures/products", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/watchlist/create", version="v2", method="POST", body_params={})
 
-    def set_category(self, category):
-        self.add_query_param("category", category)
+    def set_name(self, name):
+        """
+        Set the watchlist name.
 
-    def set_product_class_id(self, product_class_id):
-        self.add_query_param("product_class_id", product_class_id)
+        :param name: Watchlist name. Maximum 1000 watchlists can be created.
+        """
+        self.add_body_params("name", name)
+
+    def set_sort(self, sort):
+        """
+        Set the sort order.
+
+        :param sort: Sort order number.
+        """
+        if sort is not None:
+            self.add_body_params("sort", sort)

@@ -41,3 +41,21 @@ class GetHistoricalBarsRequest(ApiRequest):
                 self.add_query_param("trading_sessions", ','.join(trading_sessions))
             else:
                 self.add_query_param("trading_sessions", trading_sessions)
+
+    def set_start_time(self, start_time):
+        """
+        Set the start time for querying bars.
+
+        :param start_time: Timestamp in milliseconds (Long).
+        """
+        if start_time is not None:
+            self.add_query_param("start_time", start_time)
+
+    def set_end_time(self, end_time):
+        """
+        Set the end time for querying bars. Delayed permission will auto-offset time.
+
+        :param end_time: Timestamp in milliseconds (Long).
+        """
+        if end_time is not None:
+            self.add_query_param("end_time", end_time)

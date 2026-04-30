@@ -11,12 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from webull.data.common.category import Category
 from webull.data.request.get_batch_historical_bars_request import BatchHistoricalBarsRequest
 from webull.data.request.get_corp_action_request import GetCorpActionRequest
 from webull.data.request.get_eod_bars_request import GetEodBarsRequest
 from webull.data.request.get_footprint_request import GetFootprintRequest
 from webull.data.request.get_historical_bars_request import GetHistoricalBarsRequest
+from webull.data.request.get_noii_bars_request import GetNoiiBarsRequest
+from webull.data.request.get_noii_snapshot_request import GetNoiiSnapshotRequest
 from webull.data.request.get_quotes_request import GetQuotesRequest
 from webull.data.request.get_snapshot_request import GetSnapshotRequest
 from webull.data.request.get_tick_request import GetTickRequest
@@ -26,7 +27,7 @@ class MarketData:
     def __init__(self, api_client):
         self.client = api_client
 
-    def get_history_bar(self, symbol, category, timespan, count='200', real_time_required=None, trading_sessions=None):
+    def get_history_bar(self, symbol, category, timespan, count='200', real_time_required=None, trading_sessions=None, start_time=None, end_time=None):
         """
         Returns to Instrument in the window aggregated data.
         According to the last N K-lines of the stock code, it supports various granularity K-lines such as m1 and m5.
@@ -40,6 +41,8 @@ class MarketData:
         :param real_time_required: Returns the latest trade quote data. By default, the most recent market data is returned.
         :param trading_sessions: Specify trading session, multiple selections are allowed
         By default, only intraday candlestick data is returned.
+        :param start_time: Start timestamp in milliseconds (Long). Optional.
+        :param end_time: End timestamp in milliseconds (Long). Delayed permission will auto-offset time. Optional.
         """
         history_bar_request = GetHistoricalBarsRequest()
         history_bar_request.set_symbol(symbol)
@@ -48,10 +51,12 @@ class MarketData:
         history_bar_request.set_count(count)
         history_bar_request.set_real_time_required(real_time_required)
         history_bar_request.set_trading_sessions(trading_sessions)
+        history_bar_request.set_start_time(start_time)
+        history_bar_request.set_end_time(end_time)
         response = self.client.get_response(history_bar_request)
         return response
 
-    def get_batch_history_bar(self, symbols, category, timespan, count='200', real_time_required=None, trading_sessions=None):
+    def get_batch_history_bar(self, symbols, category, timespan, count='200', real_time_required=None, trading_sessions=None, start_time=None, end_time=None):
         """
         Batch query K-line data for multiple symbols, returning aggregated data within the window.
         According to the last N K-lines of the stock code, it supports various granularity K-lines such as m1 and m5.
@@ -65,6 +70,8 @@ class MarketData:
         :param real_time_required: Returns the latest trade quote data. By default, the most recent market data is returned.
         :param trading_sessions: Specify trading session, multiple selections are allowed
         By default, only intraday candlestick data is returned.
+        :param start_time: Start timestamp in milliseconds (Long). Optional.
+        :param end_time: End timestamp in milliseconds (Long). Delayed permission will auto-offset time. Optional.
         """
         history_bar_request = BatchHistoricalBarsRequest()
         history_bar_request.set_symbols(symbols)
@@ -73,6 +80,8 @@ class MarketData:
         history_bar_request.set_count(count)
         history_bar_request.set_real_time_required(real_time_required)
         history_bar_request.set_trading_sessions(trading_sessions)
+        history_bar_request.set_start_time(start_time)
+        history_bar_request.set_end_time(end_time)
         response = self.client.get_response(history_bar_request)
         return response
 
@@ -206,4 +215,57 @@ class MarketData:
         footprint_request.set_real_time_required(real_time_required)
         footprint_request.set_trading_sessions(trading_sessions)
         response = self.client.get_response(footprint_request)
+        return response
+
+    def get_noii_bars(self, symbol, category, imbalance_action_type):
+        """
+        Query NOII (Net Order Imbalance Indicator) K-line data for a stock.
+
+        NOII data provides insight into market supply and demand during NASDAQ
+        opening and closing auctions, acting as a leading indicator for potential
+        price movements at key trading moments.
+
+        :param symbol: Security symbol, e.g., AAPL. Only single symbol query is supported.
+        :param category: Security category. Currently only US_STOCK is supported.
+        :param imbalance_action_type: Imbalance action type.
+            - PRE_OPEN: Opening imbalance
+            - PRE_CLOSE: Closing imbalance
+        :return: Response containing a list of NOII bar data with:
+            instrument_id, symbol, imbalance_time, imbalance_ref_price,
+            imbalance_near_price, imbalance_far_price, imbalance_action_type.
+        """
+        request = GetNoiiBarsRequest()
+        request.set_symbol(symbol)
+        request.set_category(category)
+        request.set_imbalance_action_type(imbalance_action_type)
+        response = self.client.get_response(request)
+        return response
+
+    def get_noii_snapshot(self, symbol, category, imbalance_action_type):
+        """
+        Query the latest NOII (Net Order Imbalance Indicator) snapshot for a stock.
+
+        Provides real-time NOII snapshot during US stock call auction phases to
+        determine market supply-demand relationship and expected match price.
+
+        NOII data is published only during call auction periods, updating every 5 seconds:
+        - Opening auction: 9:28 - 9:30 AM ET (2 minutes)
+        - Closing auction: 3:50 - 4:00 PM ET (10 minutes)
+        Outside these periods, historical data is returned.
+
+        :param symbol: Security symbol, e.g., AAPL. Only single symbol query is supported.
+        :param category: Security category. Currently only US_STOCK is supported.
+        :param imbalance_action_type: Imbalance action type.
+            - PRE_OPEN: Opening imbalance
+            - PRE_CLOSE: Closing imbalance
+        :return: Response containing NOII snapshot data with:
+            instrument_id, symbol, paired_shares, imbalance_shares, imbalance_side,
+            imbalance_ref_price, imbalance_near_price, imbalance_far_price,
+            imbalance_act_tp, imbalance_time, imbalance_var_indicator.
+        """
+        request = GetNoiiSnapshotRequest()
+        request.set_symbol(symbol)
+        request.set_category(category)
+        request.set_imbalance_action_type(imbalance_action_type)
+        response = self.client.get_response(request)
         return response

@@ -17,12 +17,22 @@
 from webull.core.request import ApiRequest
 
 
-class GetFuturesProductsRequest(ApiRequest):
+class GetAnalystTargetPriceRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/futures/products", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/instrument/analyst/target-price", version="v2", method="GET", query_params={})
+
+    def set_symbol(self, symbol):
+        """
+        Set the security symbol.
+
+        :param symbol: Security symbol, e.g., AAPL
+        """
+        self.add_query_param("symbol", symbol)
 
     def set_category(self, category):
-        self.add_query_param("category", category)
+        """
+        Set the security type.
 
-    def set_product_class_id(self, product_class_id):
-        self.add_query_param("product_class_id", product_class_id)
+        :param category: Security type. Possible values: US_STOCK
+        """
+        self.add_query_param("category", category)

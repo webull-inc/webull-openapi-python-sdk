@@ -29,3 +29,9 @@ class GetFuturesInstrumentsRequest(ApiRequest):
 
     def set_category(self, category):
         self.add_query_param("category", category)
+
+    def set_code(self, code):
+        self.add_query_param("code", code)
+
+    def set_status(self, status):
+        self.add_query_param("status", status)
