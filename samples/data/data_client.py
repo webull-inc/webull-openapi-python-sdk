@@ -113,3 +113,35 @@ if __name__ == '__main__':
     res = data_client.instrument.get_futures_instrument_by_code("ES", Category.US_FUTURES.name, ContractType.MONTHLY.name)
     if res.status_code == 200:
         print('get_futures_instrument_by_code:', res.json())
+
+    res = data_client.instrument.get_company_profile("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_company_profile:', res.json())
+
+    res = data_client.instrument.get_analyst_target_price("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_analyst_target_price:', res.json())
+
+    res = data_client.instrument.get_analyst_rating("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_analyst_rating:', res.json())
+
+    # NOII (Net Order Imbalance Indicator) - Opening imbalance bars
+    res = data_client.market_data.get_noii_bars("AAPL", Category.US_STOCK.name, "PRE_OPEN")
+    if res.status_code == 200:
+        print('get_noii_bars (opening):', res.json())
+
+    # NOII - Closing imbalance bars
+    res = data_client.market_data.get_noii_bars("AAPL", Category.US_STOCK.name, "PRE_CLOSE")
+    if res.status_code == 200:
+        print('get_noii_bars (closing):', res.json())
+
+    # NOII Snapshot - Opening imbalance
+    res = data_client.market_data.get_noii_snapshot("AAPL", Category.US_STOCK.name, "PRE_OPEN")
+    if res.status_code == 200:
+        print('get_noii_snapshot (opening):', res.json())
+
+    # NOII Snapshot - Closing imbalance
+    res = data_client.market_data.get_noii_snapshot("AAPL", Category.US_STOCK.name, "PRE_CLOSE")
+    if res.status_code == 200:
+        print('get_noii_snapshot (closing):', res.json())

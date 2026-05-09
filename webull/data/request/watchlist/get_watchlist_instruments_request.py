@@ -17,12 +17,14 @@
 from webull.core.request import ApiRequest
 
 
-class GetFuturesProductsRequest(ApiRequest):
+class GetWatchlistInstrumentsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/futures/products", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/watchlist/instruments/list", version="v2", method="GET", query_params={})
 
-    def set_category(self, category):
-        self.add_query_param("category", category)
+    def set_watchlist_id(self, watchlist_id):
+        """
+        Set the watchlist unique identifier.
 
-    def set_product_class_id(self, product_class_id):
-        self.add_query_param("product_class_id", product_class_id)
+        :param watchlist_id: Watchlist unique identifier.
+        """
+        self.add_query_param("watchlist_id", watchlist_id)
