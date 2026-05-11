@@ -58,7 +58,12 @@ class TestEndpoint(unittest.TestCase):
         _region_id = 'jp'
         endpoint_request = ResolveEndpointRequest(_region_id, api_type.QUOTES)
         endpoint = resolver.resolve(endpoint_request)
-        self.assertEqual(endpoint, '')
+        self.assertEqual(endpoint, 'data-api.webull.co.jp')
+
+        _region_id = 'sg'
+        endpoint_request = ResolveEndpointRequest(_region_id, api_type.QUOTES)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'data-api.webull.com.sg')
 
     def test_api_endpoint(self):
         """
@@ -80,6 +85,10 @@ class TestEndpoint(unittest.TestCase):
         endpoint = resolver.resolve(endpoint_request)
         self.assertEqual(endpoint, 'api.webull.co.jp')
 
+        _region_id = 'sg'
+        endpoint_request = ResolveEndpointRequest(_region_id)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'api.webull.com.sg')
     def test_event_endpoint(self):
         resolver = DefaultEndpointResolver(self)
         _region_id = 'us'
@@ -96,3 +105,8 @@ class TestEndpoint(unittest.TestCase):
         endpoint_request = ResolveEndpointRequest(_region_id, api_type.EVENTS)
         endpoint = resolver.resolve(endpoint_request)
         self.assertEqual(endpoint, 'events-api.webull.co.jp')
+
+        _region_id = 'sg'
+        endpoint_request = ResolveEndpointRequest(_region_id, api_type.EVENTS)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'events-api.webull.com.sg')

@@ -19,7 +19,8 @@ from webull.core.request import ApiRequest
 
 class UnsubcribeRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/market-data/streaming/unsubscribe", version='v2', method="POST", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/streaming/unsubscribe", version='v2', method="POST",
+                            query_params={})
         self.set_body_params({})
 
     def set_session_id(self, session_id):
