@@ -1,6 +1,6 @@
 {
     "default_region": "us",
-    "regions": ["us", "hk", "jp"],
+    "regions": ["us", "hk", "jp","sg"],
     "region_mapping": {
         "us": {
             "api": "api.webull.com",
@@ -14,8 +14,13 @@
         },
         "jp": {
             "api": "api.webull.co.jp",
-            "quotes-api": "",
+            "quotes-api": "data-api.webull.co.jp",
             "events-api": "events-api.webull.co.jp"
+        },
+        "sg": {
+            "api": "api.webull.com.sg",
+            "quotes-api": "data-api.webull.com.sg",
+            "events-api": "events-api.webull.com.sg"
         }
     }
 }

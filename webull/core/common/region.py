@@ -5,3 +5,4 @@ class Region(Enum):
     US = 'us'
     HK = 'hk'
     JP = 'jp'
+    SG = 'sg'
