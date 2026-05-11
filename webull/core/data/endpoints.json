@@ -21,6 +21,16 @@
             "api": "api.webull.com.sg",
             "quotes-api": "data-api.webull.com.sg",
             "events-api": "events-api.webull.com.sg"
+        },
+        "th": {
+            "api": "api.webull.co.th",
+            "quotes-api": "data-api.webull.co.th",
+            "events-api": "events-api.webull.co.th"
+        },
+        "au": {
+            "api": "api.webull.com.au",
+            "quotes-api": "data-api.webull.com.au",
+            "events-api": "events-api.webull.com.au"
         }
     }
 }
