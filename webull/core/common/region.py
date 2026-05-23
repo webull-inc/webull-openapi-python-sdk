@@ -6,3 +6,5 @@ class Region(Enum):
     HK = 'hk'
     JP = 'jp'
     SG = 'sg'
+    TH = 'th'
+    AU = 'au'
