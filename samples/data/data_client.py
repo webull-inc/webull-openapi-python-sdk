@@ -24,6 +24,7 @@ optional_api_endpoint = "<api_endpoint>"
 your_app_key = "<your_app_key>"
 your_app_secret = "<your_app_secret>"
 region_id = "<region_id>"
+
 # The token_dir parameter can be used to specify the directory for storing the 2FA token. Both absolute and relative paths are supported and this option has the highest priority.
 # Alternatively, the storage directory can be configured via an environment variable with the key WEBULL_OPENAPI_TOKEN_DIR, which also supports both absolute and relative paths.
 # If neither is specified, the default configuration will be used, and the token will be stored at conf/token.txt under the current working directory.
@@ -145,3 +146,21 @@ if __name__ == '__main__':
     res = data_client.market_data.get_noii_snapshot("AAPL", Category.US_STOCK.name, "PRE_CLOSE")
     if res.status_code == 200:
         print('get_noii_snapshot (closing):', res.json())
+
+    # Option market data - Historical bars
+    # Rate limit: 1 request per second per App Key
+    res = data_client.option_market_data.get_option_history_bars('AAPL260522C00300000', Category.US_OPTION.name, Timespan.M1.name)
+    if res.status_code == 200:
+        print('get_option_history_bars:', res.json())
+
+    # Option market data - Tick
+    # Rate limit: 60 requests per minute
+    res = data_client.option_market_data.get_option_tick("AAPL260522C00300000", Category.US_OPTION.name, count=30)
+    if res.status_code == 200:
+        print('get_option_tick:', res.json())
+
+    # Option market data - Snapshot
+    # Rate limit: 60 requests per minute
+    res = data_client.option_market_data.get_option_snapshot("AAPL260522C00300000", Category.US_OPTION.name)
+    if res.status_code == 200:
+        print('get_option_snapshot:', res.json())

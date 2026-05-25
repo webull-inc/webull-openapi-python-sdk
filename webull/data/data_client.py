@@ -23,6 +23,7 @@ from webull.data.quotes.event_market_data import EventMarketData
 from webull.data.quotes.futures_market_data import FuturesMarketData
 from webull.data.quotes.instrument import Instrument
 from webull.data.quotes.market_data import MarketData
+from webull.data.quotes.option_market_data import OptionMarketData
 from webull.data.quotes.screener import Screener
 from webull.data.quotes.watchlist import Watchlist
 
@@ -35,6 +36,7 @@ class DataClient:
         self.market_data = MarketData(api_client)
         self.crypto_market_data = CryptoMarketData(api_client)
         self.futures_market_data = FuturesMarketData(api_client)
+        self.option_market_data = OptionMarketData(api_client)
         self.event_market_data = EventMarketData(api_client)
         self.screener = Screener(api_client)
         self.watchlist = Watchlist(api_client)

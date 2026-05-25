@@ -529,3 +529,331 @@ if __name__ == '__main__':
     res = trade_client.order_v3.get_order_detail(account_id, alog_client_order_id)
     if res.status_code == 200:
         print('get order detail res:', res.json())
+
+    # ============================================================
+    # Stop Loss Order Example (HK Market)
+    # ============================================================
+    stop_loss_client_order_id = uuid.uuid4().hex
+    print('stop loss client order id:', stop_loss_client_order_id)
+    new_stop_loss_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": stop_loss_client_order_id,
+            "symbol": "00700",
+            "instrument_type": "EQUITY",
+            "market": "HK",
+            "order_type": "STOP_LOSS",
+            "quantity": "200",
+            "stop_price": "560.35",
+            "support_trading_session": "CORE",
+            "side": "BUY",
+            "time_in_force": "DAY",
+            "entrust_type": "QTY",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+
+    res = trade_client.order_v3.place_order(account_id, new_stop_loss_orders)
+    if res.status_code == 200:
+        print('place stop loss order res:', res.json())
+    sleep(5)
+
+    replace_stop_loss_orders = [
+        {
+            "client_order_id": stop_loss_client_order_id,
+            "stop_price": "560.37",
+            "quantity": "200"
+        }
+    ]
+    res = trade_client.order_v3.replace_order(account_id, replace_stop_loss_orders)
+    if res.status_code == 200:
+        print('replace stop loss order res:', res.json())
+    sleep(5)
+
+    res = trade_client.order_v3.cancel_order(account_id, stop_loss_client_order_id)
+    if res.status_code == 200:
+        print('cancel stop loss order res:', res.json())
+
+    res = trade_client.order_v3.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v3.get_order_detail(account_id, stop_loss_client_order_id)
+    if res.status_code == 200:
+        print('get stop loss order detail res:', res.json())
+
+    # ============================================================
+    # Stop Loss Limit Order Example (HK Market)
+    # ============================================================
+    stop_loss_limit_client_order_id = uuid.uuid4().hex
+    print('stop loss limit client order id:', stop_loss_limit_client_order_id)
+    new_stop_loss_limit_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": stop_loss_limit_client_order_id,
+            "symbol": "00700",
+            "instrument_type": "EQUITY",
+            "market": "HK",
+            "order_type": "STOP_LOSS_LIMIT",
+            "quantity": "200",
+            "stop_price": "560.35",
+            "limit_price": "562.21",
+            "support_trading_session": "CORE",
+            "side": "BUY",
+            "time_in_force": "DAY",
+            "entrust_type": "QTY",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+
+    res = trade_client.order_v3.place_order(account_id, new_stop_loss_limit_orders)
+    if res.status_code == 200:
+        print('place stop loss limit order res:', res.json())
+    sleep(5)
+
+    replace_stop_loss_limit_orders = [
+        {
+            "client_order_id": stop_loss_limit_client_order_id,
+            "stop_price": "560.39",
+            "limit_price": "562.69",
+            "quantity": "200"
+        }
+    ]
+    res = trade_client.order_v3.replace_order(account_id, replace_stop_loss_limit_orders)
+    if res.status_code == 200:
+        print('replace stop loss limit order res:', res.json())
+    sleep(5)
+
+    res = trade_client.order_v3.cancel_order(account_id, stop_loss_limit_client_order_id)
+    if res.status_code == 200:
+        print('cancel stop loss limit order res:', res.json())
+
+    res = trade_client.order_v3.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v3.get_order_detail(account_id, stop_loss_limit_client_order_id)
+    if res.status_code == 200:
+        print('get stop loss limit order detail res:', res.json())
+
+    # ============================================================
+    # Touch (Market) Order Example (HK Market)
+    # ============================================================
+    touch_mkt_client_order_id = uuid.uuid4().hex
+    print('touch mkt client order id:', touch_mkt_client_order_id)
+    new_touch_mkt_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": touch_mkt_client_order_id,
+            "symbol": "00700",
+            "instrument_type": "EQUITY",
+            "market": "HK",
+            "order_type": "TOUCH_MKT",
+            "quantity": "200",
+            "stop_price": "540.35",
+            "support_trading_session": "CORE",
+            "side": "BUY",
+            "time_in_force": "DAY",
+            "entrust_type": "QTY",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+
+    res = trade_client.order_v3.place_order(account_id, new_touch_mkt_orders)
+    if res.status_code == 200:
+        print('place touch mkt order res:', res.json())
+    sleep(5)
+
+    replace_touch_mkt_orders = [
+        {
+            "client_order_id": touch_mkt_client_order_id,
+            "stop_price": "540.67",
+            "quantity": "200",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+    res = trade_client.order_v3.replace_order(account_id, replace_touch_mkt_orders)
+    if res.status_code == 200:
+        print('replace touch mkt order res:', res.json())
+    sleep(5)
+
+    res = trade_client.order_v3.cancel_order(account_id, touch_mkt_client_order_id)
+    if res.status_code == 200:
+        print('cancel touch mkt order res:', res.json())
+
+    res = trade_client.order_v3.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v3.get_order_detail(account_id, touch_mkt_client_order_id)
+    if res.status_code == 200:
+        print('get touch mkt order detail res:', res.json())
+
+    # ============================================================
+    # Touch Limit Order Example (HK Market)
+    # ============================================================
+    touch_limit_client_order_id = uuid.uuid4().hex
+    print('touch limit client order id:', touch_limit_client_order_id)
+    new_touch_limit_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": touch_limit_client_order_id,
+            "symbol": "00700",
+            "instrument_type": "EQUITY",
+            "market": "HK",
+            "order_type": "TOUCH_MKT",
+            "quantity": "200",
+            "stop_price": "540.35",
+            "limit_price": "535.35",
+            "support_trading_session": "CORE",
+            "side": "BUY",
+            "time_in_force": "DAY",
+            "entrust_type": "QTY",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+
+    res = trade_client.order_v3.place_order(account_id, new_touch_limit_orders)
+    if res.status_code == 200:
+        print('place touch limit order res:', res.json())
+    sleep(5)
+
+    replace_touch_limit_orders = [
+        {
+            "client_order_id": touch_limit_client_order_id,
+            "stop_price": "540.67",
+            "limit_price": "536.67",
+            "quantity": "200",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+    res = trade_client.order_v3.replace_order(account_id, replace_touch_limit_orders)
+    if res.status_code == 200:
+        print('replace touch limit order res:', res.json())
+    sleep(5)
+
+    res = trade_client.order_v3.cancel_order(account_id, touch_limit_client_order_id)
+    if res.status_code == 200:
+        print('cancel touch limit order res:', res.json())
+
+    res = trade_client.order_v3.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v3.get_order_detail(account_id, touch_limit_client_order_id)
+    if res.status_code == 200:
+        print('get touch limit order detail res:', res.json())
+
+    # ============================================================
+    # Trailing Stop Loss Order Example (HK Market)
+    # ============================================================
+    trailing_stop_loss_client_order_id = uuid.uuid4().hex
+    print('trailing stop loss client order id:', trailing_stop_loss_client_order_id)
+    new_trailing_stop_loss_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": trailing_stop_loss_client_order_id,
+            "symbol": "00700",
+            "instrument_type": "EQUITY",
+            "market": "HK",
+            "order_type": "TRAILING_STOP_LOSS",
+            "quantity": "200",
+            "trailing_stop_step": "0.1",
+            "trailing_type": "PERCENTAGE",
+            "support_trading_session": "CORE",
+            "side": "BUY",
+            "time_in_force": "DAY",
+            "entrust_type": "QTY",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+
+    res = trade_client.order_v3.place_order(account_id, new_trailing_stop_loss_orders)
+    if res.status_code == 200:
+        print('place trailing stop loss order res:', res.json())
+    sleep(5)
+
+    replace_trailing_stop_loss_orders = [
+        {
+            "client_order_id": trailing_stop_loss_client_order_id,
+            "stop_price": "560.47",
+            "quantity": "200",
+            "trailing_stop_step": "0.15",
+            "trailing_type": "PERCENTAGE",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+    res = trade_client.order_v3.replace_order(account_id, replace_trailing_stop_loss_orders)
+    if res.status_code == 200:
+        print('replace trailing stop loss order res:', res.json())
+    sleep(5)
+
+    res = trade_client.order_v3.cancel_order(account_id, trailing_stop_loss_client_order_id)
+    if res.status_code == 200:
+        print('cancel trailing stop loss order res:', res.json())
+
+    res = trade_client.order_v3.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v3.get_order_detail(account_id, trailing_stop_loss_client_order_id)
+    if res.status_code == 200:
+        print('get trailing stop loss order detail res:', res.json())
+
+    # ============================================================
+    # Trailing Stop Loss Limit Order Example (HK Market)
+    # ============================================================
+    trailing_stop_loss_limit_client_order_id = uuid.uuid4().hex
+    print('trailing stop loss limit client order id:', trailing_stop_loss_limit_client_order_id)
+    new_trailing_stop_loss_limit_orders = [
+        {
+            "combo_type": "NORMAL",
+            "client_order_id": trailing_stop_loss_limit_client_order_id,
+            "symbol": "00700",
+            "instrument_type": "EQUITY",
+            "market": "HK",
+            "order_type": "TRAILING_STOP_LOSS_LIMIT",
+            "quantity": "200",
+            "trailing_stop_step": "0.1",
+            "trailing_limit_price": "580",
+            "trailing_type": "PERCENTAGE",
+            "support_trading_session": "CORE",
+            "side": "BUY",
+            "time_in_force": "DAY",
+            "entrust_type": "QTY",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+
+    res = trade_client.order_v3.place_order(account_id, new_trailing_stop_loss_limit_orders)
+    if res.status_code == 200:
+        print('place trailing stop loss limit order res:', res.json())
+    sleep(5)
+
+    replace_trailing_stop_loss_limit_orders = [
+        {
+            "client_order_id": trailing_stop_loss_limit_client_order_id,
+            "stop_price": "560.77",
+            "quantity": "200",
+            "trailing_stop_step": "0.15",
+            "trailing_limit_price": "581",
+            "trailing_type": "PERCENTAGE",
+            "trigger_price_type": "PRICE"
+        }
+    ]
+    res = trade_client.order_v3.replace_order(account_id, replace_trailing_stop_loss_limit_orders)
+    if res.status_code == 200:
+        print('replace trailing stop loss limit order res:', res.json())
+    sleep(5)
+
+    res = trade_client.order_v3.cancel_order(account_id, trailing_stop_loss_limit_client_order_id)
+    if res.status_code == 200:
+        print('cancel trailing stop loss limit order res:', res.json())
+
+    res = trade_client.order_v3.get_order_history(account_id)
+    if res.status_code == 200:
+        print('get order history res:', res.json())
+
+    res = trade_client.order_v3.get_order_detail(account_id, trailing_stop_loss_limit_client_order_id)
+    if res.status_code == 200:
+        print('get trailing stop loss limit order detail res:', res.json())
