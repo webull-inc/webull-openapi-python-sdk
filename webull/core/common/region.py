@@ -8,3 +8,5 @@ class Region(Enum):
     SG = 'sg'
     TH = 'th'
     AU = 'au'
+    MY = 'my'
+    UK = 'uk'
