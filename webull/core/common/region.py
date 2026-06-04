@@ -10,3 +10,5 @@ class Region(Enum):
     AU = 'au'
     MY = 'my'
     UK = 'uk'
+    BR = 'br'
+    MX = 'mx'

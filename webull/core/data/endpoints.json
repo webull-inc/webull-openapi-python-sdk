@@ -1,6 +1,6 @@
 {
     "default_region": "us",
-    "regions": ["us", "hk", "jp", "sg", "th", "au", "my", "uk"],
+    "regions": ["us", "hk", "jp", "sg", "th", "au", "my", "uk", "br", "mx"],
     "region_mapping": {
         "us": {
             "api": "api.webull.com",
@@ -41,6 +41,16 @@
             "api": "api.webull-uk.com",
             "quotes-api": "data-api.webull-uk.com",
             "events-api": "events-api.webull-uk.com"
+        },
+        "br": {
+            "api": "api.webull.com",
+            "quotes-api": "data-api.webull.com",
+            "events-api": "events-api.webull.com"
+        },
+        "mx": {
+            "api": "api.webull.com",
+            "quotes-api": "data-api.webull.com",
+            "events-api": "events-api.webull.com"
         }
     }
 }
