@@ -1,6 +1,6 @@
 # Webull OpenAPI Python SDK
 
-Note: This is the new version of the Webull SDK, currently applicable only to Webull Hong Kong, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, or Webull UK customers.
+Note: This is the new version of the Webull SDK, currently applicable only to Webull Hong Kong, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, or Webull MX customers.
 
 Webull OpenAPI aims to provide quantitative trading investors with convenient, fast and secure services. Webull aims to help every quant traders achieve flexible and changeable trading or market strategies.
 
@@ -28,6 +28,8 @@ Subscription to real-time information: Subscribe to order status changes, market
 | Webull AU | https://www.webull.com.au/open-api-management   |
 | Webull MY | https://www.webull.com.my/open-api-management   |
 | Webull UK | https://www.webull-uk.com/open-api-management   |
+| Webull BR | https://www.webull.com.br/open-api-management   |
+| Webull MX | https://www.webull.com.mx/open-api-management   |
 - Requires Python 3.7 through 3.11.
 
 ## Interface Protocol
@@ -52,3 +54,5 @@ The bottom layer of Webull OpenAPI provides three protocols, HTTP / GRPC / MQTT,
 | Webull AU | https://developer.webull.com.au/apis/docs |
 | Webull MY | https://developer.webull.com.my/apis/docs |
 | Webull UK | https://developer.webull-uk.com/apis/docs |
+| Webull BR | https://developer.webull.com.br/apis/docs/ |
+| Webull MX | https://developer.webull.com.mx/apis/docs/ |
