@@ -31,7 +31,7 @@ class GetMostActiveRequest(ApiRequest):
     """
     
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/screener/most-active", version="v2", method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/screener/top-active", version="v2", method="GET", query_params={})
 
     def set_rank_type(self, rank_type):
         """
@@ -51,7 +51,7 @@ class GetMostActiveRequest(ApiRequest):
     def set_category(self, category):
         """
         Set the security market category.
-        
+
         :param category: Security market category. Required.
             Enum values: US_STOCK
         """

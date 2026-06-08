@@ -94,6 +94,16 @@ class TestEndpoint(unittest.TestCase):
         endpoint_request = ResolveEndpointRequest(_region_id, api_type.QUOTES)
         endpoint = resolver.resolve(endpoint_request)
         self.assertEqual(endpoint, 'data-api.webull.com')
+
+        _region_id = 'za'
+        endpoint_request = ResolveEndpointRequest(_region_id, api_type.QUOTES)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'data-api.webull.com.au')
+
+        _region_id = 'eu'
+        endpoint_request = ResolveEndpointRequest(_region_id, api_type.QUOTES)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'data-api.webull.eu')
     def test_api_endpoint(self):
         """
             Set by Request, and it only takes effect for the current Request. The sample code is as follows.
@@ -148,6 +158,16 @@ class TestEndpoint(unittest.TestCase):
         endpoint_request = ResolveEndpointRequest(_region_id)
         endpoint = resolver.resolve(endpoint_request)
         self.assertEqual(endpoint, 'api.webull.com')
+
+        _region_id = 'za'
+        endpoint_request = ResolveEndpointRequest(_region_id)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'api.webull.com.au')
+
+        _region_id = 'eu'
+        endpoint_request = ResolveEndpointRequest(_region_id)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'api.webull.eu')
     def test_event_endpoint(self):
         resolver = DefaultEndpointResolver(self)
         _region_id = 'us'
@@ -199,3 +219,13 @@ class TestEndpoint(unittest.TestCase):
         endpoint_request = ResolveEndpointRequest(_region_id, api_type.EVENTS)
         endpoint = resolver.resolve(endpoint_request)
         self.assertEqual(endpoint, 'events-api.webull.com')
+
+        _region_id = 'za'
+        endpoint_request = ResolveEndpointRequest(_region_id, api_type.EVENTS)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'events-api.webull.com.au')
+
+        _region_id = 'eu'
+        endpoint_request = ResolveEndpointRequest(_region_id, api_type.EVENTS)
+        endpoint = resolver.resolve(endpoint_request)
+        self.assertEqual(endpoint, 'events-api.webull.eu')

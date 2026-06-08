@@ -12,3 +12,5 @@ class Region(Enum):
     UK = 'uk'
     BR = 'br'
     MX = 'mx'
+    ZA = 'za'
+    EU = 'eu'

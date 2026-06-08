@@ -815,7 +815,8 @@ if __name__ == '__main__':
             "order_type": "TRAILING_STOP_LOSS_LIMIT",
             "quantity": "200",
             "trailing_stop_step": "0.1",
-            "trailing_limit_price": "580",
+            # also supports the legacy field name "trailing_limit_price"
+            "trailing_limit_price_offset": "580",
             "trailing_type": "PERCENTAGE",
             "support_trading_session": "CORE",
             "side": "BUY",
@@ -836,7 +837,8 @@ if __name__ == '__main__':
             "stop_price": "560.77",
             "quantity": "200",
             "trailing_stop_step": "0.15",
-            "trailing_limit_price": "581",
+            # also supports the legacy field name "trailing_limit_price"
+            "trailing_limit_price_offset": "581",
             "trailing_type": "PERCENTAGE",
             "trigger_price_type": "PRICE"
         }
