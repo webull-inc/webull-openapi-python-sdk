@@ -54,37 +54,11 @@ class ClientInitializer:
     @staticmethod
     def init_token(api_client):
         """Initialize token"""
-        disable_config_region_ids = ["hk"]
-        if api_client.get_region_id() in disable_config_region_ids:
-            if not ClientInitializer._check_region_token_enable(api_client):
-                return
-        else:
-            if not ClientInitializer._check_token_enable(api_client):
-                return
+        if not ClientInitializer._check_token_enable(api_client):
+            return
 
         token_manager = TokenManager(api_client.get_token_dir())
         token_manager.init_token(api_client)
-
-    @staticmethod
-    def _check_region_token_enable(api_client):
-        """
-        Check whether token checking is enabled in the specified region
-        """
-        if api_client is None:
-            logger.warning("_check_region_token_enable api_client is null, return False")
-            return False
-
-        if not api_client.get_region_id():
-            logger.warning("_check_region_token_enable region_id is null, return False")
-            return False
-
-        enable_region_ids = ["hk"]
-        result = api_client.get_region_id() in enable_region_ids
-        logger.info(
-            "_check_region_token_enable result is %s, enable regionIds is %s.",
-            result, enable_region_ids
-        )
-        return result
 
     @staticmethod
     def _check_token_enable(api_client):

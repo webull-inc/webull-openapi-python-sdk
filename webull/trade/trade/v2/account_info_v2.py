@@ -25,7 +25,7 @@ class AccountV2:
 
     def get_account_list(self):
         """
-        This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX.
+        This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX, Webull ZA, Webull EU.
         Support for other regions will be available in future updates.
         """
         account_list = GetAccountListRequest()
@@ -34,7 +34,7 @@ class AccountV2:
 
     def get_account_balance(self, account_id):
         """
-        This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX.
+        This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX, Webull ZA, Webull EU.
         Support for other regions will be available in future updates.
         """
         account_balance_request = AccountBalanceRequest()
@@ -44,7 +44,7 @@ class AccountV2:
 
     def get_account_position(self, account_id):
         """
-        This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX.
+        This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX, Webull ZA, Webull EU.
         Support for other regions will be available in future updates.
         """
         account_positions_request = AccountPositionsRequest()
