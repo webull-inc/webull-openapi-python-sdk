@@ -32,7 +32,7 @@ Subscription to real-time information: Subscribe to order status changes, market
 | Webull MX | https://www.webull.com.mx/open-api-management   |
 | Webull ZA | https://www.webull.co.za/open-api-management    |
 | Webull EU | https://www.webull.eu/open-api-management       |
-- Requires Python 3.7 through 3.13.
+- Requires Python 3.8 through 3.13.
 
 ## Interface Protocol
 
