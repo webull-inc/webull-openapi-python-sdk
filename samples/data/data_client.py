@@ -164,3 +164,123 @@ if __name__ == '__main__':
     res = data_client.option_market_data.get_option_snapshot("AAPL260522C00300000", Category.US_OPTION.name)
     if res.status_code == 200:
         print('get_option_snapshot:', res.json())
+
+    # Fundamentals - Capital Flow
+    res = data_client.fundamentals.get_capital_flow("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_capital_flow:', res.json())
+
+    # Fundamentals - Industry Comparison
+    res = data_client.fundamentals.get_industry_comparison("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_industry_comparison:', res.json())
+
+    # Fundamentals - SEC Filings
+    res = data_client.fundamentals.get_sec_filings("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_sec_filings:', res.json())
+
+    # Fundamentals - Earnings Calendar
+    res = data_client.fundamentals.get_earnings_calendar("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_earnings_calendar:', res.json())
+
+    # Fundamentals - Dividend Calendar
+    res = data_client.fundamentals.get_dividend_calendar("TSLA", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_dividend_calendar:', res.json())
+
+    # Fundamentals - Fund Splits
+    res = data_client.fundamentals.get_fund_splits("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_splits:', res.json())
+
+    # Fundamentals - Fund Rating
+    res = data_client.fundamentals.get_fund_rating("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_rating:', res.json())
+
+    # Fundamentals - Fund Performance
+    res = data_client.fundamentals.get_fund_performance("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_performance:', res.json())
+
+    # Fundamentals - Fund Net Value
+    res = data_client.fundamentals.get_fund_net_value("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_net_value:', res.json())
+
+    # Fundamentals - Fund Holdings
+    res = data_client.fundamentals.get_fund_holdings("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_holdings:', res.json())
+
+    # Fundamentals - Fund Files
+    res = data_client.fundamentals.get_fund_files("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_files:', res.json())
+
+    # Fundamentals - Fund Dividends
+    res = data_client.fundamentals.get_fund_dividends("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_dividends:', res.json())
+
+    # Fundamentals - Fund Brief
+    res = data_client.fundamentals.get_fund_brief("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_brief:', res.json())
+
+    # Fundamentals - Fund Allocation
+    res = data_client.fundamentals.get_fund_allocation("QQQ", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_fund_allocation:', res.json())
+
+    # Fundamentals - Financials Indicators
+    res = data_client.fundamentals.get_financials_indicators("TSLA", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_financials_indicators:', res.json())
+
+    # Fundamentals - Financials Income
+    res = data_client.fundamentals.get_financials_income("TSLA", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_financials_income:', res.json())
+
+    # Fundamentals - Financials Cashflow
+    res = data_client.fundamentals.get_financials_cashflow("TSLA", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_financials_cashflow:', res.json())
+
+    # Fundamentals - Financials Balance Sheet
+    res = data_client.fundamentals.get_financials_balance_sheet("TSLA", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_financials_balance_sheet:', res.json())
+
+    # Fundamentals - Financials Alert
+    res = data_client.fundamentals.get_financials_alert("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_financials_alert:', res.json())
+
+    # Fundamentals - Forecast EPS
+    res = data_client.fundamentals.get_forecast_eps("AAPL", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_forecast_eps:', res.json())
+
+    # Screener - Market Sectors
+    res = data_client.screener.get_market_sectors(Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_market_sectors:', res.json())
+
+    # Screener - Market Sectors Detail
+    res = data_client.screener.get_market_sectors_detail("6391", Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_market_sectors_detail:', res.json())
+
+    # Screener - High Dividend Rank
+    res = data_client.screener.get_high_dividend(Category.US_STOCK.name)
+    if res.status_code == 200:
+        print('get_high_dividend:', res.json())
+
+    # Screener - 52 Week High/Low
+    res = data_client.screener.get_52whl(Category.US_STOCK.name, rank_type="NEW_HIGH")
+    if res.status_code == 200:
+        print('get_52whl:', res.json())
