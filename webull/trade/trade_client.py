@@ -16,6 +16,7 @@ import sys
 
 from webull.core.http.initializer.client_initializer import ClientInitializer
 from webull.trade.trade.account_info import Account
+from webull.trade.trade.activity import Activity
 from webull.trade.trade.order_operation import OrderOperation
 from webull.trade.trade.trade_calendar import TradeCalendar
 from webull.trade.trade.trade_instrument import TradeInstrument
@@ -33,6 +34,7 @@ class TradeClient:
         self.order = OrderOperation(api_client)
         self.order_v2 = OrderOperationV2(api_client)
         self.order_v3 = OrderOperationV3(api_client)
+        self.activity = Activity(api_client)
         self.trade_instrument = TradeInstrument(api_client)
         self.trade_calendar = TradeCalendar(api_client)
 
