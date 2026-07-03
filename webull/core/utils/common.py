@@ -16,7 +16,7 @@
 import base64
 import hashlib
 import socket
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 import json
 from webull.core.compat import ensure_bytes, ensure_string
@@ -33,21 +33,21 @@ def get_uuid():
 def get_iso_8601_date(dt_as_utc=None):
     if dt_as_utc:
         return dt_as_utc.strftime(FORMAT_ISO_8601)
-    d = datetime.utcnow()
+    d = datetime.now(timezone.utc)
     return d.strftime(FORMAT_ISO_8601)
 
 def get_iso_8601_date_with_millis(dt_as_utc=None):
     if dt_as_utc:
         d = dt_as_utc
     else:
-        d = datetime.utcnow()
+        d = datetime.now(timezone.utc)
     ret = d.strftime(FORMAT_ISO_8601_MILLIS)
     if len(ret) != 27:
         raise RuntimeError("failed to convent timestamp, result: %s" % ret)
     return ret[:-4] + ret[-1:]
 
 def parse_timestamp_to_dt(timestamp_of_millis):
-    return datetime.utcfromtimestamp(timestamp_of_millis / 1000.0)
+    return datetime.fromtimestamp(timestamp_of_millis / 1000.0, tz=timezone.utc).replace(tzinfo=None)
 
 def md5_sum(content):
     content_bytes = ensure_bytes(content)
@@ -64,16 +64,3 @@ def sha256_hex(content):
 
 def json_dumps_compact(content):
     return json.dumps(content, ensure_ascii=False, separators=(',', ':'))
-
-def is_not_upgrade_api_host(host):
-    upgrade_hosts = {
-        "api.webull.com","events-api.webull.com",
-        "api.webull.hk","events-api.webull.hk",
-        "pre-openapi-us-alb.webullbroker.com","pre-openapi-us-events.webullbroker.com",
-        "pre-openapi-alb.webullbroker.com","pre-openapi-events.webullbroker.com",
-        "us-openapi-alb.uat.webullbroker.com","us-openapi-events.uat.webullbroker.com",
-        "hk-openapi.uat.webullbroker.com", "hk-openapi-events-api.uat.webullbroker.com",
-        "api.sandbox.webull.hk", "events-api.sandbox.webull.hk"
-
-    }
-    return host not in upgrade_hosts

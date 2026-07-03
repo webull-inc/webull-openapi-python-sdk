@@ -25,6 +25,7 @@ from webull.data.request.get_futures_instruments_request import GetFuturesInstru
 from webull.data.request.get_futures_products_request import GetFuturesProductsRequest
 from webull.data.request.get_futures_instruments_by_code_request import GetFuturesInstrumentsByCodeRequest
 from webull.data.request.get_futures_product_class import GetFuturesProductClassRequest
+from webull.data.request.get_option_contracts_request import GetOptionContractsRequest
 
 
 class Instrument:
@@ -216,6 +217,48 @@ class Instrument:
             event_instrument_request.set_last_instrument_id(last_instrument_id)
         event_instrument_request.set_page_size(page_size)
         response = self.client.get_response(event_instrument_request)
+        return response
+
+    def get_option_contracts(self, category=Category.US_OPTION.name, underlying_symbols=None, status=None,
+                               start_date=None, end_date=None, root_symbol=None, option_symbol=None,
+                               option_type=None, style=None, strike_price_gte=None, strike_price_lte=None,
+                               ppind=None, show_deliverables=None, page_size=10, last_instrument_id=None):
+        """
+        Query option contracts list by conditions such as underlying_symbols, status, expiration date, etc.
+
+        :param category: Market category. Value: US_OPTION.
+        :param underlying_symbols: Underlying symbol(s), comma-separated for multiple, e.g. AAPL,MSFT.
+        :param status: Contract status: LISTING (default), DELISTING.
+        :param start_date: Exact expiration date, format YYYY-MM-DD.
+        :param end_date: Expiration date lower bound (inclusive), format YYYY-MM-DD.
+        :param root_symbol: Root symbol filter (series symbol, e.g. SPXW), mainly for index options and non-standard contracts after CA.
+        :param option_symbol: Option symbol, e.g. AAPL250620C00150000.
+        :param option_type: Contract type: CALL / PUT.
+        :param style: Exercise style: AMERICAN / EUROPEAN.
+        :param strike_price_gte: Strike price lower bound (inclusive).
+        :param strike_price_lte: Strike price upper bound (inclusive).
+        :param ppind: Penny Program Indicator: true = Penny Pilot, false = non-Penny Pilot.
+        :param show_deliverables: Whether to return deliverables array in response: true / false, default false.
+        :param page_size: Page size, default 10, max 1000.
+        :param last_instrument_id: Last instrument_id from previous page for pagination.
+        """
+        request = GetOptionContractsRequest()
+        request.set_category(category)
+        request.set_underlying_symbols(underlying_symbols)
+        request.set_status(status)
+        request.set_start_date(start_date)
+        request.set_end_date(end_date)
+        request.set_root_symbol(root_symbol)
+        request.set_option_symbol(option_symbol)
+        request.set_option_type(option_type)
+        request.set_style(style)
+        request.set_strike_price_gte(strike_price_gte)
+        request.set_strike_price_lte(strike_price_lte)
+        request.set_ppind(ppind)
+        request.set_show_deliverables(show_deliverables)
+        request.set_page_size(page_size)
+        request.set_last_instrument_id(last_instrument_id)
+        response = self.client.get_response(request)
         return response
 
     def get_company_profile(self, symbol, category=Category.US_STOCK.name):

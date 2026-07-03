@@ -24,7 +24,8 @@ requires = [
 
     # cryptography
     "cryptography>=3.4,<42; python_version<'3.12'",
-    "cryptography>=41.0,<43; python_version>='3.12'",
+    "cryptography>=41.0,<43; python_version>='3.12' and python_version<'3.14'",
+    "cryptography>=43.0,<55; python_version>='3.14'",
 
     # protobuf
     "protobuf>=4.21.12,<5; python_version<'3.12'",
@@ -32,17 +33,19 @@ requires = [
 
     # grpc
     "grpcio>=1.51.1,<1.60; python_version<'3.12'",
-    "grpcio>=1.60.0,<1.70; python_version>='3.12'"
+    "grpcio>=1.60.0,<1.70; python_version>='3.12' and python_version<'3.14'",
+    "grpcio>=1.75.1,<2; python_version>='3.14'"
 ]
 
 extras_require = {
     "dev": [
-        "grpcio-tools>=1.60,<1.70",
+        "grpcio-tools>=1.60,<1.70; python_version<'3.14'",
+        "grpcio-tools>=1.75.1,<2; python_version>='3.14'",
     ]
 }
 
 setup_args = {
-    'python_requires':'>=3.8,<3.14',
+    'python_requires':'>=3.8,<3.15',
     'version': VERSION,
     'author': AUTHOR,
     'author_email': AUTHOR_EMAIL,

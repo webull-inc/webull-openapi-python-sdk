@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # coding=utf-8
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class BasicResult:
@@ -33,7 +33,7 @@ class BasicResult:
         return self.timestamp
 
     def get_timestamp_as_utc(self):
-        return datetime.utcfromtimestamp(self.timestamp / 1000.0)
+        return datetime.fromtimestamp(self.timestamp / 1000.0, tz=timezone.utc).replace(tzinfo=None)
 
     def get_trading_session(self):
         return self.trading_session
