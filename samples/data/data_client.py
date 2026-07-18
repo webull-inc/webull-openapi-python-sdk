@@ -265,6 +265,11 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get_forecast_eps:', res.json())
 
+    # Option Instrument - Query option contracts by underlying symbol and filters
+    res = data_client.instrument.get_option_contracts(Category.US_OPTION.name,"AAPL")
+    if res.status_code == 200:
+        print('get_option_contracts:', res.json())
+
     # Screener - Market Sectors
     res = data_client.screener.get_market_sectors(Category.US_STOCK.name)
     if res.status_code == 200:

@@ -80,10 +80,7 @@ class TradeEventsClient():
             timestamp=int(time.time() * 1000),  # millis
             accounts=accounts,
         )
-        if common.is_not_upgrade_api_host(self._host):
-            signer_spec = sha_hmac256_new
-        else:
-            signer_spec = sha_hmac1
+        signer_spec = sha_hmac256_new
 
         signature, metadata = calc_signature(app_key, app_secret, request, signer_spec)
         

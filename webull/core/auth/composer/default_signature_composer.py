@@ -59,10 +59,7 @@ def _refresh_sign_headers(host, headers, app_key_id, signer_spec):
     sign_headers[hd.APP_KEY] = app_key_id
     sign_headers[hd.TIMESTAMP] = common.get_iso_8601_date()
 
-    if common.is_not_upgrade_api_host(host):
-        signer_spec = sha_hmac256_new
-    else:
-        signer_spec = sha_hmac1
+    signer_spec = sha_hmac256_new
 
     sign_headers[hd.SIGN_VERSION] = signer_spec.get_signer_version()
     sign_headers[hd.SIGN_ALGORITHM] = signer_spec.get_signer_name()
