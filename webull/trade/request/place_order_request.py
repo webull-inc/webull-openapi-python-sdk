@@ -20,7 +20,9 @@ from webull.core.context.request_context_holder import RequestContextHolder
 from webull.core.request import ApiRequest
 
 class PlaceOrderRequest(ApiRequest):
-
+    """
+    Deprecated. Use :class:`PlaceOrderRequestV2` instead.
+    """
     def __init__(self):
         ApiRequest.__init__(self, "/trade/order/place", version='v2', method="POST", body_params={})
         self._stock_order = {}

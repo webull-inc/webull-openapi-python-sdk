@@ -1,12 +1,12 @@
 name: PyPI-CI
 
-# 点击star即可构建
+# star build
 
 # on:
 #   watch:
 #     types: started
 
-# push 到main分支才会构建，忽略docs/**和LICENSE等目录
+# push to main branch for build, ignore docs/** and LICENSE dir
 on:
  push:
    branches:

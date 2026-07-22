@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class PlaceOrderRequest(ApiRequest):
     """
-    Deprecated. Use :func:`place_order_request` instead.
+    Deprecated. Use :class:`PlaceOrderRequestV2` instead.
     """
     def __init__(self):
         ApiRequest.__init__(self, "/trade/order/place", version='v2', method="POST", body_params={})

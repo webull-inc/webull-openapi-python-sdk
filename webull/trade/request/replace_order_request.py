@@ -17,6 +17,9 @@ from webull.core.request import ApiRequest
 
 
 class ReplaceOrderRequest(ApiRequest):
+    """
+    Deprecated. Use :class:`ReplaceOrderRequestV2` instead.
+    """
     def __init__(self):
         ApiRequest.__init__(self, "/trade/order/replace", version='v2', method="POST", body_params={})
         self._stock_order = {}

@@ -26,6 +26,9 @@ from webull.trade.request.v2.replace_order_request import ReplaceOrderRequest
 
 
 class OrderOperationV2:
+    """
+    Deprecated. Use :class:`OrderOperationV3` instead.
+    """
     def __init__(self, api_client):
         self.client = api_client
 
