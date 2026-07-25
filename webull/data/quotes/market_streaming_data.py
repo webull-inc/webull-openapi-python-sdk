@@ -27,7 +27,7 @@ class MarketDataStreaming:
        :param session_id: Create the sessionId used for the connection
        :param symbols: Such as: [AAPL,TSLA]
        :param category: Security type, enumeration
-       :param sub_types: Unsubscribe data type, such as: [SNAPSHOT]、SubType Required when unsubscribe_all is empty
+       :param sub_types: Unsubscribe data type, such as: [SNAPSHOT] SubType Required when unsubscribe_all is empty
         or not true
        :param depth: Level 2 subscription levels.
         10 levels by default, up to 50 levels for U.S. stocks.
@@ -51,7 +51,7 @@ class MarketDataStreaming:
         :param session_id: Create the sessionId used for the connection
         :param symbols: Such as: [AAPL,TSLA]
         :param category: Security type, enumeration
-        :param sub_types: Unsubscribe data type, such as: [SNAPSHOT]、SubType Required when unsubscribe_all is empty
+        :param sub_types: Unsubscribe data type, such as: [SNAPSHOT] SubType Required when unsubscribe_all is empty
          or not true
         :param unsubscribe_all: boolean false (true means canceling all real-time market subscriptions.
          When unsubscribe_all is true, symbols, category, sub_types can be empty)

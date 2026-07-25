@@ -21,11 +21,9 @@ def desensitize_token(token, keep_length=6, mask_length=6):
 
     total_length = len(token)
 
-    # 如果字符串长度不足需要保留长度的两倍，则返回全部内容
     if total_length <= keep_length * 2:
         return token
 
-    # 提取前保留部分、后保留部分，并用星号连接
     front_part = token[:keep_length]
     rear_part = token[-keep_length:] if keep_length > 0 else ''
     mask = '*' * mask_length

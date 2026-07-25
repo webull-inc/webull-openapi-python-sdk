@@ -44,7 +44,7 @@ class AskBidResult:
 
     def __repr__(self):
         result = f"price:{self.price},size:{self.size}"
-        # 可选字段
+
         if self.order:
             result += f",order:{str(self.order)}"
         if self.broker:

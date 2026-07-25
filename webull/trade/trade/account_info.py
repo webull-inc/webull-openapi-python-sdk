@@ -14,8 +14,6 @@
 
 # coding=utf-8
 
-from json.tool import main
-from webull.trade.common.currency import Currency
 from webull.trade.request.get_account_balance_request import AccountBalanceRequest
 from webull.trade.request.get_account_positions_request import AccountPositionsRequest
 from webull.trade.request.get_account_profile_request import AccountProfileRequest
@@ -23,6 +21,9 @@ from webull.trade.request.get_app_subscriptions import GetAppSubscriptions
 
 
 class Account:
+    """
+    Deprecated. Use :class:`AccountV2` instead.
+    """
     def __init__(self, api_client):
         self.client = api_client
 

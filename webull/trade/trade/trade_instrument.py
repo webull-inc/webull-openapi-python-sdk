@@ -39,7 +39,7 @@ class TradeInstrument:
         :param symbol: The ticker symbol or code representing a specific financial instrument or security.
         :param market: e.g. US, HK.
         :param instrument_super_type: Asset Class (e.g. EQUITY, OPTION.)
-        :param instrument_type: Type of underlying equity，required when querying for options information (e.g., WARRANT, UNITS, ETF, CALL_OPTION, PUT_OPTION).
+        :param instrument_type: Type of underlying equity,required when querying for options information (e.g., WARRANT, UNITS, ETF, CALL_OPTION, PUT_OPTION).
         :param strike_price: Option Strike Price, required when querying for options information.
         :param init_exp_date: Option Expiration Date, Format: yyyy-MM-dd, required when querying for options information.
         """
