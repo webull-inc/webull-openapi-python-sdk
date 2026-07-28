@@ -32,14 +32,15 @@ class Instrument:
     def __init__(self, api_client):
         self.client = api_client
 
-    def get_instrument(self, symbols=None, category=Category.US_STOCK.name, status=None, last_instrument_id=None,
-                       page_size=1000):
+    def get_instrument(self, symbols=None, category=Category.US_STOCK.name, status=None, sub_category=None,
+                       last_instrument_id=None, page_size=1000):
         """
          Query the underlying information according to the security symbol list and security type.
 
         :param symbols: Securities symbol, such as: 00700,00981.
         :param category: Security type, enumeration.
         :param status: Tradable status.
+        :param sub_category: Security sub category.
         :param last_instrument_id: Last instrument id for pagination.
         :param page_size: Page size, default 1000.
         """
@@ -47,6 +48,7 @@ class Instrument:
         instruments_request.set_symbols(symbols)
         instruments_request.set_category(category)
         instruments_request.set_status(status)
+        instruments_request.set_sub_category(sub_category)
         instruments_request.set_last_instrument_id(last_instrument_id)
         instruments_request.set_page_size(page_size)
         response = self.client.get_response(instruments_request)

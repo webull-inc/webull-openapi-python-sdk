@@ -60,6 +60,17 @@ if __name__ == '__main__':
     # ============================================================
 
     # normal equity order
+    # normal equity order
+    # leg_in_or_out: Currently, only the US market is supported.
+    #   Specifies whether this order is adding or removing a leg from an existing position.
+    #   LEG_IN: Add this leg to an existing position to form a multi-leg strategy.
+    #   LEG_OUT: Close this leg from an existing multi-leg strategy position.
+    # position_id: Currently, only the US market is supported.
+    #   The unique position identifier of the target leg. Obtained from the Account Positions API.
+    #   Required when leg_in_or_out is specified.
+    # leg_in_strategy: Currently, only the US market is supported.
+    #   The target strategy type expected after legging in. Only applicable when leg_in_or_out is LEG_IN.
+    #   (e.g., VERTICAL, CALENDAR, STRANGLE, STRADDLE, IRON_CONDOR, BUTTERFLY, CUSTOM).
     normal_equity_client_order_id = uuid.uuid4().hex
     print('client order id:', normal_equity_client_order_id)
     new_normal_equity_orders = [
@@ -76,6 +87,9 @@ if __name__ == '__main__':
             "side": "BUY",
             "time_in_force": "DAY",
             "entrust_type": "QTY",
+            "leg_in_or_out": "LEG_IN",
+            "position_id": "<your_position_id>",
+            "leg_in_strategy": "VERTICAL",
             # Currently, only Webull JP is supported.
             # "account_tax_type":"GENERAL",
             # "margin_type": "ONE_DAY"
@@ -119,6 +133,9 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get order detail res:', res.json())
 
+    res = trade_client.order_v3.get_order_executions(account_id, client_order_id= "", start_date="2026-01-20", end_date="2026-01-23")
+    if res.status_code == 200:
+        print('get order executions res:', res.json())
 
 
     # combo equity order
@@ -257,6 +274,15 @@ if __name__ == '__main__':
 
     # normal option order
     # position_intent: Currently, only the US market is supported, and only options orders are allowed.
+    # leg_in_or_out: Currently, only the US market is supported.
+    #   Specifies whether this leg is being legged into or legged out of an existing position.
+    #   LEG_IN: Add this leg to an existing position.
+    #   LEG_OUT: Close this leg from an existing multi-leg strategy position.
+    # position_id: Currently, only the US market is supported.
+    #   The unique position identifier of the target leg to be legged in or legged out. Obtained from the Account Positions API. Required when leg_in_or_out is specified.
+    # leg_in_strategy: Currently, only the US market is supported.
+    #   The target strategy type expected after legging in. Specifies what multi-leg strategy the position should become once this leg is added. Only applicable when leg_in_or_out is LEG_IN.
+    #   (e.g., VERTICAL, CALENDAR, STRANGLE, STRADDLE, IRON_CONDOR, BUTTERFLY, CUSTOM).
     normal_option_client_order_id = uuid.uuid4().hex
     new_normal_option_orders = [
         {
@@ -270,6 +296,9 @@ if __name__ == '__main__':
             "time_in_force": "GTC",
             "entrust_type": "QTY",
             "position_intent": "BUY_TO_OPEN",
+            "leg_in_or_out": "LEG_IN",
+            "position_id": "<your_position_id>",
+            "leg_in_strategy": "VERTICAL",
             "legs": [
                 {
                     "side": "BUY",
