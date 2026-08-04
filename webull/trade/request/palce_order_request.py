@@ -22,7 +22,7 @@ class PlaceOrderRequest(ApiRequest):
     Deprecated. Use :class:`PlaceOrderRequestV2` instead.
     """
     def __init__(self):
-        ApiRequest.__init__(self, "/trade/order/place", version='v2', method="POST", body_params={})
+        ApiRequest.__init__(self, "/trade/order/place", version='v3', method="POST", body_params={})
         self._stock_order = {}
         self.add_body_params("stock_order", self._stock_order)
 

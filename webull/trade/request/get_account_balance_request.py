@@ -18,7 +18,7 @@ from webull.core.request import ApiRequest
 
 class AccountBalanceRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/account/balance", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/account/balance", version='v3', method="GET", query_params={})
 
     def set_account_id(self, account_id):
         self.add_query_param("account_id", account_id)

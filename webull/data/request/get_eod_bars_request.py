@@ -17,7 +17,7 @@ from webull.core.request import ApiRequest
 
 class GetEodBarsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/market-data/eod-bars", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/market-data/eod-bars", version='v3', method="GET", query_params={})
 
     def set_instrument_ids(self, instrument_ids):
         if isinstance(instrument_ids, str):

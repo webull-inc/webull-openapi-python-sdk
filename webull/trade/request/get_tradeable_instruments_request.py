@@ -18,7 +18,7 @@ from webull.core.request import ApiRequest
 
 class TradeableInstrumentRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/trade/instrument/tradable/list", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/trade/instrument/tradable/list", version='v3', method="GET", query_params={})
 
     def set_last_instrument_id(self, last_security_id):
         self.add_query_param("last_security_id", last_security_id)

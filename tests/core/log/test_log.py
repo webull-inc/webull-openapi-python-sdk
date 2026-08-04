@@ -34,7 +34,7 @@ class TestLog(unittest.TestCase):
         api_client.set_stream_logger(stream=sys.stdout, format_string=log_format)
         request = ApiRequest("/sign", protocol="http")
         request.add_query_param("k1", " zhong国=&")
-        request.add_query_param("k2", "v2")
+        request.add_query_param("k2", "v3")
         api_client.get_response(request)
 
     def test_set_file_logger(self):
@@ -43,5 +43,5 @@ class TestLog(unittest.TestCase):
         api_client.set_file_logger(path=log_file_path, format_string=log_format)
         request = ApiRequest("/sign", protocol="http")
         request.add_query_param("k1", " zhong国=&")
-        request.add_query_param("k2", "v2")
+        request.add_query_param("k2", "v3")
         api_client.get_response(request)

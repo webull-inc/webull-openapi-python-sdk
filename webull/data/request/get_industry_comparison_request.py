@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class GetIndustryComparisonRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/fundamentals/stock/industry-comparison", version='v2', method="GET",
+        ApiRequest.__init__(self, "/market-data/fundamentals/industry-comparisons/get", version='v3', method="GET",
                            query_params={})
 
     def set_symbol(self, symbol):

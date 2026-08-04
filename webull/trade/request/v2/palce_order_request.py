@@ -21,7 +21,7 @@ class PlaceOrderRequest(ApiRequest):
     Deprecated. Use :func:`place_order_request` instead.
     """
     def __init__(self):
-        super().__init__("/openapi/trade/stock/order/place", version='v2', method="POST", body_params={})
+        super().__init__("/openapi/trade/stock/order/place", version='v3', method="POST", body_params={})
 
     def set_new_orders(self, new_orders):
         self.add_body_params("new_orders", new_orders)

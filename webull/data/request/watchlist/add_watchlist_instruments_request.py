@@ -19,7 +19,8 @@ from webull.core.request import ApiRequest
 
 class AddWatchlistInstrumentsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/watchlist/instruments/add", version="v2", method="POST", body_params={})
+        ApiRequest.__init__(self, "/market-data/watchlists/instruments/add", version="v3", method="POST",
+                            body_params={})
 
     def set_watchlist_id(self, watchlist_id):
         """

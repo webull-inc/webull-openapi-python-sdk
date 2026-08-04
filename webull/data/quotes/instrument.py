@@ -20,7 +20,12 @@ from webull.data.request.get_event_instrument_request import GetEventInstrumentR
 from webull.data.request.get_event_series_categories import GetEventCategoriesRequest
 from webull.data.request.get_event_series_request import GetEventSeriesRequest
 from webull.data.request.get_instruments_request import GetInstrumentsRequest
+from webull.data.request.get_instruments_request_v2 import GetInstrumentsRequestV2
 from webull.data.request.get_crypto_instruments_request import GetCryptoInstrumentsRequest
+from webull.data.request.get_crypto_instruments_request_v2 import GetCryptoInstrumentsRequestV2
+from webull.data.request.get_event_series_request_v2 import GetEventSeriesRequestV2
+from webull.data.request.get_event_instrument_request_v2 import GetEventInstrumentRequestV2
+from webull.data.request.get_option_contracts_request_v2 import GetOptionContractsRequestV2
 from webull.data.request.get_futures_instruments_request import GetFuturesInstrumentsRequest
 from webull.data.request.get_futures_products_request import GetFuturesProductsRequest
 from webull.data.request.get_futures_instruments_by_code_request import GetFuturesInstrumentsByCodeRequest
@@ -35,6 +40,9 @@ class Instrument:
     def get_instrument(self, symbols=None, category=Category.US_STOCK.name, status=None, sub_category=None,
                        last_instrument_id=None, page_size=1000):
         """
+         .. deprecated::
+            Use :meth:`list_instruments` instead.
+
          Query the underlying information according to the security symbol list and security type.
 
         :param symbols: Securities symbol, such as: 00700,00981.
@@ -54,9 +62,32 @@ class Instrument:
         response = self.client.get_response(instruments_request)
         return response
 
+    def list_instruments(self, symbols=None, category=Category.US_STOCK.name, status=None, sub_category=None,
+                         pagination_key=None):
+        """
+         Query the underlying information according to the security symbol list and security type.
+
+        :param symbols: Securities symbol, such as: 00700,00981.
+        :param category: Security type, enumeration.
+        :param status: Tradable status.
+        :param sub_category: Security sub category.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        instruments_request = GetInstrumentsRequestV2()
+        instruments_request.set_symbols(symbols)
+        instruments_request.set_category(category)
+        instruments_request.set_status(status)
+        instruments_request.set_sub_category(sub_category)
+        instruments_request.set_pagination_key(pagination_key)
+        response = self.client.get_response(instruments_request)
+        return response
+
     def get_crypto_instrument(self, symbols=None, status=None, last_instrument_id=None,
                               category=Category.US_CRYPTO.name, page_size=1000):
         """
+        .. deprecated::
+            Use :meth:`list_crypto_instruments` instead.
+
          Query the crypto underlying information according to the security symbol.
         :param symbols: Securities symbol, such as: BTCUSD,ETHUSD.
         :param status: Tradable status.
@@ -72,6 +103,25 @@ class Instrument:
         crypto_instruments_request.set_status(status)
         crypto_instruments_request.set_last_instrument_id(last_instrument_id)
         crypto_instruments_request.set_page_size(page_size)
+        response = self.client.get_response(crypto_instruments_request)
+        return response
+
+    def list_crypto_instruments(self, symbols=None, status=None, category=Category.US_CRYPTO.name,
+                                pagination_key=None):
+        """
+         Query the crypto underlying information according to the security symbol.
+        :param symbols: Securities symbol, such as: BTCUSD,ETHUSD.
+        :param status: Tradable status.
+        :param category: (str, required) Instrument type.
+                     Possible values: ["US_CRYPTO"]
+                     Example: "US_CRYPTO"
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        crypto_instruments_request = GetCryptoInstrumentsRequestV2()
+        crypto_instruments_request.set_symbols(symbols)
+        crypto_instruments_request.set_category(category)
+        crypto_instruments_request.set_status(status)
+        crypto_instruments_request.set_pagination_key(pagination_key)
         response = self.client.get_response(crypto_instruments_request)
         return response
 
@@ -155,6 +205,9 @@ class Instrument:
 
     def get_event_series(self, category=None, symbols=None, last_series_id=None, page_size=500):
         """
+        .. deprecated::
+            Use :meth:`list_event_series` instead.
+
         Retrieve multiple series with specified filters.
         A series represents a template for recurring events that follow the same format and rules (e.g., “Monthly Jobs Report” ).
         This endpoint allows you to browse and discover available series templates by category.
@@ -178,6 +231,28 @@ class Instrument:
         response = self.client.get_response(event_series_request)
         return response
 
+    def list_event_series(self, category=None, symbols=None, pagination_key=None):
+        """
+        Retrieve multiple series with specified filters.
+        A series represents a template for recurring events that follow the same format and rules.
+        This endpoint allows you to browse and discover available series templates by category.
+
+        :param category: The category which this series belongs to.Allowed values:
+                        ECONOMICS, FINANCIALS, POLITICS, ENTERTAINMENT, SCIENCE_TECHNOLOGY,
+                        CLIMATE_WEATHER, TRANSPORTATION, CRYPTO, SPORTS
+        :param symbols: Symbol of the event series, supports JSON array format, multiple symbols separated by commas; maximum 100 symbols per query.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        event_series_request = GetEventSeriesRequestV2()
+        if category:
+            event_series_request.set_category(category)
+        if symbols:
+            event_series_request.set_symbols(symbols)
+        if pagination_key:
+            event_series_request.set_pagination_key(pagination_key)
+        response = self.client.get_response(event_series_request)
+        return response
+
     def get_event_events(self, series_symbol, symbols=None, status=None):
         """
         Query event contract events
@@ -197,13 +272,16 @@ class Instrument:
 
     def get_event_instrument(self, series_symbol, event_symbol=None, symbols=None, expiration_date_after=None, last_instrument_id=None, page_size=500):
         """
+        .. deprecated::
+            Use :meth:`list_event_instruments` instead.
+
         Retrieve profile information for event contract markets based on the series symbol.
 
         :param series_symbol: Symbol that identifies this series.
         :param event_symbol: Symbol of the event events.
         :param symbols: Symbol of the event market, supports JSON array format, multiple symbols separated by commas; maximum 100 symbols per query.
         :param expiration_date_after: Used to filter items whose expiration date is later than a specified date; the default selection is the current day (inclusive).
-        :param last_instrument_id: Last instrument id for pagination.
+        :param last_instrument_id: Last series id for pagination.
         :param page_size: Page size, default 500.
         """
 
@@ -221,11 +299,40 @@ class Instrument:
         response = self.client.get_response(event_instrument_request)
         return response
 
+    def list_event_instruments(self, series_symbol=None, event_symbol=None, symbols=None, expiration_date_after=None,
+                               pagination_key=None):
+        """
+        Retrieve profile information for event contract markets based on the series symbol.
+
+        :param series_symbol: Symbol that identifies this series.
+        :param event_symbol: Symbol of the event events.
+        :param symbols: Symbol of the event market, supports JSON array format, multiple symbols separated by commas; maximum 100 symbols per query.
+        :param expiration_date_after: Used to filter items whose expiration date is later than a specified date; the default selection is the current day (inclusive).
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+
+        event_instrument_request = GetEventInstrumentRequestV2()
+        if series_symbol:
+            event_instrument_request.set_series_symbol(series_symbol)
+        if event_symbol:
+            event_instrument_request.set_event_symbol(event_symbol)
+        if symbols:
+            event_instrument_request.set_symbols(symbols)
+        if expiration_date_after:
+            event_instrument_request.set_expiration_date_after(expiration_date_after)
+        if pagination_key:
+            event_instrument_request.set_pagination_key(pagination_key)
+        response = self.client.get_response(event_instrument_request)
+        return response
+
     def get_option_contracts(self, category=Category.US_OPTION.name, underlying_symbols=None, status=None,
                                start_date=None, end_date=None, root_symbol=None, option_symbol=None,
                                option_type=None, style=None, strike_price_gte=None, strike_price_lte=None,
                                ppind=None, show_deliverables=None, page_size=10, last_instrument_id=None):
         """
+        .. deprecated::
+            Use :meth:`list_option_contracts` instead.
+
         Query option contracts list by conditions such as underlying_symbols, status, expiration date, etc.
 
         :param category: Market category. Value: US_OPTION.
@@ -260,6 +367,46 @@ class Instrument:
         request.set_show_deliverables(show_deliverables)
         request.set_page_size(page_size)
         request.set_last_instrument_id(last_instrument_id)
+        response = self.client.get_response(request)
+        return response
+
+    def list_option_contracts(self, category=Category.US_OPTION.name, option_symbols=None, underlying_symbols=None,
+                              status=None, start_date=None, end_date=None, root_symbol=None, option_type=None,
+                              style=None, strike_price_gte=None, strike_price_lte=None, ppind=None,
+                              show_deliverables=None, pagination_key=None):
+        """
+        Query option contracts list by conditions such as underlying_symbols, status, expiration date, etc.
+
+        :param category: Market category. Value: US_OPTION.
+        :param option_symbols: Option symbol(s), comma-separated for multiple, e.g. AAPL250620C00150000.
+        :param underlying_symbols: Underlying symbol(s), comma-separated for multiple, e.g. AAPL,MSFT.
+        :param status: Contract status: LISTING (default), DELISTING.
+        :param start_date: Exact expiration date, format YYYY-MM-DD.
+        :param end_date: Expiration date lower bound (inclusive), format YYYY-MM-DD.
+        :param root_symbol: Root symbol filter (series symbol, e.g. SPXW), mainly for index options and non-standard contracts after CA.
+        :param option_type: Contract type: CALL / PUT.
+        :param style: Exercise style: AMERICAN / EUROPEAN.
+        :param strike_price_gte: Strike price lower bound (inclusive).
+        :param strike_price_lte: Strike price upper bound (inclusive).
+        :param ppind: Penny Program Indicator: true = Penny Pilot, false = non-Penny Pilot.
+        :param show_deliverables: Whether to return deliverables array in response: true / false, default false.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetOptionContractsRequestV2()
+        request.set_category(category)
+        request.set_option_symbols(option_symbols)
+        request.set_underlying_symbols(underlying_symbols)
+        request.set_status(status)
+        request.set_start_date(start_date)
+        request.set_end_date(end_date)
+        request.set_root_symbol(root_symbol)
+        request.set_option_type(option_type)
+        request.set_style(style)
+        request.set_strike_price_gte(strike_price_gte)
+        request.set_strike_price_lte(strike_price_lte)
+        request.set_ppind(ppind)
+        request.set_show_deliverables(show_deliverables)
+        request.set_pagination_key(pagination_key)
         response = self.client.get_response(request)
         return response
 

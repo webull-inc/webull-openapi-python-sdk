@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class GetDividendCalendarRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/fundamentals/stock/dividend-calendar", version='v2', method="GET",
+        ApiRequest.__init__(self, "/market-data/fundamentals/dividend-calendars/list", version='v3', method="GET",
                            query_params={})
 
     def set_symbol(self, symbol):

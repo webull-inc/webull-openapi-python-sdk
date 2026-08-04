@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class DeleteWatchlistRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/watchlist/delete", version="v2", method="POST", body_params={})
+        ApiRequest.__init__(self, "/market-data/watchlists/delete", version="v3", method="POST", body_params={})
 
     def set_watchlist_id(self, watchlist_id):
         """

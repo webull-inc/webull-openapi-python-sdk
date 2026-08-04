@@ -18,7 +18,7 @@ from webull.core.request import ApiRequest
 
 class ReplaceOrderRequestV2(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/trade/order/replace", version='v2', method="POST", body_params={})
+        ApiRequest.__init__(self, "/trade/order/replace", version='v3', method="POST", body_params={})
         self._stock_order = {}
         self.add_body_params("stock_order", self._stock_order)
 

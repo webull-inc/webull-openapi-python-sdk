@@ -16,6 +16,11 @@ from webull.core.request import ApiRequest
 
 
 class GetOrderExecutionsRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`GetOrderExecutionsRequestV2` instead.
+    """
+
     def __init__(self):
         ApiRequest.__init__(self, "/trading/orders/executions/list", version='v2', method="GET", query_params={})
 

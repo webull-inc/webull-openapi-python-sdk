@@ -17,6 +17,10 @@ from webull.core.request import ApiRequest
 
 
 class AccountPositionDetailsRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`AccountPositionDetailsRequestV2` instead.
+    """
     def __init__(self):
         ApiRequest.__init__(self, "/openapi/assets/position/details", version='v2', method="GET", query_params={})
 

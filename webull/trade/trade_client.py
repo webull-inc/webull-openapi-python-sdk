@@ -22,7 +22,7 @@ from webull.trade.trade.trade_calendar import TradeCalendar
 from webull.trade.trade.trade_instrument import TradeInstrument
 from webull.trade.trade.v2.account_info_v2 import AccountV2
 from webull.trade.trade.v2.order_operation_v2 import OrderOperationV2
-from webull.trade.trade.v3.order_opration_v3 import OrderOperationV3
+from webull.trade.trade.v3.order_operation_v3 import OrderOperationV3
 
 
 class TradeClient:

@@ -18,7 +18,7 @@ from webull.core.request import ApiRequest
 
 class GetAppSubscriptions(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/app/subscriptions/list", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/app/subscriptions/list", version='v3', method="GET", query_params={})
 
     def set_subscription_id(self, subscription_id=None):
         if subscription_id:

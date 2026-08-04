@@ -18,7 +18,7 @@ from webull.core.request import ApiRequest
 
 class TradeCalendarRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/trade/calendar", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/trade/calendar", version='v3', method="GET", query_params={})
 
     def set_market(self, market):
         self.add_query_param("market", market)

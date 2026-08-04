@@ -17,8 +17,12 @@
 from webull.core.request import ApiRequest
 
 class GetInstrumentsRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`GetInstrumentsRequestV2` instead.
+    """
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/stock/list", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/instrument/stock/list", version='v3', method="GET", query_params={})
 
     def set_symbols(self, symbols):
         if isinstance(symbols, str):

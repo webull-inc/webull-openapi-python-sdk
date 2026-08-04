@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class BatchPlaceOrderRequest(ApiRequest):
     def __init__(self):
-        super().__init__("/openapi/trade/order/batch-place", version='v2', method="POST", body_params={})
+        super().__init__("/trading/orders/batch-place", version='v3', method="POST", body_params={})
 
     def set_account_id(self, account_id):
         self.add_body_params("account_id", account_id)

@@ -19,7 +19,8 @@ from webull.core.request import ApiRequest
 
 class GetCompanyProfileRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/company/profile", version="v2", method="GET", query_params={})
+        ApiRequest.__init__(self, "/market-data/fundamentals/company-profiles/get", version="v3", method="GET",
+                            query_params={})
 
     def set_symbol(self, symbol):
         """

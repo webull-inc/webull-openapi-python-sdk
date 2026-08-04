@@ -17,8 +17,12 @@
 from webull.core.request import ApiRequest
 
 class GetEventSeriesRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`GetEventSeriesRequestV2` instead.
+    """
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/event/series/list", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/instrument/event/series/list", version='v3', method="GET", query_params={})
 
     def set_category(self, category):
         self.add_query_param("category", category)

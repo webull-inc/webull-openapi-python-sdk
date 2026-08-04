@@ -38,4 +38,4 @@ from webull.core.request import ApiRequest
 
 class GetConfigRequest(ApiRequest):
     def __init__(self):
-        super().__init__("/openapi/config", version='v2', method="GET", query_params={})
+        super().__init__("/openapi/config", version='v3', method="GET", query_params={})

@@ -18,7 +18,7 @@ from webull.core.request import ApiRequest
 
 class CancelOrderRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/trade/stock/order/cancel", version='v2', method="POST", body_params={})
+        ApiRequest.__init__(self, "/openapi/trade/stock/order/cancel", version='v3', method="POST", body_params={})
 
     def set_account_id(self, account_id):
         self.add_body_params("account_id", account_id)

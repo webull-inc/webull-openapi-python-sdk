@@ -15,11 +15,17 @@
 # coding=utf-8
 
 from webull.data.request.screener.get_gainers_losers_request import GetGainersLosersRequest
+from webull.data.request.screener.get_gainers_losers_request_v2 import GetGainersLosersRequestV2
 from webull.data.request.screener.get_most_active_request import GetMostActiveRequest
+from webull.data.request.screener.get_most_active_request_v2 import GetMostActiveRequestV2
 from webull.data.request.screener.get_market_sectors_request import GetMarketSectorsRequest
+from webull.data.request.screener.get_market_sectors_request_v2 import GetMarketSectorsRequestV2
 from webull.data.request.screener.get_market_sectors_detail_request import GetMarketSectorsDetailRequest
+from webull.data.request.screener.get_market_sectors_detail_request_v2 import GetMarketSectorsDetailRequestV2
 from webull.data.request.screener.get_high_dividend_request import GetHighDividendRequest
+from webull.data.request.screener.get_high_dividend_request_v2 import GetHighDividendRequestV2
 from webull.data.request.screener.get_52whl_request import Get52WHLRequest
+from webull.data.request.screener.get_52whl_request_v2 import Get52WHLRequestV2
 
 
 class Screener:
@@ -36,6 +42,9 @@ class Screener:
 
     def get_gainers_losers(self, rank_type, category, sort_by, page_index=None, page_size=None, direction=None):
         """
+        .. deprecated::
+            Use :meth:`list_gainers_losers` instead.
+
         Get stock top gainers or losers ranking by price change percentage.
         
         This API returns stocks ranked by price change over different time periods.
@@ -76,8 +85,50 @@ class Screener:
         response = self.client.get_response(request)
         return response
 
+    def list_gainers_losers(self, rank_type, category, sort_by, direction=None):
+        """
+        Get stock top gainers or losers ranking by price change percentage.
+
+        This API returns stocks ranked by price change over different time periods.
+        Use direction='DESC' for gainers (top performers) and direction='ASC' for losers.
+        The ranking is not paginated and returns the top 200 results.
+
+        :param rank_type: Time period for ranking. Required.
+            Enum values:
+            - PRE_MARKET: Pre-market session
+            - AFTER_MARKET: After-market session
+            - MIN_3: 3 minutes
+            - MIN_5: 5 minutes
+            - DAY_1: 1 day
+            - DAY_5: 5 days
+            - MONTH_1: 1 month
+            - MONTH_3: 3 months
+            - WEEK_52: 52 weeks
+        :param category: Security market category. Required. (e.g., 'US_STOCK')
+        :param sort_by: Secondary sort field. Required.
+            Enum values: CHANGE_RATIO, RELATIVE_VOLUME_10D, MARKET_VALUE, CLOSE,
+            PRICE, PE_TTM, HIGH, LOW, AMPLITUDE, TURNOVER, VOLUME
+        :param direction: Sort direction. Optional (defaults to DESC).
+            - ASC: Ascending (for losers)
+            - DESC: Descending (for gainers)
+        :return: Response containing a list of ranked stocks with instrument_id,
+            symbol, name, exchange_code, currency_code, pre_close, open, high, low,
+            close, price, change, change_ratio, volume, turnover_rate, market_value,
+            amplitude, relative_volume_10d, pe_ttm.
+        """
+        request = GetGainersLosersRequestV2()
+        request.set_rank_type(rank_type)
+        request.set_category(category)
+        request.set_sort_by(sort_by)
+        request.set_direction(direction)
+        response = self.client.get_response(request)
+        return response
+
     def get_most_active(self, category, rank_type=None, sort_by=None, page_index=None, page_size=None, direction=None):
         """
+        .. deprecated::
+            Use :meth:`list_most_active` instead.
+
         Get most actively traded stocks ranking.
         
         This API returns stocks ranked by trading activity metrics such as volume,
@@ -119,8 +170,51 @@ class Screener:
         response = self.client.get_response(request)
         return response
 
+    def list_most_active(self, category, rank_type=None, sort_by=None, direction=None):
+        """
+        Get most actively traded stocks ranking.
+
+        This API returns stocks ranked by trading activity metrics such as volume,
+        relative volume, turnover amount, turnover rate, or amplitude.
+        The ranking is not paginated and returns the top 200 results.
+
+        Default sort: rank_type=VOLUME, sort_by=VOLUME, direction=DESC
+
+        The relative_volume_10d field is unique to this endpoint compared to
+        the gainers/losers endpoint.
+
+        :param category: Security market category. Required. (e.g., 'US_STOCK')
+        :param rank_type: Activity metric for ranking. Optional (defaults to VOLUME).
+            Enum values:
+            - VOLUME: Trading volume
+            - RELATIVE_VOLUME_10D: 10-day relative volume
+            - TURNOVER: Turnover amount
+            - TURNOVER_RATE: Turnover rate
+            - AMPLITUDE: Price amplitude
+        :param sort_by: Secondary sort field. Optional.
+            Enum values: CHANGE_RATIO, RELATIVE_VOLUME_10D, MARKET_VALUE, CLOSE,
+            PRICE, PE_TTM, HIGH, LOW, AMPLITUDE, TURNOVER, VOLUME
+        :param direction: Sort direction. Optional (defaults to DESC).
+            - ASC: Ascending order
+            - DESC: Descending order
+        :return: Response containing a list of ranked stocks with instrument_id,
+            symbol, name, exchange_code, currency_code, pre_close, open, high, low,
+            close, price, change, change_ratio, volume, turnover_rate, market_value,
+            amplitude, relative_volume_10d.
+        """
+        request = GetMostActiveRequestV2()
+        request.set_category(category)
+        request.set_rank_type(rank_type)
+        request.set_sort_by(sort_by)
+        request.set_direction(direction)
+        response = self.client.get_response(request)
+        return response
+
     def get_market_sectors(self, category, agg_type=None, period=None, page_index=None, page_size=None, direction=None):
         """
+        .. deprecated::
+            Use :meth:`list_market_sectors` instead.
+
         Get all sector overview data.
 
         :param category: Security category. Required. (e.g., 'US_STOCK')
@@ -140,8 +234,30 @@ class Screener:
         response = self.client.get_response(request)
         return response
 
+    def list_market_sectors(self, category, agg_type=None, period=None, direction=None, pagination_key=None):
+        """
+        Get all sector overview data.
+
+        :param category: Security category. Required. (e.g., 'US_STOCK')
+        :param agg_type: Statistics type, default is MARKET_VALUE. Enum: MARKET_VALUE, VOLUME.
+        :param period: Statistics period, default is D1. Enum: D1, D5, M01, M03.
+        :param direction: Sorting direction. Enum: ASC (ascending), DESC (descending).
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetMarketSectorsRequestV2()
+        request.set_category(category)
+        request.set_agg_type(agg_type)
+        request.set_period(period)
+        request.set_direction(direction)
+        request.set_pagination_key(pagination_key)
+        response = self.client.get_response(request)
+        return response
+
     def get_market_sectors_detail(self, sector_id, category, period=None, page_index=None, page_size=None, sort_by=None, direction=None):
         """
+        .. deprecated::
+            Use :meth:`list_market_sectors_detail` instead.
+
         Get stock list and statistics for a specific sector.
 
         :param sector_id: Sector ID. Required.
@@ -163,8 +279,32 @@ class Screener:
         response = self.client.get_response(request)
         return response
 
+    def list_market_sectors_detail(self, sector_id, category, period=None, sort_by=None, direction=None, pagination_key=None):
+        """
+        Get stock list and statistics for a specific sector.
+
+        :param sector_id: Sector ID. Required.
+        :param category: Security category. Required. (e.g., 'US_STOCK')
+        :param period: Statistics period, default is D1. Enum: D1, D5, M01, M03.
+        :param sort_by: Sort field, default is CHANGE_RATIO. Enum: CHANGE_RATIO, RELATIVE_VOLUME_10D, MARKET_VALUE, CLOSE, PRICE, PE_TTM, HIGH, LOW, AMPLITUDE, TURNOVER, VOLUME, YIELD, DIVIDEND.
+        :param direction: Sorting direction. Enum: ASC (ascending), DESC (descending).
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetMarketSectorsDetailRequestV2()
+        request.set_sector_id(sector_id)
+        request.set_category(category)
+        request.set_period(period)
+        request.set_sort_by(sort_by)
+        request.set_direction(direction)
+        request.set_pagination_key(pagination_key)
+        response = self.client.get_response(request)
+        return response
+
     def get_high_dividend(self, category, sort_by=None, page_index=None, page_size=None, direction=None):
         """
+        .. deprecated::
+            Use :meth:`list_high_dividend` instead.
+
         Get high dividend rank list.
 
         :param category: Security category. Required. (e.g., 'US_STOCK')
@@ -182,8 +322,28 @@ class Screener:
         response = self.client.get_response(request)
         return response
 
+    def list_high_dividend(self, category, sort_by=None, direction=None):
+        """
+        Get high dividend rank list.
+
+        The ranking is not paginated and returns the top 200 results.
+
+        :param category: Security category. Required. (e.g., 'US_STOCK')
+        :param sort_by: Sort field, default is YIELD. Enum: CHANGE_RATIO, RELATIVE_VOLUME_10D, MARKET_VALUE, CLOSE, PRICE, PE_TTM, HIGH, LOW, AMPLITUDE, TURNOVER, VOLUME, YIELD, DIVIDEND.
+        :param direction: Sorting direction, default is DESC. Enum: ASC (ascending), DESC (descending).
+        """
+        request = GetHighDividendRequestV2()
+        request.set_category(category)
+        request.set_sort_by(sort_by)
+        request.set_direction(direction)
+        response = self.client.get_response(request)
+        return response
+
     def get_52whl(self, category, rank_type=None, sort_by=None, page_index=None, page_size=None, direction=None):
         """
+        .. deprecated::
+            Use :meth:`list_52whl` instead.
+
         Get 52 week high/low rank list.
 
         :param category: Security category. Required. (e.g., 'US_STOCK')
@@ -199,6 +359,25 @@ class Screener:
         request.set_sort_by(sort_by)
         request.set_page_index(page_index)
         request.set_page_size(page_size)
+        request.set_direction(direction)
+        response = self.client.get_response(request)
+        return response
+
+    def list_52whl(self, category, rank_type=None, sort_by=None, direction=None):
+        """
+        Get 52 week high/low rank list.
+
+        The ranking is not paginated and returns the top 200 results.
+
+        :param category: Security category. Required. (e.g., 'US_STOCK')
+        :param rank_type: Index code. Enum: NEW_HIGH, NEAR_HIGH, NEW_LOW, NEAR_LOW.
+        :param sort_by: Sort field, default is CHANGE_RATIO_52W. Enum: CHANGE_RATIO, RELATIVE_VOLUME_10D, MARKET_VALUE, CLOSE, PRICE, PE_TTM, HIGH, LOW, AMPLITUDE, TURNOVER, VOLUME, YIELD, DIVIDEND.
+        :param direction: Sorting direction. Enum: ASC (ascending), DESC (descending).
+        """
+        request = Get52WHLRequestV2()
+        request.set_rank_type(rank_type)
+        request.set_category(category)
+        request.set_sort_by(sort_by)
         request.set_direction(direction)
         response = self.client.get_response(request)
         return response

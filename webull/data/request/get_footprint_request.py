@@ -17,7 +17,7 @@ from webull.core.request import ApiRequest
 
 class GetFootprintRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/stock/footprint", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/market-data/stocks/footprints/list", version='v3', method="GET", query_params={})
 
     def set_symbols(self, symbols):
         if isinstance(symbols, str):

@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class CreateWatchlistRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/watchlist/create", version="v2", method="POST", body_params={})
+        ApiRequest.__init__(self, "/market-data/watchlists/create", version="v3", method="POST", body_params={})
 
     def set_name(self, name):
         """

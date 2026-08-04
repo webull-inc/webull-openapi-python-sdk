@@ -18,8 +18,12 @@ from webull.core.request import ApiRequest
 
 
 class GetMarketSectorsRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`GetMarketSectorsRequestV2` instead.
+    """
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/screener/market-sectors", version='v2', method="GET",
+        ApiRequest.__init__(self, "/openapi/market-data/screener/market-sectors", version='v3', method="GET",
                            query_params={})
 
     def set_category(self, category):

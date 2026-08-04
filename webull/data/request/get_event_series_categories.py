@@ -18,4 +18,5 @@ from webull.core.request import ApiRequest
 
 class GetEventCategoriesRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/event/categories", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/trading/instruments/event-contracts/categories/list", version='v3', method="GET",
+                            query_params={})

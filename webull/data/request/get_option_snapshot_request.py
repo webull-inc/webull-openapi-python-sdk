@@ -25,7 +25,7 @@ class GetOptionSnapshotRequest(ApiRequest):
     """
 
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/option/snapshot", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/market-data/options/snapshots/list", version='v3', method="GET", query_params={})
 
     def set_symbols(self, symbols):
         """

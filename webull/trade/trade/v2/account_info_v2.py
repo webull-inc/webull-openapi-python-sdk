@@ -16,6 +16,7 @@
 from webull.trade.request.v2.get_account_balance_request import AccountBalanceRequest
 from webull.trade.request.v2.get_account_list_request import GetAccountListRequest
 from webull.trade.request.v2.get_account_position_details_request import AccountPositionDetailsRequest
+from webull.trade.request.v2.get_account_position_details_request_v2 import AccountPositionDetailsRequestV2
 from webull.trade.request.v2.get_account_positions_request import AccountPositionsRequest
 
 
@@ -54,6 +55,11 @@ class AccountV2:
 
     def get_account_position_details(self, account_id, instrument_id, page_size=None, last_id=None):
         """
+        .. deprecated::
+            Use :meth:`list_position_details` instead.
+
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
+
         This interface is currently supported only for Webull JP.
         Support for other regions will be available in future updates.
         """
@@ -62,5 +68,23 @@ class AccountV2:
         account_position_details_request.set_instrument_id(instrument_id)
         account_position_details_request.set_page_size(page_size)
         account_position_details_request.set_last_id(last_id)
+        response = self.client.get_response(account_position_details_request)
+        return response
+
+    def list_position_details(self, account_id, instrument_id, pagination_key=None):
+        """
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
+
+        This interface is currently supported only for Webull JP.
+        Support for other regions will be available in future updates.
+
+        :param account_id: Account ID
+        :param instrument_id: Instrument ID
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        account_position_details_request = AccountPositionDetailsRequestV2()
+        account_position_details_request.set_account_id(account_id)
+        account_position_details_request.set_instrument_id(instrument_id)
+        account_position_details_request.set_pagination_key(pagination_key)
         response = self.client.get_response(account_position_details_request)
         return response
