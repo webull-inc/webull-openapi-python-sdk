@@ -33,6 +33,10 @@ class GetInstrumentsRequest(ApiRequest):
         if status:
             self.add_query_param("status", status)
 
+    def set_sub_category(self, sub_category):
+        if sub_category:
+            self.add_query_param("sub_category", sub_category)
+
     def set_last_instrument_id(self, last_instrument_id):
         if last_instrument_id:
             self.add_query_param("last_instrument_id", last_instrument_id)

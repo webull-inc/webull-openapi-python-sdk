@@ -20,6 +20,7 @@ from webull.trade.request.v3.cancel_order_request import CancelOrderRequest
 from webull.trade.request.v3.get_order_detail_request import OrderDetailRequest
 from webull.trade.request.v3.get_order_history_request import OrderHistoryRequest
 from webull.trade.request.v3.get_order_open_request import OrderOpenRequest
+from webull.trade.request.v2.get_order_executions_request import GetOrderExecutionsRequest
 
 
 class OrderOperationV3:
@@ -90,6 +91,11 @@ class OrderOperationV3:
         """
         This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX, Webull ZA, Webull EU.
         Support for other regions will be available in future updates.
+
+        Response fields (per order item, US market only):
+        - leg_in_or_out: Indicates whether this order is legging in or out. Values: LEG_IN, LEG_OUT.
+        - position_id: The unique position identifier of the target leg.
+        - leg_in_strategy: The target strategy type after legging in (e.g., VERTICAL, CALENDAR, STRANGLE, STRADDLE, IRON_CONDOR, BUTTERFLY, CUSTOM).
         """
         order_detail_request = OrderDetailRequest()
         order_detail_request.set_account_id(account_id=account_id)
@@ -111,6 +117,11 @@ class OrderOperationV3:
         :param end_date: End date (if empty, the default is the last 7 days), in the format of yyyy-MM-dd.
         :param last_client_order_id: The last client order ID from the previous response. For the first page query,
         this parameter is not required.
+
+        Response fields (per order item, US market only):
+        - leg_in_or_out: Indicates whether this order is legging in or out. Values: LEG_IN, LEG_OUT.
+        - position_id: The unique position identifier of the target leg.
+        - leg_in_strategy: The target strategy type after legging in (e.g., VERTICAL, CALENDAR, STRANGLE, STRADDLE, IRON_CONDOR, BUTTERFLY, CUSTOM).
         """
         order_history_request = OrderHistoryRequest()
         order_history_request.set_account_id(account_id=account_id)
@@ -136,6 +147,11 @@ class OrderOperationV3:
         :param page_size: Limit the number of records per query to 10 by default.
         :param last_client_order_id: The last client order ID from the previous response. For the first page query,
         this parameter is not required.
+
+        Response fields (per order item, US market only):
+        - leg_in_or_out: Indicates whether this order is legging in or out. Values: LEG_IN, LEG_OUT.
+        - position_id: The unique position identifier of the target leg.
+        - leg_in_strategy: The target strategy type after legging in (e.g., VERTICAL, CALENDAR, STRANGLE, STRADDLE, IRON_CONDOR, BUTTERFLY, CUSTOM).
         """
         order_open_request = OrderOpenRequest()
         order_open_request.set_account_id(account_id=account_id)
@@ -144,4 +160,34 @@ class OrderOperationV3:
         if last_client_order_id:
             order_open_request.set_last_client_order_id(last_client_order_id=last_client_order_id)
         response = self.client.get_response(order_open_request)
+        return response
+
+    def get_order_executions(self, account_id, client_order_id=None, start_date=None, end_date=None, last_execution_id=None, page_size=None):
+        """
+        This interface is currently supported only for Webull HK.
+        Support for other regions will be available in future updates.
+
+        Query order execution records within a specified date range.
+
+        :param account_id: Account ID (required).
+        :param client_order_id: The 3rd party order ID.
+        :param start_date: Start date in the format of yyyy-MM-dd.
+        :param end_date: End date in the format of yyyy-MM-dd.
+        :param last_execution_id: The last execution ID from the previous response. For the first page query,
+        this parameter is not required.
+        :param page_size: Number of records per page, defaults to 10.
+        """
+        request = GetOrderExecutionsRequest()
+        request.set_account_id(account_id)
+        if start_date:
+            request.set_start_date(start_date)
+        if end_date:
+            request.set_end_date(end_date)
+        if last_execution_id:
+            request.set_last_execution_id(last_execution_id)
+        if client_order_id:
+            request.set_client_order_id(client_order_id)
+        if page_size:
+            request.set_page_size(page_size)
+        response = self.client.get_response(request)
         return response
