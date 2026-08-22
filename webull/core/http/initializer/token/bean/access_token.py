@@ -34,7 +34,8 @@
 # coding=utf-8
 
 class AccessToken:
-    def __init__(self, token, expires, status):
+    def __init__(self, token, expires, status, expires_at=None):
         self.token = token
         self.expires = expires
         self.status = status
+        self.expires_at = expires_at
