@@ -20,10 +20,11 @@ from webull.data.quotes.subscribe.event_depth_decoder import EventDepthDecoder
 from webull.data.quotes.subscribe.event_snapshot_decoder import EventSnapshotDecoder
 from webull.data.quotes.subscribe.event_tick_decoder import EventTickDecoder
 from webull.data.quotes.subscribe.payload_type import PAYLOAD_TYPE_QUOTE, PAYLOAD_TYPE_SHAPSHOT, PAYLOAD_TYPE_TICK, \
-    PAYLOAD_TYPE_EVENT_SHAPSHOT, PAYLOAD_TYPE_EVENT_DEPTH, PAYLOAD_TYPE_EVENT_TICK
+    PAYLOAD_TYPE_EVENT_SHAPSHOT, PAYLOAD_TYPE_EVENT_DEPTH, PAYLOAD_TYPE_EVENT_TICK, PAYLOAD_TYPE_NOTICE
 from webull.data.quotes.subscribe.quote_decoder import QuoteDecoder
 from webull.data.quotes.subscribe.snapshot_decoder import SnapshotDecoder
 from webull.data.quotes.subscribe.tick_decoder import TickDecoder
+from webull.data.quotes.subscribe.notice_decoder import NoticeDecoder
 
 
 class DataStreamingClient(QuotesClient):
@@ -46,6 +47,7 @@ class DataStreamingClient(QuotesClient):
         self.register_payload_decoder(PAYLOAD_TYPE_EVENT_DEPTH, EventDepthDecoder())
         self.register_payload_decoder(PAYLOAD_TYPE_EVENT_SHAPSHOT, EventSnapshotDecoder())
         self.register_payload_decoder(PAYLOAD_TYPE_EVENT_TICK, EventTickDecoder())
+        self.register_payload_decoder(PAYLOAD_TYPE_NOTICE, NoticeDecoder())
 
     @property
     def on_connect_success(self):
