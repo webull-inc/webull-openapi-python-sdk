@@ -83,7 +83,7 @@ class QuotesClient(mqttc.Client):
                 client._easy_log(
                     LOG_DEBUG, 'decoded message topic: %s, payload: %s', decoded[0], decoded[1])
                 _on_quotes_message = client._on_quotes_message
-                no_callback_topic = ['echo','notice']
+                no_callback_topic = ['echo']
                 if _on_quotes_message and decoded[0] not in no_callback_topic:
                     _on_quotes_message(client, decoded[0], decoded[1])
             else:
@@ -115,7 +115,7 @@ class QuotesClient(mqttc.Client):
 
         self._quotes_message = _quotes_message
         self._quotes_on_connect = _quotes_on_connect
-        mqttc.Client.__init__(self, self._client_id, transport=transport, reconnect_on_failure=False)
+        mqttc.Client.__init__(self, client_id=self._client_id, transport=transport, reconnect_on_failure=False)
         self.username_pw_set(self._app_key, uuid.uuid4().hex)
         if tls_enable:
             self.tls_set()
