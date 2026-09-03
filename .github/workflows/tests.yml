@@ -30,3 +30,21 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install tox
       - run: python -m tox -e py
+
+  protobuf:
+    name: Protobuf ${{ matrix.protobuf-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        protobuf-version:
+          - "6"
+          - "7"
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - run: python -m pip install tox
+      - run: python -m tox -e py314-protobuf${{ matrix.protobuf-version }}

@@ -28,8 +28,8 @@ requires = [
     "cryptography>=43.0,<55; python_version>='3.14'",
 
     # protobuf
-    "protobuf>=4.21.12,<5; python_version<'3.12'",
-    "protobuf>=4.25.0,<6; python_version>='3.12'",
+    "protobuf>=4.21.12,<8; python_version<'3.12'",
+    "protobuf>=4.25.0,<8; python_version>='3.12'",
 
     # grpc
     "grpcio>=1.51.1,<1.60; python_version<'3.12'",
