@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class GetFundPerformanceRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/fundamentals/fund/performance", version='v2', method="GET",
+        ApiRequest.__init__(self, "/market-data/fundamentals/fund-performances/get", version='v3', method="GET",
                            query_params={})
 
     def set_symbol(self, symbol):

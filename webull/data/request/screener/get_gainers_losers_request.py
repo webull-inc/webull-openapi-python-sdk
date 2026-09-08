@@ -19,6 +19,9 @@ from webull.core.request import ApiRequest
 
 class GetGainersLosersRequest(ApiRequest):
     """
+    .. deprecated::
+        Use :class:`GetGainersLosersRequestV2` instead.
+
     Request class for Stock Top Gainers/Losers Rank API.
     
     This API returns stocks ranked by price change percentage over different time periods.
@@ -26,7 +29,8 @@ class GetGainersLosersRequest(ApiRequest):
     """
     
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/screener/gainers-losers", version="v2", method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/screener/gainers-losers", version="v2", method="GET",
+                            query_params={})
 
     def set_rank_type(self, rank_type):
         """

@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class GetEventBarsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/event/bars", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/market-data/event-contracts/bars/list", version='v3', method="GET", query_params={})
 
     def set_symbols(self, symbols):
         if isinstance(symbols, str):

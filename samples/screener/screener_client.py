@@ -98,8 +98,8 @@ if __name__ == '__main__':
     # Get most active stocks by turnover amount
     res = data_client.screener.get_most_active(
         category="US_STOCK",
-        rank_type="TURNOVER",
-        sort_by="TURNOVER",
+        rank_type="RELATIVE_VOLUME_10D",
+        sort_by="RELATIVE_VOLUME_10D",
         direction="DESC",
         page_size=10
     )
@@ -116,3 +116,56 @@ if __name__ == '__main__':
     )
     if res.status_code == 200:
         print('get_high_amplitude_stocks:', res.json())
+
+    # ------------------------------------------------------------------
+    # New endpoints. These rankings are not paginated and return top 200.
+    # ------------------------------------------------------------------
+
+    # Get top gainers for today (new endpoint, no pagination)
+    res = data_client.screener.list_gainers_losers(
+        rank_type="DAY_1",
+        category="US_STOCK",
+        sort_by="CHANGE_RATIO",
+        direction="DESC"
+    )
+    if res.status_code == 200:
+        print('list_gainers (day):', res.json())
+
+    # Get top losers for today (new endpoint, no pagination)
+    res = data_client.screener.list_gainers_losers(
+        rank_type="DAY_1",
+        category="US_STOCK",
+        sort_by="CHANGE_RATIO",
+        direction="ASC"
+    )
+    if res.status_code == 200:
+        print('list_losers (day):', res.json())
+
+    # Get most active stocks by volume (new endpoint, no pagination)
+    res = data_client.screener.list_most_active(
+        category="US_STOCK",
+        rank_type="VOLUME",
+        sort_by="VOLUME",
+        direction="DESC"
+    )
+    if res.status_code == 200:
+        print('list_most_active_by_volume:', res.json())
+
+    # Get high dividend rank list (new endpoint, no pagination)
+    res = data_client.screener.list_high_dividend(
+        category="US_STOCK",
+        sort_by="YIELD",
+        direction="DESC"
+    )
+    if res.status_code == 200:
+        print('list_high_dividend:', res.json())
+
+    # Get 52 week new highs (new endpoint, no pagination)
+    res = data_client.screener.list_52whl(
+        category="US_STOCK",
+        rank_type="NEW_HIGH",
+        sort_by="CHANGE_RATIO_52W",
+        direction="DESC"
+    )
+    if res.status_code == 200:
+        print('list_52whl_new_high:', res.json())

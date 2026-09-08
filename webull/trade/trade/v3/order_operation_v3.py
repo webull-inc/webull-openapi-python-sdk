@@ -19,8 +19,11 @@ from webull.trade.request.v3.replace_order_request import ReplaceOrderRequest
 from webull.trade.request.v3.cancel_order_request import CancelOrderRequest
 from webull.trade.request.v3.get_order_detail_request import OrderDetailRequest
 from webull.trade.request.v3.get_order_history_request import OrderHistoryRequest
+from webull.trade.request.v3.get_order_history_request_v2 import OrderHistoryRequestV2
 from webull.trade.request.v3.get_order_open_request import OrderOpenRequest
+from webull.trade.request.v3.get_order_open_request_v2 import OrderOpenRequestV2
 from webull.trade.request.v2.get_order_executions_request import GetOrderExecutionsRequest
+from webull.trade.request.v2.get_order_executions_request_v2 import GetOrderExecutionsRequestV2
 
 
 class OrderOperationV3:
@@ -105,8 +108,13 @@ class OrderOperationV3:
 
     def get_order_history(self, account_id, page_size=None, start_date=None, end_date=None, last_client_order_id=None):
         """
+        .. deprecated::
+            Use :meth:`list_order_history` instead.
+
         This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX, Webull ZA, Webull EU.
         Support for other regions will be available in future updates.
+
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
 
         Historical orders. If they are group orders, will be returned together,
         and the number of orders returned on one-page may exceed the page_size.
@@ -136,10 +144,41 @@ class OrderOperationV3:
         response = self.client.get_response(order_history_request)
         return response
 
-    def get_order_open(self, account_id, page_size=None, last_client_order_id=None):
+    def list_order_history(self, account_id, start_time=None, end_time=None, pagination_key=None):
         """
         This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX, Webull ZA, Webull EU.
         Support for other regions will be available in future updates.
+
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
+
+        Historical orders. If they are group orders, will be returned together,
+        and the number of orders returned on one-page may exceed the page size.
+
+        :param account_id: Account ID
+        :param start_time: Start time, format: yyyy-MM-dd'T'HH:mm:ss.SSSZ.
+        :param end_time: End time, format: yyyy-MM-dd'T'HH:mm:ss.SSSZ.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        order_history_request = OrderHistoryRequestV2()
+        order_history_request.set_account_id(account_id=account_id)
+        if start_time:
+            order_history_request.set_start_time(start_time=start_time)
+        if end_time:
+            order_history_request.set_end_time(end_time=end_time)
+        if pagination_key:
+            order_history_request.set_pagination_key(pagination_key=pagination_key)
+        response = self.client.get_response(order_history_request)
+        return response
+
+    def get_order_open(self, account_id, page_size=None, last_client_order_id=None):
+        """
+        .. deprecated::
+            Use :meth:`list_order_open` instead.
+
+        This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX, Webull ZA, Webull EU.
+        Support for other regions will be available in future updates.
+
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
 
         Paging query pending orders.
 
@@ -162,10 +201,35 @@ class OrderOperationV3:
         response = self.client.get_response(order_open_request)
         return response
 
-    def get_order_executions(self, account_id, client_order_id=None, start_date=None, end_date=None, last_execution_id=None, page_size=None):
+    def list_order_open(self, account_id, pagination_key=None):
         """
+        This interface is currently supported only for Webull HK, Webull US, Webull JP, Webull SG, Webull TH, Webull AU, Webull MY, Webull UK, Webull BR, Webull MX, Webull ZA, Webull EU.
+        Support for other regions will be available in future updates.
+
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
+
+        Paging query pending orders.
+
+        :param account_id: Account ID
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        order_open_request = OrderOpenRequestV2()
+        order_open_request.set_account_id(account_id=account_id)
+        if pagination_key:
+            order_open_request.set_pagination_key(pagination_key=pagination_key)
+        response = self.client.get_response(order_open_request)
+        return response
+
+    def get_order_executions(self, account_id, client_order_id=None, start_date=None, end_date=None,
+                             last_execution_id=None, page_size=None):
+        """
+        .. deprecated::
+            Use :meth:`list_order_executions` instead.
+
         This interface is currently supported only for Webull HK.
         Support for other regions will be available in future updates.
+
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
 
         Query order execution records within a specified date range.
 
@@ -189,5 +253,34 @@ class OrderOperationV3:
             request.set_client_order_id(client_order_id)
         if page_size:
             request.set_page_size(page_size)
+        response = self.client.get_response(request)
+        return response
+
+    def list_order_executions(self, account_id, client_order_id=None, start_date=None, end_date=None,
+                             pagination_key=None):
+        """
+        This interface is currently supported only for Webull HK.
+        Support for other regions will be available in future updates.
+
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
+
+        Query order execution records within a specified date range.
+
+        :param account_id: Account ID (required).
+        :param client_order_id: The 3rd party order ID.
+        :param start_date: Start date in the format of yyyy-MM-dd.
+        :param end_date: End date in the format of yyyy-MM-dd.
+        :param pagination_key: Pagination key from previous response for next page.
+        """
+        request = GetOrderExecutionsRequestV2()
+        request.set_account_id(account_id)
+        if start_date:
+            request.set_start_date(start_date)
+        if end_date:
+            request.set_end_date(end_date)
+        if client_order_id:
+            request.set_client_order_id(client_order_id)
+        if pagination_key is not None:
+            request.set_pagination_key(pagination_key)
         response = self.client.get_response(request)
         return response

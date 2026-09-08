@@ -16,8 +16,12 @@ from webull.core.request import ApiRequest
 
 
 class OrderHistoryRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`OrderHistoryRequestV2` instead.
+    """
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/trade/order/history", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/trading/orders/historical-orders/list", version='v2', method="GET", query_params={})
 
     def set_account_id(self, account_id):
         self.add_query_param("account_id", account_id)

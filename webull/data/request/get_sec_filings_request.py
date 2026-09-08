@@ -19,7 +19,7 @@ from webull.core.request import ApiRequest
 
 class GetSecFilingsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/fundamentals/stock/filings", version='v2', method="GET",
+        ApiRequest.__init__(self, "/market-data/fundamentals/filings/list", version='v3', method="GET",
                            query_params={})
 
     def set_symbol(self, symbol):

@@ -17,6 +17,10 @@ from webull.core.request import ApiRequest
 
 
 class GetActivitiesRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`GetActivitiesRequestV2` instead.
+    """
     def __init__(self):
         ApiRequest.__init__(self, "/openapi/trade/activities/cash", version='v2', method="GET", query_params={})
 

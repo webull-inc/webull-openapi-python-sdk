@@ -26,7 +26,7 @@ class GetNoiiBarsRequest(ApiRequest):
     """
 
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/stock/noii/bars", version="v2", method="GET", query_params={})
+        ApiRequest.__init__(self, "/market-data/stocks/noii-bars/list", version="v3", method="GET", query_params={})
 
     def set_symbol(self, symbol):
         """

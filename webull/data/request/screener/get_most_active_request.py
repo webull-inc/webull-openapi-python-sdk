@@ -19,6 +19,9 @@ from webull.core.request import ApiRequest
 
 class GetMostActiveRequest(ApiRequest):
     """
+    .. deprecated::
+        Use :class:`GetMostActiveRequestV2` instead.
+
     Request class for Stock Top Active Rank API.
     
     This API returns the most actively traded stocks ranked by volume, relative volume,
@@ -31,7 +34,8 @@ class GetMostActiveRequest(ApiRequest):
     """
     
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/screener/top-active", version="v2", method="GET", query_params={})
+        ApiRequest.__init__(self, "/openapi/market-data/screener/top-active", version="v2", method="GET",
+                            query_params={})
 
     def set_rank_type(self, rank_type):
         """

@@ -18,8 +18,12 @@ from webull.core.request import ApiRequest
 
 
 class GetOptionContractsRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`GetOptionContractsRequestV2` instead.
+    """
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/option/contracts", version="v2", method="GET",
+        ApiRequest.__init__(self, "/openapi/instrument/option/contracts", version="v3", method="GET",
                            query_params={})
 
     def set_category(self, category):

@@ -15,6 +15,7 @@
 # coding=utf-8
 
 from webull.trade.request.get_activities_request import GetActivitiesRequest
+from webull.trade.request.get_activities_request_v2 import GetActivitiesRequestV2
 
 
 class Activity:
@@ -24,6 +25,11 @@ class Activity:
     def get_activities(self, account_id, activity_types=None, start_time=None, end_time=None,
                        last_activity_id=None, page_size=10):
         """
+        .. deprecated::
+            Use :meth:`list_activities` instead.
+
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
+
         Query cash activities by type with pagination support.
         This interface is currently supported only for Webull US.
 
@@ -45,5 +51,32 @@ class Activity:
         if last_activity_id is not None:
             get_activities_request.set_last_activity_id(last_activity_id)
         get_activities_request.set_page_size(page_size)
+        response = self.client.get_response(get_activities_request)
+        return response
+
+    def list_activities(self, account_id, activity_types=None, start_time=None, end_time=None,
+                        pagination_key=None):
+        """
+        The x-version header distinguishes the legacy and new pagination protocols for this path.
+
+        Query cash activities by type with pagination support.
+        This interface is currently supported only for Webull US.
+
+        :param account_id: Account ID
+        :param activity_types: Activity types filter, comma-separated string (optional)
+        :param start_time: Start time filter (optional)
+        :param end_time: End time filter (optional)
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        get_activities_request = GetActivitiesRequestV2()
+        get_activities_request.set_account_id(account_id)
+        if activity_types is not None:
+            get_activities_request.set_activity_types(activity_types)
+        if start_time is not None:
+            get_activities_request.set_start_time(start_time)
+        if end_time is not None:
+            get_activities_request.set_end_time(end_time)
+        if pagination_key is not None:
+            get_activities_request.set_pagination_key(pagination_key)
         response = self.client.get_response(get_activities_request)
         return response

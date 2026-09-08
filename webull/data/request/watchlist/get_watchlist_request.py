@@ -19,4 +19,4 @@ from webull.core.request import ApiRequest
 
 class GetWatchlistRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/market-data/watchlist/list", version="v2", method="GET", query_params={})
+        ApiRequest.__init__(self, "/market-data/watchlists/list", version="v3", method="GET", query_params={})

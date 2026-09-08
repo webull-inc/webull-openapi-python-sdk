@@ -18,6 +18,10 @@ from webull.core.request import ApiRequest
 
 
 class GetHighDividendRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`GetHighDividendRequestV2` instead.
+    """
     def __init__(self):
         ApiRequest.__init__(self, "/openapi/market-data/screener/high-dividend", version='v2', method="GET",
                            query_params={})

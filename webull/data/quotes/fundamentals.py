@@ -27,6 +27,7 @@ from webull.data.request.get_fund_net_value_request import GetFundNetValueReques
 from webull.data.request.get_fund_holdings_request import GetFundHoldingsRequest
 from webull.data.request.get_fund_files_request import GetFundFilesRequest
 from webull.data.request.get_fund_dividends_request import GetFundDividendsRequest
+from webull.data.request.get_fund_dividends_request_v2 import GetFundDividendsRequestV2
 from webull.data.request.get_fund_brief_request import GetFundBriefRequest
 from webull.data.request.get_fund_allocation_request import GetFundAllocationRequest
 from webull.data.request.get_financials_indicators_request import GetFinancialsIndicatorsRequest
@@ -197,6 +198,9 @@ class Fundamentals:
 
     def get_fund_dividends(self, symbol, category=Category.US_STOCK.name, page_index=None, page_size=None):
         """
+        .. deprecated::
+            Use :meth:`list_fund_dividends` instead.
+
         Query fund dividends for a security.
 
         :param symbol: Security symbol, e.g. QQQ.
@@ -209,6 +213,21 @@ class Fundamentals:
         request.set_category(category)
         request.set_page_index(page_index)
         request.set_page_size(page_size)
+        response = self.client.get_response(request)
+        return response
+
+    def list_fund_dividends(self, symbol, category=Category.US_STOCK.name, pagination_key=None):
+        """
+        Query fund dividends for a security.
+
+        :param symbol: Security symbol, e.g. QQQ.
+        :param category: Security type. Category values are as shown in the enum.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetFundDividendsRequestV2()
+        request.set_symbol(symbol)
+        request.set_category(category)
+        request.set_pagination_key(pagination_key)
         response = self.client.get_response(request)
         return response
 

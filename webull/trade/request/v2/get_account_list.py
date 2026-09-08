@@ -21,6 +21,4 @@ class GetAccountList(ApiRequest):
     Deprecated. Use :func:`get_account_list_request` instead.
     """
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/account/list", version='v2', method="GET", query_params={})
-
-        
+        ApiRequest.__init__(self, "/openapi/account/list", version='v3', method="GET", query_params={})

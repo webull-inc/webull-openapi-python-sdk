@@ -18,6 +18,10 @@ from webull.core.request import ApiRequest
 
 
 class Get52WHLRequest(ApiRequest):
+    """
+    .. deprecated::
+        Use :class:`Get52WHLRequestV2` instead.
+    """
     def __init__(self):
         ApiRequest.__init__(self, "/openapi/market-data/screener/52whl", version='v2', method="GET",
                            query_params={})

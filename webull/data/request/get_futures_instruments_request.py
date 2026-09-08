@@ -19,7 +19,8 @@ from webull.core.request import ApiRequest
 
 class GetFuturesInstrumentsRequest(ApiRequest):
     def __init__(self):
-        ApiRequest.__init__(self, "/openapi/instrument/futures/list", version='v2', method="GET", query_params={})
+        ApiRequest.__init__(self, "/trading/instruments/futures/contracts/list", version='v3', method="GET",
+                            query_params={})
 
     def set_symbols(self, symbols):
         if isinstance(symbols, str):
