@@ -18,6 +18,7 @@ from time import sleep
 
 from webull.core.client import ApiClient
 from webull.trade.trade_client import TradeClient
+from webull.trade.common.transfer_activities_param import TransferActivitiesParam
 
 optional_api_endpoint = "<api_endpoint>"
 your_app_key = "<your_app_key>"
@@ -888,3 +889,40 @@ if __name__ == '__main__':
     res = trade_client.order_v3.get_order_detail(account_id, trailing_stop_loss_limit_client_order_id)
     if res.status_code == 200:
         print('get trailing stop loss limit order detail res:', res.json())
+
+    # ============================================================
+    # Position Transfers Example (US only)
+    # ============================================================
+
+    # First page: pass no pagination_key and no filters.
+    res = trade_client.activity.list_transfers_activities(TransferActivitiesParam(account_id))
+    if res.status_code == 200:
+        print('list transfers activities res:', res.json())
+
+    # Iterate all pages using the returned pagination_key until it is absent.
+    pagination_key = (res.json() or {}).get('pagination_key') if res.status_code == 200 else None
+    while pagination_key:
+        res = trade_client.activity.list_transfers_activities(
+            TransferActivitiesParam(account_id, pagination_key=pagination_key))
+        if res.status_code != 200:
+            break
+        print('list transfers activities next page res:', res.json())
+        pagination_key = (res.json() or {}).get('pagination_key')
+
+    # Filtered query: ACATS/crypto incoming transfers, FULL type, within a time range.
+    res = trade_client.activity.list_transfers_activities(
+        TransferActivitiesParam(
+            account_id,
+            transfer_method="ACATS,CRYPTO_TRANSFER",
+            direction="INCOMING",
+            status="PENDING,COMPLETED",
+            acats_transfer_types="FULL",
+            start_time="2026-08-01T00:00:00Z",
+            end_time="2026-08-31T23:59:59Z"))
+    if res.status_code == 200:
+        print('list transfers activities filtered res:', res.json())
+
+    # Get a single transfer record by account_id and transfer_id.
+    res = trade_client.activity.get_transfer_activity_detail(account_id, transfer_id="<your_transfer_id>")
+    if res.status_code == 200:
+        print('get transfer activity res:', res.json())

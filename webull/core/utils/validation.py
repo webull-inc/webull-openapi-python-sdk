@@ -47,3 +47,10 @@ def assert_integer_positive(integer, name):
         return
     raise ClientException(error_code.SDK_INVALID_PARAMETER,
                           "{0} should be a positive integer.".format(name))
+
+
+def assert_string_not_empty(value, name):
+    if isinstance(value, str) and value.strip():
+        return
+    raise ClientException(error_code.SDK_INVALID_PARAMETER,
+                          "{0} should not be empty.".format(name))
