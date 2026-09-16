@@ -16,6 +16,13 @@
 from webull.core.request import ApiRequest
 
 class GetHistoricalBarsRequest(ApiRequest):
+    """
+    .. deprecated::
+        The endpoint /market-data/stocks/bars/get is no longer available.
+        Use :class:`webull.data.request.get_batch_historical_bars_request.BatchHistoricalBarsRequest`
+        instead, which calls the batch endpoint /market-data/stocks/bars/list.
+    """
+
     def __init__(self):
         ApiRequest.__init__(self, "/market-data/stocks/bars/get", version='v3', method="GET", query_params={})
 
