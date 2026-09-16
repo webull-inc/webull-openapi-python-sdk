@@ -15,7 +15,6 @@ from webull.data.request.get_batch_historical_bars_request import BatchHistorica
 from webull.data.request.get_corp_action_request import GetCorpActionRequest
 from webull.data.request.get_eod_bars_request import GetEodBarsRequest
 from webull.data.request.get_footprint_request import GetFootprintRequest
-from webull.data.request.get_historical_bars_request import GetHistoricalBarsRequest
 from webull.data.request.get_noii_bars_request import GetNoiiBarsRequest
 from webull.data.request.get_noii_snapshot_request import GetNoiiSnapshotRequest
 from webull.data.request.get_quotes_request import GetQuotesRequest
@@ -29,6 +28,11 @@ class MarketData:
 
     def get_history_bar(self, symbol, category, timespan, count='200', real_time_required=None, trading_sessions=None, start_time=None, end_time=None):
         """
+        .. deprecated::
+            The endpoint /market-data/stocks/bars/get is no longer available.
+            Use :meth:`get_batch_history_bar` instead, which calls the batch
+            endpoint /market-data/stocks/bars/list.
+
         Returns to Instrument in the window aggregated data.
         According to the last N K-lines of the stock code, it supports various granularity K-lines such as m1 and m5.
         Currently, only the K-line with the previous weight is provided for the daily K-line and above,
@@ -44,17 +48,16 @@ class MarketData:
         :param start_time: Start timestamp in milliseconds (Long). Optional.
         :param end_time: End timestamp in milliseconds (Long). Delayed permission will auto-offset time. Optional.
         """
-        history_bar_request = GetHistoricalBarsRequest()
-        history_bar_request.set_symbol(symbol)
-        history_bar_request.set_category(category)
-        history_bar_request.set_timespan(timespan)
-        history_bar_request.set_count(count)
-        history_bar_request.set_real_time_required(real_time_required)
-        history_bar_request.set_trading_sessions(trading_sessions)
-        history_bar_request.set_start_time(start_time)
-        history_bar_request.set_end_time(end_time)
-        response = self.client.get_response(history_bar_request)
-        return response
+        return self.get_batch_history_bar(
+            [symbol],
+            category,
+            timespan,
+            count=count,
+            real_time_required=real_time_required,
+            trading_sessions=trading_sessions,
+            start_time=start_time,
+            end_time=end_time,
+        )
 
     def get_batch_history_bar(self, symbols, category, timespan, count='200', real_time_required=None, trading_sessions=None, start_time=None, end_time=None):
         """

@@ -63,6 +63,9 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get_snapshot:', res.json())
 
+    # get_history_bar is deprecated: the /market-data/stocks/bars/get endpoint
+    # is no longer available. It now delegates to the batch endpoint
+    # /market-data/stocks/bars/list. Prefer get_batch_history_bar directly.
     res = data_client.market_data.get_history_bar('AAPL', Category.US_STOCK.name, Timespan.M1.name)
     if res.status_code == 200:
         print('get_history_bar:', res.json())
