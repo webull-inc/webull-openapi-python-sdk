@@ -14,6 +14,7 @@
 
 # coding=utf-8
 
+from webull.data.common.category import Category
 from webull.data.request.screener.get_gainers_losers_request import GetGainersLosersRequest
 from webull.data.request.screener.get_gainers_losers_request_v2 import GetGainersLosersRequestV2
 from webull.data.request.screener.get_most_active_request import GetMostActiveRequest
@@ -26,6 +27,8 @@ from webull.data.request.screener.get_high_dividend_request import GetHighDivide
 from webull.data.request.screener.get_high_dividend_request_v2 import GetHighDividendRequestV2
 from webull.data.request.screener.get_52whl_request import Get52WHLRequest
 from webull.data.request.screener.get_52whl_request_v2 import Get52WHLRequestV2
+from webull.data.request.screener.get_fear_and_greed_index_request import GetFearAndGreedIndexRequest
+from webull.data.request.screener.get_stock_unusual_activities_request import GetStockUnusualActivitiesRequest
 
 
 class Screener:
@@ -379,5 +382,36 @@ class Screener:
         request.set_category(category)
         request.set_sort_by(sort_by)
         request.set_direction(direction)
+        response = self.client.get_response(request)
+        return response
+
+    def get_fear_and_greed_index(self, category=Category.US_STOCK.name):
+        """
+        Query the market fear & greed sentiment index, with current and historical
+        comparison points (previous day, one week ago, one month ago).
+        :param category: Market category. Supported: US_STOCK (default), HK_STOCK.
+        """
+        request = GetFearAndGreedIndexRequest()
+        request.set_category(category)
+        response = self.client.get_response(request)
+        return response
+
+    def get_stock_unusual_activities(self, symbol=None, category=Category.US_STOCK.name, count=None,
+                                     alert_types=None, extended_hours_required=None):
+        """
+        Query recent unusual activity alerts for a stock (volume surge, price spike, etc.).
+        Returns up to count most recent events within the last 90 calendar days.
+        :param symbol: Stock symbol, e.g. NVDA (optional).
+        :param category: Market category, default US_STOCK.
+        :param count: Number of most recent events, default 10, max 30.
+        :param alert_types: Comma-separated alert type filter, None to return all.
+        :param extended_hours_required: Whether to include pre-market and after-hours alerts.
+        """
+        request = GetStockUnusualActivitiesRequest()
+        request.set_symbol(symbol)
+        request.set_category(category)
+        request.set_count(count)
+        request.set_alert_types(alert_types)
+        request.set_extended_hours_required(extended_hours_required)
         response = self.client.get_response(request)
         return response

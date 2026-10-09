@@ -36,6 +36,12 @@ from webull.data.request.get_financials_cashflow_request import GetFinancialsCas
 from webull.data.request.get_financials_balance_sheet_request import GetFinancialsBalanceSheetRequest
 from webull.data.request.get_financials_alert_request import GetFinancialsAlertRequest
 from webull.data.request.get_forecast_eps_request import GetForecastEpsRequest
+from webull.data.request.get_institution_search_request import GetInstitutionSearchRequest
+from webull.data.request.get_institution_holdings_request import GetInstitutionHoldingsRequest
+from webull.data.request.get_institution_holding_changes_request import GetInstitutionHoldingChangesRequest
+from webull.data.request.get_insider_transactions_request import GetInsiderTransactionsRequest
+from webull.data.request.get_insider_holdings_request import GetInsiderHoldingsRequest
+from webull.data.request.get_economic_calendar_request import GetEconomicCalendarRequest
 
 
 class Fundamentals:
@@ -350,5 +356,98 @@ class Fundamentals:
         request = GetForecastEpsRequest()
         request.set_symbol(symbol)
         request.set_category(category)
+        response = self.client.get_response(request)
+        return response
+
+    def get_institution_search(self, keyword, pagination_key=None):
+        """
+        Search US institutional investors by name or SEC CIK number. US only.
+
+        :param keyword: Search keyword (institution name or CIK), required.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetInstitutionSearchRequest()
+        request.set_keyword(keyword)
+        request.set_pagination_key(pagination_key)
+        response = self.client.get_response(request)
+        return response
+
+    def get_institution_holdings(self, cik, pagination_key=None):
+        """
+        Query a US institution's 13F holdings. US only.
+
+        :param cik: Institution CIK number, required.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetInstitutionHoldingsRequest()
+        request.set_cik(cik)
+        request.set_pagination_key(pagination_key)
+        response = self.client.get_response(request)
+        return response
+
+    def get_institution_holding_changes(self, cik, position, count=None, pagination_key=None):
+        """
+        Query US institutional holding changes filtered by position type. US only.
+
+        :param cik: Fund CIK number, required.
+        :param position: Position type: OPEN, CLOSE, or CHANGE, required.
+        :param count: Page size, optional, default 10, max 50.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetInstitutionHoldingChangesRequest()
+        request.set_cik(cik)
+        request.set_position(position)
+        request.set_count(count)
+        request.set_pagination_key(pagination_key)
+        response = self.client.get_response(request)
+        return response
+
+    def get_insider_transactions(self, symbol, category=Category.US_STOCK.name, side=None, pagination_key=None):
+        """
+        Query insider transaction records for a stock.
+
+        :param symbol: Stock symbol, e.g. NVDA, required.
+        :param category: Market category. Supported: US_STOCK (default), HK_STOCK.
+        :param side: Transaction side filter: BUY or SELL, None to return all.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetInsiderTransactionsRequest()
+        request.set_symbol(symbol)
+        request.set_category(category)
+        request.set_side(side)
+        request.set_pagination_key(pagination_key)
+        response = self.client.get_response(request)
+        return response
+
+    def get_insider_holdings(self, symbol, category=Category.US_STOCK.name, compare_months=None):
+        """
+        Query the insider ownership statistics overview for a stock.
+
+        :param symbol: Stock symbol, e.g. NVDA, required.
+        :param category: Market category. Supported: US_STOCK (default), HK_STOCK.
+        :param compare_months: Comparison period in months: 1 (default) or 3.
+        """
+        request = GetInsiderHoldingsRequest()
+        request.set_symbol(symbol)
+        request.set_category(category)
+        request.set_compare_months(compare_months)
+        response = self.client.get_response(request)
+        return response
+
+    def get_economic_calendars(self, region=None, start_date=None, end_date=None, pagination_key=None):
+        """
+        Query the macroeconomic event calendar for an optional region and date range.
+        Results are cursor-paginated, up to 30 events per page.
+
+        :param region: Region code: US (default), CN, EU, JP, GB.
+        :param start_date: Start date in yyyy-MM-dd format, None defaults to today.
+        :param end_date: End date in yyyy-MM-dd format, None defaults to start date + 7 days.
+        :param pagination_key: Pagination key from the previous page response; not returned on the last page.
+        """
+        request = GetEconomicCalendarRequest()
+        request.set_region(region)
+        request.set_start_date(start_date)
+        request.set_end_date(end_date)
+        request.set_pagination_key(pagination_key)
         response = self.client.get_response(request)
         return response

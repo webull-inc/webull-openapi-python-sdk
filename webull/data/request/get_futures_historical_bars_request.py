@@ -34,3 +34,11 @@ class GetFuturesHistoricalBarsRequest(ApiRequest):
     def set_real_time_required(self, real_time_required):
         if real_time_required:
             self.add_query_param("real_time_required", real_time_required)
+
+    def set_start_time(self, start_time):
+        if start_time is not None:
+            self.add_query_param("start_time", start_time)
+
+    def set_end_time(self, end_time):
+        if end_time is not None:
+            self.add_query_param("end_time", end_time)

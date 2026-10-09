@@ -71,3 +71,24 @@ class GetOptionBarsRequest(ApiRequest):
         """
         if real_time_required is not None:
             self.add_query_param("real_time_required", real_time_required)
+
+    def set_start_time(self, start_time):
+        """
+        Set the start time of the query range.
+
+        :param start_time: Start time as a timestamp in milliseconds, used to specify
+                           the beginning of the time range for bar data. Example: 1711262998500
+        """
+        if start_time is not None:
+            self.add_query_param("start_time", start_time)
+
+    def set_end_time(self, end_time):
+        """
+        Set the end time of the query range.
+
+        :param end_time: End time as a timestamp in milliseconds, used to specify the end
+                        of the time range for bar data. Delayed permission will automatically
+                        offset the time. Example: 1711349398500
+        """
+        if end_time is not None:
+            self.add_query_param("end_time", end_time)

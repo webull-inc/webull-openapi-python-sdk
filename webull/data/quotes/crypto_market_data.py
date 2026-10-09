@@ -20,7 +20,8 @@ class CryptoMarketData:
     def __init__(self, api_client):
         self.client = api_client
 
-    def get_crypto_history_bar(self, symbols, category, timespan, count='200', real_time_required=None):
+    def get_crypto_history_bar(self, symbols, category, timespan, count='200', real_time_required=None,
+                               start_time=None, end_time=None):
         """
         Returns to Instrument in the window aggregated data.
         According to the last N K-lines of the stock code, it supports various granularity K-lines such as m1 and m5.
@@ -33,6 +34,8 @@ class CryptoMarketData:
         :param count: The number of lines: the default is 200, and the maximum limit is 1200
         :param real_time_required: Returns the latest trade quote data. By default, the most recent market data is returned.
         By default, only intraday candlestick data is returned.
+        :param start_time: Optional start time as a timestamp in milliseconds, used to specify the beginning of the time range for bar data.
+        :param end_time: Optional end time as a timestamp in milliseconds, used to specify the end of the time range for bar data.
         """
         crypto_history_bar_request = GetCryptoHistoricalBarsRequest()
         crypto_history_bar_request.set_symbols(symbols)
@@ -40,6 +43,8 @@ class CryptoMarketData:
         crypto_history_bar_request.set_timespan(timespan)
         crypto_history_bar_request.set_count(count)
         crypto_history_bar_request.set_real_time_required(real_time_required)
+        crypto_history_bar_request.set_start_time(start_time)
+        crypto_history_bar_request.set_end_time(end_time)
         response = self.client.get_response(crypto_history_bar_request)
         return response
 

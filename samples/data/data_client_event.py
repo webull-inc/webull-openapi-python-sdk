@@ -64,6 +64,13 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get_event_bars:', res.json())
 
+    # Query bars within a time range using start_time and end_time (timestamps in milliseconds).
+    res = data_client.event_market_data.get_event_bars(
+        "KXRATECUTCOUNT-25DEC31-T10", Timespan.M1, Category.US_EVENT.name, 200, False,
+        start_time=1711262998500, end_time=1711349398500)
+    if res.status_code == 200:
+        print('get_event_bars with time range:', res.json())
+
     res = data_client.event_market_data.get_event_tick("KXRATECUTCOUNT-25DEC31-T10", Category.US_EVENT.name, 30)
     if res.status_code == 200:
         print('get_event_tick:', res.json())
