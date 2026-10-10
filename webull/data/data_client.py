@@ -27,6 +27,7 @@ from webull.data.quotes.option_market_data import OptionMarketData
 from webull.data.quotes.fundamentals import Fundamentals
 from webull.data.quotes.screener import Screener
 from webull.data.quotes.watchlist import Watchlist
+from webull.data.quotes.community import Community
 
 
 class DataClient:
@@ -42,6 +43,7 @@ class DataClient:
         self.fundamentals = Fundamentals(api_client)
         self.screener = Screener(api_client)
         self.watchlist = Watchlist(api_client)
+        self.community = Community(api_client)
 
     def _init_logger(self, api_client):
         # No logger configured, using default console and local file logging.
