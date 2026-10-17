@@ -32,7 +32,7 @@ Subscription to real-time information: Subscribe to order status changes, market
 | Webull MX | https://www.webull.com.mx/open-api-management   |
 | Webull ZA | https://www.webull.co.za/open-api-management    |
 | Webull EU | https://www.webull.eu/open-api-management       |
-- Requires Python 3.8 through 3.14.
+- Requires Python 3.8 through 3.15.
 
 ## Interface Protocol
 
@@ -60,3 +60,22 @@ The bottom layer of Webull OpenAPI provides three protocols, HTTP / GRPC / MQTT,
 | Webull MX | https://developer.webull.com.mx/apis/docs |
 | Webull ZA | https://developer.webull.co.za/apis/docs |
 | Webull EU | https://developer.webull.eu/apis/docs |
+
+## Compatibility tests
+
+The tox suite runs offline retry, quote-category, HTTP-client construction,
+signing, MQTT/TLS, Protobuf decoding, and local gRPC streaming checks. Python
+3.15 CI covers Linux, macOS, and Windows. Protobuf 6 and 7 are also tested on
+Python 3.14 and 3.15.
+
+```bash
+python -m pip install tox
+python -m tox -e py315,py315-protobuf6,py315-protobuf7
+```
+
+Python 3.15 selects [gRPC 1.84 or newer](https://github.com/grpc/grpc/releases/tag/v1.84.0)
+for published interpreter-specific wheels and [CFFI 2.1.1 or newer](https://cryptography.io/en/latest/changelog/)
+to avoid an earlier ABI issue. The test suite uses local
+sockets and requires no Webull credentials. Other examples under `tests/data`
+and `tests/trade` include remote calls with placeholder credentials and are
+manual integration examples.
