@@ -22,7 +22,8 @@ class FuturesMarketData:
     def __init__(self, api_client):
         self.client = api_client
 
-    def get_futures_history_bars(self, symbols, category, timespan, count='200', real_time_required=None):
+    def get_futures_history_bars(self, symbols, category, timespan, count='200', real_time_required=None,
+                                 start_time=None, end_time=None):
         """
         Batch query K-line data for multiple futures symbols, returning aggregated data within the window.
         According to the last N K-lines of the futures code, it supports various granularity K-lines such as m1 and m5.
@@ -32,6 +33,8 @@ class FuturesMarketData:
         :param timespan: K-line interval
         :param count: Number of K-lines to return, default is 200, maximum is 1200
         :param real_time_required: Returns the latest trade quote data. By default, the most recent market data is returned.
+        :param start_time: Optional start time as a timestamp in milliseconds, used to specify the beginning of the time range for bar data.
+        :param end_time: Optional end time as a timestamp in milliseconds, used to specify the end of the time range for bar data.
         """
         history_bar_request = GetFuturesHistoricalBarsRequest()
         history_bar_request.set_symbols(symbols)
@@ -39,6 +42,8 @@ class FuturesMarketData:
         history_bar_request.set_timespan(timespan)
         history_bar_request.set_count(count)
         history_bar_request.set_real_time_required(real_time_required)
+        history_bar_request.set_start_time(start_time)
+        history_bar_request.set_end_time(end_time)
         response = self.client.get_response(history_bar_request)
         return response
 

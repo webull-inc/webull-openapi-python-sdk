@@ -52,7 +52,8 @@ class EventMarketData:
         response = self.client.get_response(quote_request)
         return response
 
-    def get_event_bars(self, symbols, timespan, category=Category.US_EVENT.name, count=200, real_time_required=False):
+    def get_event_bars(self, symbols, timespan, category=Category.US_EVENT.name, count=200, real_time_required=False,
+                       start_time=None, end_time=None):
         """
         Get the current order book for a specific event instrument.
         The order book shows all active bid orders for both yes and no sides of a binary market.
@@ -63,6 +64,8 @@ class EventMarketData:
         :param category: default is US_EVENT, currently only US_EVENT is supported.
         :param count: Number of entries, default 200 entries, maximum 1200 entries.
         :param real_time_required: Does it include the latest data? The k-line that has not been finalized is not included by default. It is false and only used for minutes.
+        :param start_time: Optional start time as a timestamp in milliseconds, used to specify the beginning of the time range for bar data.
+        :param end_time: Optional end time as a timestamp in milliseconds, used to specify the end of the time range for bar data.
         """
         quote_request = GetEventBarsRequest()
         quote_request.set_symbols(symbols)
@@ -70,6 +73,8 @@ class EventMarketData:
         quote_request.set_timespan(timespan)
         quote_request.set_count(count)
         quote_request.set_real_time_required(real_time_required)
+        quote_request.set_start_time(start_time)
+        quote_request.set_end_time(end_time)
         response = self.client.get_response(quote_request)
         return response
 

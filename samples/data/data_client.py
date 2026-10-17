@@ -59,6 +59,13 @@ if __name__ == '__main__':
     if res.status_code == 200:
         print('get_crypto_history_bar:', res.json())
 
+    # Crypto historical bars within a time range using start_time and end_time (timestamps in milliseconds).
+    res = data_client.crypto_market_data.get_crypto_history_bar(
+        "BTCUSD", Category.US_CRYPTO.name, Timespan.M1.name,
+        start_time=1711262998500, end_time=1711349398500)
+    if res.status_code == 200:
+        print('get_crypto_history_bar with time range:', res.json())
+
     res = data_client.market_data.get_snapshot('AAPL', Category.US_STOCK.name, extend_hour_required=True, overnight_required=True)
     if res.status_code == 200:
         print('get_snapshot:', res.json())
@@ -93,6 +100,13 @@ if __name__ == '__main__':
     res = data_client.futures_market_data.get_futures_history_bars('SILZ5,6BM6', Category.US_FUTURES.name, Timespan.M1.name)
     if res.status_code == 200:
         print('get_futures_history_bars:', res.json())
+
+    # Futures historical bars within a time range using start_time and end_time (timestamps in milliseconds).
+    res = data_client.futures_market_data.get_futures_history_bars(
+        'SILZ5,6BM6', Category.US_FUTURES.name, Timespan.M1.name,
+        start_time=1711262998500, end_time=1711349398500)
+    if res.status_code == 200:
+        print('get_futures_history_bars with time range:', res.json())
 
     res = data_client.futures_market_data.get_futures_tick("SILZ5", Category.US_FUTURES.name, count=10)
     if res.status_code == 200:
@@ -155,6 +169,13 @@ if __name__ == '__main__':
     res = data_client.option_market_data.get_option_history_bars('AAPL260522C00300000', Category.US_OPTION.name, Timespan.M1.name)
     if res.status_code == 200:
         print('get_option_history_bars:', res.json())
+
+    # Option historical bars within a time range using start_time and end_time (timestamps in milliseconds).
+    res = data_client.option_market_data.get_option_history_bars(
+        'AAPL260522C00300000', Category.US_OPTION.name, Timespan.M1.name,
+        start_time=1711262998500, end_time=1711349398500)
+    if res.status_code == 200:
+        print('get_option_history_bars with time range:', res.json())
 
     # Option market data - Tick
     # Rate limit: 60 requests per minute
@@ -292,3 +313,61 @@ if __name__ == '__main__':
     res = data_client.screener.get_52whl(Category.US_STOCK.name, rank_type="NEW_HIGH")
     if res.status_code == 200:
         print('get_52whl:', res.json())
+
+    # ==================== Screeners ====================
+    # Market sentiment (fear & greed) index
+    sentiment_res = data_client.screener.get_fear_and_greed_index(Category.US_STOCK.name)
+    if sentiment_res.status_code == 200:
+        print('get_fear_and_greed_index:', sentiment_res.json())
+
+    # Stock unusual activities
+    unusual_res = data_client.screener.get_stock_unusual_activities("NVDA", Category.US_STOCK.name, count=10)
+    if unusual_res.status_code == 200:
+        print('get_stock_unusual_activities:', unusual_res.json())
+
+    # ==================== Fundamentals ====================
+    # Macro economic calendar
+    calendar_res = data_client.fundamentals.get_economic_calendars("US", "2026-09-01", "2026-09-08")
+    if calendar_res.status_code == 200:
+        print('get_economic_calendars:', calendar_res.json())
+
+    # Institution search -> 13F holdings -> holding changes
+    institutions_res = data_client.fundamentals.get_institution_search("Bridgewater")
+    if institutions_res.status_code == 200:
+        print('get_institution_search:', institutions_res.json())
+
+    holdings_res = data_client.fundamentals.get_institution_holdings("0001738828")
+    if holdings_res.status_code == 200:
+        print('get_institution_holdings:', holdings_res.json())
+
+    holding_changes_res = data_client.fundamentals.get_institution_holding_changes("0001738828", "OPEN", count=10)
+    if holding_changes_res.status_code == 200:
+        print('get_institution_holding_changes:', holding_changes_res.json())
+
+    # Insider transactions and holdings overview
+    insider_tx_res = data_client.fundamentals.get_insider_transactions("NVDA", Category.US_STOCK.name)
+    if insider_tx_res.status_code == 200:
+        print('get_insider_transactions:', insider_tx_res.json())
+
+    insider_overview_res = data_client.fundamentals.get_insider_holdings(
+        "NVDA", Category.US_STOCK.name, compare_months=1)
+    if insider_overview_res.status_code == 200:
+        print('get_insider_holdings:', insider_overview_res.json())
+
+    # ==================== News ====================
+    # Search news by keyword
+    search_news_res = data_client.news.get_news_search("Starlink")
+    if search_news_res.status_code == 200:
+        print('get_news_search:', search_news_res.json())
+
+    # Stock news list
+    stock_news_res = data_client.news.get_stock_news("TSLA", Category.US_STOCK.name)
+    if stock_news_res.status_code == 200:
+        print('get_stock_news:', stock_news_res.json())
+
+    # News detail (use a news_id returned by the list/search APIs)
+    news_items = (stock_news_res.json().get('data') or []) if stock_news_res.status_code == 200 else []
+    if news_items:
+        news_detail_res = data_client.news.get_news_detail(news_items[0].get('news_id'))
+        if news_detail_res.status_code == 200:
+            print('get_news_detail:', news_detail_res.json())
