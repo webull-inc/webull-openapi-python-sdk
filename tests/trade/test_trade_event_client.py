@@ -29,7 +29,7 @@ class TestTradeEventClient(unittest.TestCase):
     def test_subscribe(self):
         # Create EventsClient instance
         events_client = TradeEventsClient(your_app_key, your_app_secret, region_id)
-        # For non production environment, you need to set the domain name of the subscription service through eventsclient. For example, the domain name of the UAT environment is set here
+        # For non production environment, you need to set the domain name of the subscription service through events client. For example, the domain name of the UAT environment is set here
         # events_client = EventsClient(your_app_key, your_app_secret, region_id, host=endpoint)
 
         # Set the callback function when the event data is received.
