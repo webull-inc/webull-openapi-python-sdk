@@ -44,7 +44,7 @@ class Account:
 
         :param account_id: Account ID
         :param total_asset_currency: The currency in which the total assets are denominated: the value refers to Currency
-        in the dictionary value. If it is empty, it defaults to HKD
+        in the dictionary value.
         """
         account_balance_request = AccountBalanceRequest()
         account_balance_request.set_account_id(account_id)
