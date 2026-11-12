@@ -1,0 +1,13 @@
+# macOS Finder metadata
+.DS_Store
+
+# Python bytecode and packaging outputs
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Local development environments
+.venv/
+.tox/
