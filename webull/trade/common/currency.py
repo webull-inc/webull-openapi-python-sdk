@@ -21,4 +21,5 @@ class Currency(EasyEnum):
     CAD = (2, "CAD")
     HKD = (3, "HKD")
     USD = (4, "USD")
+    JPY = (5, "JPY")
 
