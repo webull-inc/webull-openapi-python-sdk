@@ -20,6 +20,7 @@ requires = [
     "paho-mqtt>=1.6.1,<2",
     "urllib3>=2.0",
     "requests>=2.31.0",
+    "httpx[http2]>=0.28.1,<0.29",
     "six>=1.16.0",
 
     # cryptography
