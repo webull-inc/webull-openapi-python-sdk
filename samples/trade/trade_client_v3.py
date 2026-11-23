@@ -94,6 +94,11 @@ if __name__ == '__main__':
             # Currently, only Webull JP is supported.
             # "account_tax_type":"GENERAL",
             # "margin_type": "ONE_DAY"
+            # trade_currency: Currently, only Webull JP is supported.
+            #   Specifies the settlement currency of the order. Only applicable to Japan stock (JP) orders,
+            #   and required for JP market orders in both preview_order and place_order.
+            #   Valid values: JPY, USD.
+            # "trade_currency": "JPY"
         }
     ]
 
