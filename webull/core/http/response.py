@@ -45,6 +45,7 @@ from requests import Request, Session
 from webull.core.http.request import Request as HttpRequest
 from webull.core.http import protocol_type as PT
 from requests import status_codes
+from webull.core.utils.desensitize import mask_sensitive_headers, mask_sensitive_text
 
 
 logger = logging.getLogger(__name__)
@@ -100,7 +101,7 @@ class Response(HttpRequest):
     @staticmethod
     def prepare_http_debug(request, symbol):
         base = ''
-        for key, value in request.headers.items():
+        for key, value in mask_sensitive_headers(request.headers).items():
             base += '\n%s %s : %s' % (symbol, key, value)
         return base
 
@@ -115,7 +116,7 @@ class Response(HttpRequest):
             response.status_code, status_codes._codes.get(response.status_code)[0].upper())
         logger.debug(response_base + self.prepare_http_debug(response, '<'))
 
-        logger.debug("\n<\n" + response.text)
+        logger.debug("\n<\n" + mask_sensitive_text(response.text))
 
     def get_verify_value(self):
         if self.__verify is not None:

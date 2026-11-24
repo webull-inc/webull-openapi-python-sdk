@@ -19,6 +19,7 @@ from webull.core.auth.algorithm import sha_hmac256_new
 from webull.core.auth.composer import default_signature_composer
 import webull.core.headers as hd
 import webull.core.utils.common as core_common
+from webull.core.utils.desensitize import mask_sensitive_headers, mask_value_in_text
 
 logger = logging.getLogger(__name__)
 
@@ -61,12 +62,12 @@ def calc_signature(app_key_id, app_key_secret, body_bytes, signer_spec):
     """
     headers = _build_sign_headers(app_key_id, signer_spec)
     sign_params = default_signature_composer._lower_key_dict(headers)
-    logger.debug("sign_params:%s", sign_params)
+    logger.debug("sign_params:%s", mask_sensitive_headers(sign_params))
     body_string = _get_body_string(body_bytes, signer_spec)
     logger.debug("body_string:%s", body_string)
     string_to_sign = default_signature_composer._build_sign_string(
         sign_params, None, body_string)
-    logger.debug("string_to_sign:%s", string_to_sign)
+    logger.debug("string_to_sign:%s", mask_value_in_text(string_to_sign, app_key_id))
     signature = default_signature_composer._gen_signature(
         string_to_sign, app_key_secret, signer_spec)
     headers[hd.SIGNATURE] = signature

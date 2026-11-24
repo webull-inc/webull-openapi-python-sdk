@@ -62,6 +62,7 @@ from webull.core.request import BaseRequest
 from webull.core.retry.retry_condition import RetryCondition
 from webull.core.retry.retry_policy_context import RetryPolicyContext
 from webull.core.utils import common, validation
+from webull.core.utils.desensitize import mask_sensitive_text
 from requests import codes
 from requests.structures import CaseInsensitiveDict
 from requests.structures import OrderedDict
@@ -327,7 +328,8 @@ class ApiClient:
         except IOError as e:
             exception = ClientException(error_code.SDK_HTTP_ERROR, compat.ensure_string('%s' % e))
             msg = "HttpError occurred. Host:%s SDK-Version:%s Request:%s ClientException:%s" % (
-                         endpoint, webull.core.__version__, json.dumps(vars(request), default=str, indent=2), exception)
+                         endpoint, webull.core.__version__,
+                         mask_sensitive_text(json.dumps(vars(request), default=str, indent=2)), exception)
             logger.error(compat.ensure_string(msg))
             return None, None, None, exception, None
         exception = self._get_server_exception(request, status, headers, body, endpoint, request.string_to_sign)
@@ -353,12 +355,15 @@ class ApiClient:
                     body_obj = json.loads(response_body.decode('utf-8'))
         except (ValueError, TypeError, AttributeError):
             logger.warning('Failed to parse response as json format, Request:%s response:%s, request_id:%s',
-                           json.dumps(vars(request), default=str, indent=2), response_body, request_id)
+                           mask_sensitive_text(json.dumps(vars(request), default=str, indent=2)),
+                           mask_sensitive_text(response_body), request_id)
         if http_status < codes.OK or http_status >= codes.MULTIPLE_CHOICES:
             server_error_code, server_error_msg = self._parse_error_info_from_response_body(body_obj)
             exception = ServerException(server_error_code, server_error_msg, http_status, request_id)
             msg = "ServerException occurred. Host:%s SDK-Version:%s Request:%s Response:%s ServerException:%s" % (
-                         endpoint, webull.core.__version__, json.dumps(vars(request), default=str, indent=2), body_obj, exception)
+                         endpoint, webull.core.__version__,
+                         mask_sensitive_text(json.dumps(vars(request), default=str, indent=2)),
+                         mask_sensitive_text(body_obj), exception)
             logger.error(compat.ensure_string(msg))
             return exception
 
@@ -426,5 +431,7 @@ class ApiClient:
         if exception:
             logger.error("get_response exception. %s", json.dumps(vars(exception), default=str, indent=2))
             raise exception
-        logger.debug('Response received, status:%s, headers:%s, body:%s' % (status, headers, body))
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug('Response received, status:%s, headers:%s, body:%s' % (
+                status, mask_sensitive_text(dict(headers) if headers else headers), mask_sensitive_text(body)))
         return response
