@@ -34,6 +34,7 @@ import webull.trade.events.events_pb2_grpc as pb_grpc
 from webull.trade.events.default_retry_policy import (
     DefaultSubscribeRetryPolicy, SubscribeRetryPolicyContext)
 from webull.trade.events.signature_composer import calc_signature
+from webull.core.utils.desensitize import desensitize_secret, mask_sensitive_headers
 
 # contentTypes
 JSON = "application/json"
@@ -83,8 +84,8 @@ class TradeEventsClient():
         # Print detailed request parameters
         print("\n=== gRPC Request Details ===")
         print(f"Request: {request}")
-        print(f"Signature: {signature}")
-        print(f"Metadata: {metadata}")
+        print(f"Signature: {desensitize_secret(signature)}")
+        print(f"Metadata: {mask_sensitive_headers(dict(metadata))}")
         print(f"Signer Spec: {signer_spec.__name__ if hasattr(signer_spec, '__name__') else signer_spec}")
         print("=============================\n")
         

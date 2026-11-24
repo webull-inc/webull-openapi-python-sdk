@@ -42,6 +42,7 @@ from webull.core.auth.algorithm import sha_hmac256_new
 from webull.core.exception import error_code
 from webull.core.exception.exceptions import ClientException
 from webull.core.utils import common
+from webull.core.utils.desensitize import desensitize_secret, mask_sensitive_headers, mask_sensitive_text, mask_value_in_text
 import webull.core.headers as hd
 from six import iteritems
 from six.moves.urllib.parse import quote
@@ -109,9 +110,9 @@ def _lower_key_dict(od):
 
 def calc_signature(headers, host, uri, queries, body_params, app_key_id, app_key_secret, signer_spec):
     sign_headers,signer_spec = _refresh_sign_headers(host, headers, app_key_id, signer_spec)
-    logger.debug("sign_headers:%s", sign_headers)
+    logger.debug("sign_headers:%s", mask_sensitive_headers(sign_headers))
     sign_params = _lower_key_dict(sign_headers)
-    logger.debug("sign_queries:%s", queries)
+    logger.debug("sign_queries:%s", mask_sensitive_text(queries))
     if queries :
         for (k, v) in iteritems(queries):
             cv = sign_params.get(k)
@@ -120,12 +121,12 @@ def calc_signature(headers, host, uri, queries, body_params, app_key_id, app_key
             else:
                 cv = str(v)
             sign_params[k] = cv
-    logger.debug("body:%s", body_params)
+    logger.debug("body:%s", mask_sensitive_text(body_params))
     body_string = _get_body_string(body_params, signer_spec)
     logger.debug("body_string:%s" % body_string)
     string_to_sign = _build_sign_string(sign_params, uri, body_string)
-    logger.debug("string_to_sign:%s" % string_to_sign)
+    logger.debug("string_to_sign:%s" % mask_value_in_text(string_to_sign, app_key_id))
     signature = _gen_signature(string_to_sign, app_key_secret, signer_spec)
     headers[hd.SIGNATURE] = signature
-    logger.debug("signature:%s", signature)
+    logger.debug("signature:%s", desensitize_secret(signature))
     return signature

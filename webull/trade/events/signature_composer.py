@@ -18,6 +18,7 @@ from webull.core.auth.algorithm import sha_hmac1, sha_hmac256_new
 from webull.core.auth.composer import default_signature_composer
 import webull.core.headers as hd
 import webull.core.utils.common as core_common
+from webull.core.utils.desensitize import desensitize_secret, mask_sensitive_headers, mask_value_in_text
 import logging
 logger = logging.getLogger(__name__)
 
@@ -54,12 +55,12 @@ def _get_body_string(pb_object, signer_spec):
 def calc_signature(app_key_id, app_key_secret, pb_object, signer_spec):
     metadata, sign_params = _build_sign_metadata(app_key_id, signer_spec)
     sign_params = default_signature_composer._lower_key_dict(sign_params)
-    logger.debug("sign_params:%s", sign_params)
+    logger.debug("sign_params:%s", mask_sensitive_headers(sign_params))
     body_string = _get_body_string(pb_object,signer_spec)
     logger.debug("body_string:%s" % body_string) 
     string_to_sign = default_signature_composer._build_sign_string(sign_params, None, body_string)
-    logger.debug("string_to_sign:%s" % string_to_sign)
+    logger.debug("string_to_sign:%s" % mask_value_in_text(string_to_sign, app_key_id))
     signature = default_signature_composer._gen_signature(string_to_sign, app_key_secret, signer_spec)
     metadata.append((hd.SIGNATURE, signature))
-    logger.debug("signature:%s", signature)
+    logger.debug("signature:%s", desensitize_secret(signature))
     return signature, metadata
