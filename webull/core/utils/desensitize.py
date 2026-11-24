@@ -18,17 +18,15 @@
 import re
 
 _MASK = "******"
+_KEEP_LENGTH = 2
+_MASK_LENGTH = 6
+_MIN_MASKED_LENGTH = 12
 
-_TOKEN_KEYS = (
+_SENSITIVE_KEYS = (
     "token", "access_token", "accesstoken", "x-access-token", "refresh_token", "refreshtoken",
-)
-
-_SECRET_KEYS = (
     "app_key", "appkey", "x-app-key", "app_secret", "appsecret", "secret_key", "secretkey",
     "secret", "signature", "x-signature", "authorization",
 )
-
-_SENSITIVE_KEYS = _TOKEN_KEYS + _SECRET_KEYS
 
 _KEYS_REGEX = "|".join(re.escape(k) for k in sorted(_SENSITIVE_KEYS, key=len, reverse=True))
 
@@ -44,33 +42,23 @@ _UNQUOTED_PATTERN = re.compile(
     re.IGNORECASE)
 
 
-def desensitize_token(token, keep_length=6, mask_length=6):
-    """Keep only the first 6 characters of a token, e.g. 28b9f3******."""
-    if not token:
-        return token
-    token = str(token)
-    if len(token) <= keep_length:
-        return _MASK
-    return token[:keep_length] + '*' * mask_length
+def desensitize_secret(value, keep_length=_KEEP_LENGTH, mask_length=_MASK_LENGTH):
+    """Mask a credential: first 2 + ****** + last 2, e.g. ab******hj.
 
-
-def desensitize_secret(value, keep_length=4, mask_length=3):
-    """Mask an app key, app secret or signature: first 4 + *** + last 4.
-
+    Applies to tokens, app keys, app secrets and signatures.
     Values shorter than 12 characters are fully masked.
     """
     if not value:
         return value
     value = str(value)
-    if len(value) < 12:
-        return '*' * len(value)
+    if len(value) < _MIN_MASKED_LENGTH:
+        return _MASK
     return value[:keep_length] + '*' * mask_length + value[-keep_length:]
 
 
-def _mask_value(key, value):
-    if key.lower() in _TOKEN_KEYS:
-        return desensitize_token(value)
-    return desensitize_secret(value)
+def desensitize_token(token, keep_length=_KEEP_LENGTH, mask_length=_MASK_LENGTH):
+    """Mask a token. Same rule as desensitize_secret."""
+    return desensitize_secret(token, keep_length, mask_length)
 
 
 def mask_sensitive_text(text):
@@ -88,13 +76,11 @@ def mask_sensitive_text(text):
 
     def _replace_quoted(match):
         key = match.group("key")
-        name = re.sub(r"""[\\"'\s:=]""", "", key)
-        return "%s%s%s%s" % (key, match.group("vq"), _mask_value(name, match.group("value")), match.group("vq"))
+        return "%s%s%s%s" % (key, match.group("vq"), desensitize_secret(match.group("value")), match.group("vq"))
 
     def _replace_unquoted(match):
         key = match.group("key")
-        name = re.sub(r"""[\s:=]""", "", key)
-        return "%s%s" % (key, _mask_value(name, match.group("value")))
+        return "%s%s" % (key, desensitize_secret(match.group("value")))
 
     return _UNQUOTED_PATTERN.sub(_replace_unquoted, _QUOTED_PATTERN.sub(_replace_quoted, text))
 
@@ -113,7 +99,7 @@ def mask_sensitive_headers(headers):
     masked = {}
     for key, value in dict(headers).items():
         if isinstance(key, str) and key.lower() in _SENSITIVE_KEYS:
-            masked[key] = _mask_value(key, value)
+            masked[key] = desensitize_secret(value)
         else:
             masked[key] = value
     return masked
